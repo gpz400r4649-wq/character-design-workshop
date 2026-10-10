@@ -45,7 +45,7 @@ window.kitPartData=Object.create(null);
  window.ColorKit={
   preview(variant,color,current){return variant.dynamic?serial(()=>render(variant,color,false,current)):legacy.preview(variant,color,current);},
   reference(filename,color,thumb=false,current,eyeColor='original',outfitColor='original'){
-   const match=/^references\/(twin_(?:blouse|sailor|cardigan)_(?:normal|space|silhouette|lineart)(?:_grid)?)\.png$/.exec(filename);
+   const match=/^references\/((?:twin|long)_(?:blouse|sailor|cardigan)_(?:normal|space|silhouette|lineart)(?:_grid)?)\.png$/.exec(filename);
    if(!match)return legacy.reference(filename,color,thumb,current,eyeColor,outfitColor);
    const variant={...KIT17.variants['create_'+match[1]],eyeColor,outfitColor};
    return serial(async()=>'data:image/png;base64,'+await render(variant,color,thumb,current));
