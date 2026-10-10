@@ -30,8 +30,8 @@ window.ColorKit=(()=>{
    if(current&&!current())throw Error('Superseded color request');
    context.drawImage(original,0,0);context.drawImage(overlay,patch.x,patch.y);
    if(thumb){
-    const small=document.createElement('canvas');small.width=300;small.height=450;
-    small.getContext('2d').drawImage(canvas,0,0,300,450);
+    const small=document.createElement('canvas');small.width=1024;small.height=1536;
+    small.getContext('2d').drawImage(canvas,0,0,1024,1536);
     const result=small.toDataURL('image/png');small.width=small.height=0;return result;
    }
    return canvas.toDataURL('image/png');
