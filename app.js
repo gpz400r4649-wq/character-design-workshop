@@ -37,6 +37,9 @@ function update(){
   document.getElementById(`${group}-image-${value}`).src=`references/${group==='hair'?value:hair}_${group==='outfit'?value:outfit}_normal.png`;
  }
  const view=document.getElementById('view');
+ if(previousActivity==='copy'&&activity!=='copy'){
+  view.value='normal';document.getElementById('grid').checked=false;
+ }
  if(activity==='color'){view.value='lineart';view.disabled=true;}
  else{if(view.disabled)view.value='normal';view.disabled=false;}
  if(activity==='copy'&&previousActivity!=='copy'){
