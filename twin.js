@@ -45,9 +45,10 @@ window.kitPartData=Object.create(null);
  window.ColorKit={
   preview(variant,color,current){return variant.dynamic?serial(()=>render(variant,color,false,current)):legacy.preview(variant,color,current);},
   reference(filename,color,thumb=false,current,eyeColor='original',outfitColor='original'){
-   const match=/^references\/((?:bob|long|pony|twin)_(?:blouse|sailor|cardigan)_(?:normal|space|silhouette|lineart)(?:_grid)?)\.png$/.exec(filename);
-   if(!match)return legacy.reference(filename,color,thumb,current,eyeColor,outfitColor);
-   const variant={...KIT17.variants['create_'+match[1]],eyeColor,outfitColor};
+   const refKey=filename.startsWith('references/')&&filename.endsWith('.png')?filename.slice(11,-4):'';
+   const registered=KIT17.variants['create_'+refKey];
+   if(!registered?.dynamic)return legacy.reference(filename,color,thumb,current,eyeColor,outfitColor);
+   const variant={...registered,eyeColor,outfitColor};
    return serial(async()=>'data:image/png;base64,'+await render(variant,color,thumb,current));
   }
  };

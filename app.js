@@ -1,7 +1,7 @@
 const ids=['activity','hair','outfit','view','grid','hair-area','reference-format','hair-color','eye-color','outfit-color'];
 let selectedVariant=null,selectionRevision=0,saving=false,previousActivity=null;
 const preferenceKey='character-design-workshop.selection.v1';
-const preferenceOptions={activity:['create','eyes','hair','copy','color'],hair:['bob','long','pony','twin'],outfit:['blouse','sailor','cardigan'],view:['normal','space','silhouette','lineart'],'hair-area':['front','all'],'reference-format':['current','lineart'],'hair-color':['original','brown','black','honey','pink','lavender'],'eye-color':['original','blue','green','amber','purple','rose'],'outfit-color':['original','pink','blue','mint','lemon','lavender']};
+const preferenceOptions={activity:['create','eyes','hair','copy','color'],hair:Object.keys(KIT17.styles),outfit:['blouse','sailor','cardigan'],view:['normal','space','silhouette','lineart'],'hair-area':['front','all'],'reference-format':['current','lineart'],'hair-color':['original','brown','black','honey','pink','lavender'],'eye-color':['original','blue','green','amber','purple','rose'],'outfit-color':['original','pink','blue','mint','lemon','lavender']};
 function restorePreferences(){
  try{
   const saved=JSON.parse(localStorage.getItem(preferenceKey));
@@ -64,19 +64,19 @@ function update(){
  document.getElementById('preview-heading').innerHTML=activity==='copy'?'ここに、お<ruby>手本<rt>てほん</rt></ruby>を<ruby>見<rt>み</rt></ruby>ながらかこう':'PSDを ひらくと こうなるよ';
  document.getElementById('preview-note').textContent=activity==='copy'?'おてほんと くらべて、すこしずつ かこう。ヒントは PSDの なかで けせるよ。':'めや かみの みほんは、PSDの なかで オンにして たしかめられるよ。';
  const filename=`references/${hair}_${outfit}_${view.value}${grid?'_grid':''}.png`;
- if(!/^references\/(bob|long|pony|twin)_/.test(filename))document.getElementById('reference-preview').src=filename;
+ if(!KIT17.variants['create_'+filename.slice(11,-4)]?.dynamic)document.getElementById('reference-preview').src=filename;
  const referenceFormat=document.getElementById('reference-format');referenceFormat.disabled=activity==='color';if(activity==='color')referenceFormat.value='current';
  const referenceView=referenceSelection().view;
  const referenceFilename=`references/${hair}_${outfit}_${referenceView}${grid?'_grid':''}.png`;
  const reference=document.getElementById('reference');
  reference.href=referenceFilename;
- reference.download=`reference_${hair}_${outfit}_${referenceView}${grid?'_grid':''}_v37.png`;
+ reference.download=`reference_${hair}_${outfit}_${referenceView}${grid?'_grid':''}_v38.png`;
  document.getElementById('filename').textContent='PNG・目と髪がそろった完成見本 ／ '+({normal:'色つき',space:'すきまを見やすくする',silhouette:'シルエット',lineart:'線画'}[referenceView])+'・'+(grid?'マスあり':'マスなし');
  document.getElementById('hair-area-control').hidden=activity!=='hair';
  const mode=activity==='hair'?'hair_'+document.getElementById('hair-area').value:activity;
  const key=`${mode}_${hair}_${outfit}_${view.value}${grid?'_grid':''}`;
  selectedVariant={...KIT17.variants[key],hairColor:color,eyeColor,outfitColor};
- selectedVariant.filename=selectedVariant.filename.replace(/_v\d+\.psd$/, `_${color}_${eyeColor}_${outfitColor}_v37.psd`);
+ selectedVariant.filename=selectedVariant.filename.replace(/_v\d+\.psd$/, `_${color}_${eyeColor}_${outfitColor}_v38.psd`);
  if(!selectedVariant)throw new Error('Missing selection '+key);
  rememberPreferences();
  document.getElementById('activity-filename').textContent='ほぞんする じょうたい：'+saveDescription()+' ／ '+selectedVariant.filename;
@@ -134,7 +134,7 @@ document.getElementById('reference').addEventListener('click',async event=>{
   let url=await ColorKit.reference(filename,color,false,undefined,eyeColor,outfitColor);const link=document.createElement('a');let blobURL=null;
   if(url.startsWith('data:')){const binary=atob(url.split(',')[1]),data=new Uint8Array(binary.length);for(let i=0;i<binary.length;i++)data[i]=binary.charCodeAt(i);blobURL=URL.createObjectURL(new Blob([data],{type:'image/png'}));url=blobURL;}
   link.href=url;
-  link.download=`reference_${hair}_${outfit}_${view}${grid?'_grid':''}_${color}_${eyeColor}_${outfitColor}_v37.png`;
+  link.download=`reference_${hair}_${outfit}_${view}${grid?'_grid':''}_${color}_${eyeColor}_${outfitColor}_v38.png`;
   document.body.appendChild(link);link.click();link.remove();status.textContent='お手本を ほぞんしたよ。';
   if(blobURL)setTimeout(()=>URL.revokeObjectURL(blobURL),60000);
  }catch(error){console.error(error);status.textContent='お手本を ほぞんできませんでした。もういちど ためしてね。';}

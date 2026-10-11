@@ -1,6 +1,6 @@
 window.FavoriteLibrary=(()=>{
  const key='character-design-workshop.favorites.v1';
- const options={hair:['bob','long','pony','twin'],outfit:['blouse','sailor','cardigan'],'hair-color':['original','brown','black','honey','pink','lavender'],'eye-color':['original','blue','green','amber','purple','rose'],'outfit-color':['original','pink','blue','mint','lemon','lavender']};
+ const options={hair:Object.keys(KIT17.styles),outfit:['blouse','sailor','cardigan'],'hair-color':['original','brown','black','honey','pink','lavender'],'eye-color':['original','blue','green','amber','purple','rose'],'outfit-color':['original','pink','blue','mint','lemon','lavender']};
  const clean=value=>value&&Object.keys(options).every(id=>options[id].includes(value[id]))?Object.fromEntries(Object.keys(options).map(id=>[id,value[id]])):null;
  function create(storage){
   let slots=[null,null,null],undo=null;
