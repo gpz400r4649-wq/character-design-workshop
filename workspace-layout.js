@@ -18,9 +18,18 @@
  }
  for(const selector of ['#hair-choices','#outfit-choices','#favorites'])panels.look.appendChild(controls.querySelector(selector));
  for(const selector of ['.hair-colors','.eye-colors','.outfit-colors'])panels.colors.appendChild(controls.querySelector(selector));
+ const favorites=controls.querySelector('#favorites')||panels.look.querySelector('#favorites');
+ const save=favorites.querySelector('#favorite-save');
+ for(const id of ['look','colors']){
+  const actions=document.createElement('div');actions.className='favorite-actions';
+  const button=id==='look'?save:document.createElement('button');button.type='button';button.id=id==='look'?'favorite-save':'favorite-save-colors';button.textContent='この子を お気に入りに';actions.appendChild(button);
+  const note=document.createElement('p');note.id='favorite-action-status-'+id;note.className='small';note.setAttribute('role','status');note.setAttribute('aria-live','polite');actions.appendChild(note);
+  panels[id].prepend(actions);
+ }
  const status=panels.draw.querySelector('#preference-status');controls.appendChild(tabs);controls.appendChild(scroll);controls.appendChild(status);
  function activate(id,focus=false){
   for(const name of Object.keys(names)){const selected=id===name;buttons[name].setAttribute('aria-selected',String(selected));buttons[name].tabIndex=selected?0:-1;panels[name].hidden=!selected;}
+  if(id==='look'||id==='colors')panels[id].appendChild(favorites);
   scroll.scrollTop=0;if(focus)buttons[id].focus();
  }
  for(const [id,button] of Object.entries(buttons)){

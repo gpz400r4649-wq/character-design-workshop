@@ -28,6 +28,10 @@ function saveDescription(){
  const names={normal:'ふつう',space:'すきまを見やすくする',silhouette:'シルエットを見る',lineart:'せんが'};
  return names[view]+'・'+(document.getElementById('grid').checked?'マスあり':'マスなし');
 }
+function referenceSelection(){
+ const coloring=document.getElementById('activity').value==='color';
+ return {view:coloring?'normal':document.getElementById('reference-format').value==='lineart'?'lineart':document.getElementById('view').value,grid:document.getElementById('grid').checked};
+}
 function update(){
  const revision=++selectionRevision;
  const activity=document.getElementById('activity').value;
@@ -52,26 +56,27 @@ function update(){
   view.value='space';document.getElementById('grid').checked=true;
  }
  previousActivity=activity;
- document.getElementById('hair-color-note').textContent=view.value==='lineart'?'線画は 色をつけずに ほぞんするよ。':activity==='copy'||activity==='hair'?'えらんだ色は お手本で たしかめよう。':'はじめの色は いちばん ひだり。すきな色を えらぼう。';
- document.getElementById('eye-color-note').textContent=view.value==='lineart'?'線画は 色をつけずに ほぞんするよ。':activity==='eyes'||activity==='copy'?'えらんだ色は お手本で たしかめよう。':'はじめの色は いちばん ひだり。すきな色を えらぼう。';
- document.getElementById('outfit-color-note').textContent=view.value==='lineart'?'線画は 色をつけずに ほぞんするよ。':'うわぎの色を えらぼう。えりや スカートの色は そのままだよ。';
+ document.getElementById('hair-color-note').textContent=activity==='color'?'えらんだ かみの色は、色つきの お手本に つかうよ。':view.value==='lineart'?'線画は 色をつけずに ほぞんするよ。':activity==='copy'||activity==='hair'?'えらんだ色は お手本で たしかめよう。':'はじめの色は いちばん ひだり。すきな色を えらぼう。';
+ document.getElementById('eye-color-note').textContent=activity==='color'?'えらんだ 目の色は、色つきの お手本に つかうよ。':view.value==='lineart'?'線画は 色をつけずに ほぞんするよ。':activity==='eyes'||activity==='copy'?'えらんだ色は お手本で たしかめよう。':'はじめの色は いちばん ひだり。すきな色を えらぼう。';
+ document.getElementById('outfit-color-note').textContent=activity==='color'?'えらんだ 服の色は、色つきの お手本に つかうよ。':view.value==='lineart'?'線画は 色をつけずに ほぞんするよ。':'うわぎの色を えらぼう。えりや スカートの色は そのままだよ。';
  const grid=document.getElementById('grid').checked;
  document.getElementById('preview-panel').classList.toggle('copy-practice',activity==='copy');
  document.getElementById('preview-heading').innerHTML=activity==='copy'?'ここに、お<ruby>手本<rt>てほん</rt></ruby>を<ruby>見<rt>み</rt></ruby>ながらかこう':'PSDを ひらくと こうなるよ';
  document.getElementById('preview-note').textContent=activity==='copy'?'おてほんと くらべて、すこしずつ かこう。ヒントは PSDの なかで けせるよ。':'めや かみの みほんは、PSDの なかで オンにして たしかめられるよ。';
  const filename=`references/${hair}_${outfit}_${view.value}${grid?'_grid':''}.png`;
  if(!/^references\/(bob|long|pony|twin)_/.test(filename))document.getElementById('reference-preview').src=filename;
- const referenceView=document.getElementById('reference-format').value==='lineart'?'lineart':view.value;
+ const referenceFormat=document.getElementById('reference-format');referenceFormat.disabled=activity==='color';if(activity==='color')referenceFormat.value='current';
+ const referenceView=referenceSelection().view;
  const referenceFilename=`references/${hair}_${outfit}_${referenceView}${grid?'_grid':''}.png`;
  const reference=document.getElementById('reference');
  reference.href=referenceFilename;
- reference.download=`reference_${hair}_${outfit}_${referenceView}${grid?'_grid':''}_v17.png`;
- document.getElementById('filename').textContent='PNG・目と髪がそろった完成見本 ／ '+(referenceView==='lineart'?'線画':saveDescription().split('・')[0])+'・'+(grid?'マスあり':'マスなし');
+ reference.download=`reference_${hair}_${outfit}_${referenceView}${grid?'_grid':''}_v37.png`;
+ document.getElementById('filename').textContent='PNG・目と髪がそろった完成見本 ／ '+({normal:'色つき',space:'すきまを見やすくする',silhouette:'シルエット',lineart:'線画'}[referenceView])+'・'+(grid?'マスあり':'マスなし');
  document.getElementById('hair-area-control').hidden=activity!=='hair';
  const mode=activity==='hair'?'hair_'+document.getElementById('hair-area').value:activity;
  const key=`${mode}_${hair}_${outfit}_${view.value}${grid?'_grid':''}`;
  selectedVariant={...KIT17.variants[key],hairColor:color,eyeColor,outfitColor};
- selectedVariant.filename=selectedVariant.filename.replace('_v17.psd',`_${color}_${eyeColor}_${outfitColor}_v36.psd`);
+ selectedVariant.filename=selectedVariant.filename.replace(/_v\d+\.psd$/, `_${color}_${eyeColor}_${outfitColor}_v37.psd`);
  if(!selectedVariant)throw new Error('Missing selection '+key);
  rememberPreferences();
  document.getElementById('activity-filename').textContent='ほぞんする じょうたい：'+saveDescription()+' ／ '+selectedVariant.filename;
@@ -89,7 +94,7 @@ function update(){
   preview.src='data:image/png;base64,'+data;preview.style.visibility='visible';
   if(!saving&&document.getElementById('export-status').textContent==='色を じゅんびしています。')document.getElementById('export-status').textContent='';
   const current=()=>revision===selectionRevision;
-  const refImage=await ColorKit.reference(filename,color,false,current,eyeColor,outfitColor);
+  const refImage=await ColorKit.reference(referenceFilename,color,false,current,eyeColor,outfitColor);
   if(!current())return;document.getElementById('reference-preview').src=refImage;
   for(const group of ['hair','outfit'])for(const value of preferenceOptions[group]){
    if(!current())return;
@@ -122,14 +127,14 @@ let referenceSaving=false;
 document.getElementById('reference').addEventListener('click',async event=>{
  event.preventDefault();if(referenceSaving)return;update();referenceSaving=true;
  const hair=document.getElementById('hair').value,outfit=document.getElementById('outfit').value,color=document.getElementById('hair-color').value,eyeColor=document.getElementById('eye-color').value,outfitColor=document.getElementById('outfit-color').value;
- const view=document.getElementById('reference-format').value==='lineart'?'lineart':document.getElementById('view').value;
- const grid=document.getElementById('grid').checked,filename=`references/${hair}_${outfit}_${view}${grid?'_grid':''}.png`;
+ const {view,grid}=referenceSelection();
+ const filename=`references/${hair}_${outfit}_${view}${grid?'_grid':''}.png`;
  const status=document.getElementById('export-status');status.textContent='お手本を じゅんびしています。';
  try{
   let url=await ColorKit.reference(filename,color,false,undefined,eyeColor,outfitColor);const link=document.createElement('a');let blobURL=null;
   if(url.startsWith('data:')){const binary=atob(url.split(',')[1]),data=new Uint8Array(binary.length);for(let i=0;i<binary.length;i++)data[i]=binary.charCodeAt(i);blobURL=URL.createObjectURL(new Blob([data],{type:'image/png'}));url=blobURL;}
   link.href=url;
-  link.download=`reference_${hair}_${outfit}_${view}${grid?'_grid':''}_${color}_${eyeColor}_${outfitColor}_v36.png`;
+  link.download=`reference_${hair}_${outfit}_${view}${grid?'_grid':''}_${color}_${eyeColor}_${outfitColor}_v37.png`;
   document.body.appendChild(link);link.click();link.remove();status.textContent='お手本を ほぞんしたよ。';
   if(blobURL)setTimeout(()=>URL.revokeObjectURL(blobURL),60000);
  }catch(error){console.error(error);status.textContent='お手本を ほぞんできませんでした。もういちど ためしてね。';}

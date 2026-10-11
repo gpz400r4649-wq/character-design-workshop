@@ -19,7 +19,7 @@ window.FavoriteLibrary=(()=>{
  let revision=0,pending=-1;
  const current=()=>Object.fromEntries(Object.keys(FavoriteLibrary.options).map(id=>[id,document.getElementById(id).value]));
  const same=(a,b)=>a&&Object.keys(FavoriteLibrary.options).every(id=>a[id]===b[id]);
- function report(message){status.textContent=message;}
+ function report(message){status.textContent=message;for(const id of ['look','colors']){const note=document.getElementById('favorite-action-status-'+id);if(note)note.textContent=message;}}
  function mutate(action,message){try{action();pending=-1;render();report(message);}catch(error){report('おぼえられなかったよ。お気に入りは そのままだよ。');}}
  function button(text,action){const el=document.createElement('button');el.type='button';el.textContent=text;el.addEventListener('click',action);return el;}
  function render(){
@@ -28,7 +28,7 @@ window.FavoriteLibrary=(()=>{
    const card=document.createElement('div');card.className='favorite-card';
    const title=document.createElement('p');title.className='favorite-title';title.textContent='お気に入り '+(index+1);card.appendChild(title);
    if(!saved){card.appendChild(button('ここに おぼえる',()=>mutate(()=>library.save(index,current()),'お気に入り '+(index+1)+' に おぼえたよ。')));list.appendChild(card);return;}
-   const recall=button('この子を えらぶ',()=>{for(const [id,value] of Object.entries(saved))document.getElementById(id).value=value;update();document.getElementById('favorite-drawer').open=false;report('お気に入り '+(index+1)+' を えらんだよ。');});recall.className='favorite-recall';
+   const recall=button('この子を えらぶ',()=>{for(const [id,value] of Object.entries(saved))document.getElementById(id).value=value;update();report('お気に入り '+(index+1)+' を えらんだよ。');});recall.className='favorite-recall';
    const image=document.createElement('img');image.alt='お気に入り '+(index+1)+' の完成見本';image.src=`references/${saved.hair}_${saved.outfit}_normal.png`;recall.prepend(image);card.appendChild(recall);
    ColorKit.reference(`references/${saved.hair}_${saved.outfit}_normal.png`,saved['hair-color'],true,()=>rev===revision,saved['eye-color'],saved['outfit-color']).then(src=>{if(rev===revision)image.src=src;}).catch(()=>{if(rev===revision){image.hidden=true;image.alt='';const note=document.createElement('p');note.className='small';note.textContent='見本を よみこめなかったよ。もういちど ページを ひらいてね。';card.appendChild(note);}});
    if(pending===index){
@@ -42,10 +42,10 @@ window.FavoriteLibrary=(()=>{
    list.appendChild(card);
   });
  }
- document.getElementById('favorite-save').addEventListener('click',()=>{
+ for(const id of ['favorite-save','favorite-save-colors'])document.getElementById(id).addEventListener('click',()=>{
   const selection=current(),slots=library.snapshot(),duplicate=slots.findIndex(value=>same(value,selection));
   if(duplicate>=0){report('この子は お気に入り '+(duplicate+1)+' に いるよ。');return;}
-  const empty=slots.indexOf(null);if(empty<0){document.getElementById('favorite-drawer').open=true;report('3人とも そろったよ。入れかえる子を 下から えらんでね。');return;}
+  const empty=slots.indexOf(null);if(empty<0){root.scrollIntoView({block:'nearest',behavior:'smooth'});report('3人とも そろったよ。入れかえる子を 下から えらんでね。');return;}
   mutate(()=>library.save(empty,selection),'お気に入り '+(empty+1)+' に おぼえたよ。');
  });
  undo.addEventListener('click',()=>mutate(()=>library.undo(),'お気に入りを もとに もどしたよ。'));
