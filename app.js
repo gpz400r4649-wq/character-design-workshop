@@ -1,7 +1,7 @@
-const ids=['activity','hair','outfit','view','grid','hair-area','reference-format','hair-color','eye-color','outfit-color'];
+const ids=['activity','hair','outfit','view','grid','reference-format','hair-color','eye-color','outfit-color'];
 let selectedVariant=null,selectionRevision=0,saving=false,previousActivity=null;
 const preferenceKey='character-design-workshop.selection.v1';
-const preferenceOptions={activity:['create','eyes','hair','copy','color'],hair:Object.keys(KIT17.styles),outfit:['blouse','sailor','cardigan'],view:['normal','space','silhouette','lineart'],'hair-area':['front','all'],'reference-format':['current','lineart'],'hair-color':['original','brown','black','honey','pink','lavender'],'eye-color':['original','blue','green','amber','purple','rose'],'outfit-color':['original','pink','blue','mint','lemon','lavender']};
+const preferenceOptions={activity:['create','eyes','hair','copy','color'],hair:Object.keys(KIT17.styles),outfit:['blouse','sailor','cardigan'],view:['normal','space','silhouette','lineart'],'reference-format':['current','lineart'],'hair-color':['original','brown','black','honey','pink','lavender'],'eye-color':['original','blue','green','amber','purple','rose'],'outfit-color':['original','pink','blue','mint','lemon','lavender']};
 function restorePreferences(){
  try{
   const saved=JSON.parse(localStorage.getItem(preferenceKey));
@@ -60,9 +60,10 @@ function update(){
  document.getElementById('eye-color-note').textContent=activity==='color'?'えらんだ 目の色は、色つきの お手本に つかうよ。':view.value==='lineart'?'線画は 色をつけずに ほぞんするよ。':activity==='eyes'||activity==='copy'?'えらんだ色は お手本で たしかめよう。':'はじめの色は いちばん ひだり。すきな色を えらぼう。';
  document.getElementById('outfit-color-note').textContent=activity==='color'?'えらんだ 服の色は、色つきの お手本に つかうよ。':view.value==='lineart'?'線画は 色をつけずに ほぞんするよ。':'うわぎの色を えらぼう。えりや スカートの色は そのままだよ。';
  const grid=document.getElementById('grid').checked;
- document.getElementById('preview-panel').classList.toggle('copy-practice',activity==='copy');
- document.getElementById('preview-heading').innerHTML=activity==='copy'?'ここに、お<ruby>手本<rt>てほん</rt></ruby>を<ruby>見<rt>み</rt></ruby>ながらかこう':'PSDを ひらくと こうなるよ';
- document.getElementById('preview-note').textContent=activity==='copy'?'おてほんと くらべて、すこしずつ かこう。ヒントは PSDの なかで けせるよ。':'めや かみの みほんは、PSDの なかで オンにして たしかめられるよ。';
+ document.getElementById('preview-panel').classList.toggle('copy-practice',['copy','hair'].includes(activity));
+ window.syncReferencePractice?.();
+ document.getElementById('preview-heading').innerHTML=['copy','hair'].includes(activity)?'ここに、お<ruby>手本<rt>てほん</rt></ruby>を<ruby>見<rt>み</rt></ruby>ながらかこう':'PSDを ひらくと こうなるよ';
+ document.getElementById('preview-note').textContent=activity==='hair'?'おてほんの かみがたを みて、かこう。じぶんの すきな かみがたでも いいよ。':activity==='copy'?'おてほんと くらべて、すこしずつ かこう。ヒントは PSDの なかで けせるよ。':'めや かみの みほんは、PSDの なかで オンにして たしかめられるよ。';
  const filename=`references/${hair}_${outfit}_${view.value}${grid?'_grid':''}.png`;
  if(!KIT17.variants['create_'+filename.slice(11,-4)]?.dynamic)document.getElementById('reference-preview').src=filename;
  const referenceFormat=document.getElementById('reference-format');referenceFormat.disabled=activity==='color';if(activity==='color')referenceFormat.value='current';
@@ -70,17 +71,16 @@ function update(){
  const referenceFilename=`references/${hair}_${outfit}_${referenceView}${grid?'_grid':''}.png`;
  const reference=document.getElementById('reference');
  reference.href=referenceFilename;
- reference.download=`reference_${hair}_${outfit}_${referenceView}${grid?'_grid':''}_v38.png`;
+ reference.download=`reference_${hair}_${outfit}_${referenceView}${grid?'_grid':''}_v43.png`;
  document.getElementById('filename').textContent='PNG・目と髪がそろった完成見本 ／ '+({normal:'色つき',space:'すきまを見やすくする',silhouette:'シルエット',lineart:'線画'}[referenceView])+'・'+(grid?'マスあり':'マスなし');
- document.getElementById('hair-area-control').hidden=activity!=='hair';
- const mode=activity==='hair'?'hair_'+document.getElementById('hair-area').value:activity;
+ const mode=activity==='hair'?'hair_all':activity;
  const key=`${mode}_${hair}_${outfit}_${view.value}${grid?'_grid':''}`;
  selectedVariant={...KIT17.variants[key],hairColor:color,eyeColor,outfitColor};
- selectedVariant.filename=selectedVariant.filename.replace(/_v\d+\.psd$/, `_${color}_${eyeColor}_${outfitColor}_v38.psd`);
+ selectedVariant.filename=selectedVariant.filename.replace(/_v\d+\.psd$/, `_${color}_${eyeColor}_${outfitColor}_v43.psd`);
  if(!selectedVariant)throw new Error('Missing selection '+key);
  rememberPreferences();
  document.getElementById('activity-filename').textContent='ほぞんする じょうたい：'+saveDescription()+' ／ '+selectedVariant.filename;
- const tip=activity==='create'?'えらんだ こを、この すがたで PSDに ほぞんできるよ。':activity==='eyes'?'めが ない こに、すきな めを かこう。':activity==='hair'?(mode==='hair_front'?'まえがみが ない こに、まえがみを かこう。':'かみが ない こに、すきな かみを かこう。'):activity==='color'?'せんがに、すきな いろを ぬろう。':'マスと すきまを ヒントに、じぶんで かいてみよう。ヒントは あとで けせるよ。';
+ const tip=activity==='create'?'えらんだ こを、この すがたで PSDに ほぞんできるよ。':activity==='eyes'?'めが ない こに、すきな めを かこう。':activity==='hair'?'かみが ない こに、おてほんを みながら かみがたを かこう。':activity==='color'?'せんがに、すきな いろを ぬろう。':'マスと すきまを ヒントに、じぶんで かいてみよう。ヒントは あとで けせるよ。';
  document.getElementById('preview-tip').textContent=tip;
  document.getElementById('preview').alt=tip;
  document.getElementById('activity-file').innerHTML='この<ruby>子<rt>こ</rt></ruby>の<ruby>絵<rt>え</rt></ruby>をかく（ほぞん）';
@@ -134,7 +134,7 @@ document.getElementById('reference').addEventListener('click',async event=>{
   let url=await ColorKit.reference(filename,color,false,undefined,eyeColor,outfitColor);const link=document.createElement('a');let blobURL=null;
   if(url.startsWith('data:')){const binary=atob(url.split(',')[1]),data=new Uint8Array(binary.length);for(let i=0;i<binary.length;i++)data[i]=binary.charCodeAt(i);blobURL=URL.createObjectURL(new Blob([data],{type:'image/png'}));url=blobURL;}
   link.href=url;
-  link.download=`reference_${hair}_${outfit}_${view}${grid?'_grid':''}_${color}_${eyeColor}_${outfitColor}_v38.png`;
+  link.download=`reference_${hair}_${outfit}_${view}${grid?'_grid':''}_${color}_${eyeColor}_${outfitColor}_v43.png`;
   document.body.appendChild(link);link.click();link.remove();status.textContent='お手本を ほぞんしたよ。';
   if(blobURL)setTimeout(()=>URL.revokeObjectURL(blobURL),60000);
  }catch(error){console.error(error);status.textContent='お手本を ほぞんできませんでした。もういちど ためしてね。';}
