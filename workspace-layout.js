@@ -42,7 +42,7 @@
  const reference=document.querySelector('#preview-panel > .reference-box'),drawer=document.createElement('details'),summary=document.createElement('summary');
  drawer.className='reference-drawer';summary.textContent='お手本を 見る';drawer.appendChild(summary);reference.before(drawer);drawer.appendChild(reference);
  let previousCopy=false;
- function referenceMode(){const copy=['copy','hair'].includes(document.getElementById('activity').value);if(copy){document.getElementById('preview-panel').appendChild(reference);}else{drawer.appendChild(reference);}if(copy||previousCopy)drawer.open=copy;previousCopy=copy;}
+ function referenceMode(){const copy=['copy','hair','clothes'].includes(document.getElementById('activity').value);if(copy){document.getElementById('preview-panel').appendChild(reference);}else{drawer.appendChild(reference);}if(copy||previousCopy)drawer.open=copy;previousCopy=copy;}
  window.syncReferencePractice=referenceMode;
  document.getElementById('activity').addEventListener('change',referenceMode);
  document.addEventListener('DOMContentLoaded',referenceMode);
