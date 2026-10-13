@@ -9,7 +9,7 @@ window.HairMix=(()=>{
   const basis=KIT_MIX.front[front].baseStyle||'twin',baseActivity=activity==='outfit_practice'?'create':activity,key=`${baseActivity}_${basis}_${outfit}_${view}${grid?'_grid':''}`;
   const original=KIT17.variants[key];if(!original)throw Error('Missing drawing mode '+key);
   const source=KIT17.templates[original.template],stack=[],visible=[];
-  const fronts=KIT_MIX.front[front].layers,backs=KIT_MIX.back[back].layers;
+  const fronts=KIT_MIX.front[front].layers,backs=[...(KIT_MIX.front[front].integratedBack||[]),...KIT_MIX.back[back].layers];
   const hairOn=!['hair_all','copy','color'].includes(activity)&&view!=='lineart'&&view!=='silhouette';
   const hairPractice=activity==='hair_all',clothesPractice=activity==='outfit_practice';
   const blank=source.find(x=>x.key==='draw');
@@ -35,7 +35,7 @@ window.HairMix=(()=>{
   // Copy mode intentionally has no body or hair; its guides are prepared below.
   const template=`mix_${activity}_${front}__${back}_${outfit}_${view}${grid?'_grid':''}_${hint?'hint':'free'}`;
   KIT17.templates[template]=stack;
-  return {...original,template,visible,dynamic:true,mix:{activity,front,back,outfit,view,grid,hint},filename:`${activity}_${front}__${back}_${outfit}_${view}${grid?'_grid':''}${hairPractice||clothesPractice?'_'+(hint?'hint':'free'):''}_v49.psd`};
+  return {...original,template,visible,dynamic:true,mix:{activity,front,back,outfit,view,grid,hint},filename:`${activity}_${front}__${back}_${outfit}_${view}${grid?'_grid':''}${hairPractice||clothesPractice?'_'+(hint?'hint':'free'):''}_v50.psd`};
  }
  const b64=bytes=>{let text='';for(let i=0;i<bytes.length;i+=32768)text+=String.fromCharCode(...bytes.subarray(i,i+32768));return btoa(text);};
  function runtimeLayer(key,name,canvas){
@@ -78,9 +78,9 @@ window.HairMix=(()=>{
  }
  function forget(layer){delete kitLayerData[layer.blob];delete kitRuntimePartData[layer.runtimePart];delete KIT_TWIN.parts[layer.blob];runtimeRecords.delete(layer.blob);}
  async function practiceHint(role,m,current){
-  const id=role==='front'?m.front:role==='back'?m.back:m.outfit,key=role+':'+id;
+  const id=role==='front'?m.front:role==='back'?m.back:m.outfit,key=role+':'+id+(role==='back'?':'+m.front:'');
   if(practiceHints.has(key)){const layer=practiceHints.get(key);practiceHints.delete(key);practiceHints.set(key,layer);return layer;}
-  const layers=role==='outfit'?[KIT17.templates['create_twin_'+m.outfit].find(x=>x.key==='outfit_'+m.outfit)]:KIT_MIX[role][id].layers;
+  const layers=role==='outfit'?[KIT17.templates['create_twin_'+m.outfit].find(x=>x.key==='outfit_'+m.outfit)]:role==='back'?[...(KIT_MIX.front[m.front].integratedBack||[]),...KIT_MIX.back[id].layers]:KIT_MIX[role][id].layers;
   const template='practice_source_'+role+'_'+id;KIT17.templates[template]=layers;
   const image=await picture({template,visible:layers.map(()=>true),dynamic:true});if(current&&!current())throw Error('Superseded');
   const c=canvas(),ctx=c.getContext('2d'),blur=canvas(),bc=blur.getContext('2d');ctx.drawImage(image,0,0);bc.filter='blur(3.2px)';bc.drawImage(image,0,0);

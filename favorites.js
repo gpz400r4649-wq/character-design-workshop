@@ -1,7 +1,7 @@
 window.FavoriteLibrary=(()=>{
  const key='character-design-workshop.favorites.v1';
  const options={hair:Object.keys(KIT_MIX.front),'hair-back':Object.keys(KIT_MIX.back),outfit:['blouse','sailor','cardigan'],'hair-color':['original','brown','black','honey','pink','lavender'],'eye-color':['original','blue','green','amber','purple','rose'],'outfit-color':['original','pink','blue','mint','lemon','lavender']};
- const clean=input=>{const value=input?{...input,'hair-back':input['hair-back']||KIT_MIX.front[input.hair]?.defaultBack}:null;return value&&Object.keys(options).every(id=>options[id].includes(value[id]))?Object.fromEntries(Object.keys(options).map(id=>[id,value[id]])):null;};
+ const clean=input=>{const value=input?normalizeHairSelection({...input,'hair-back':input['hair-back']||KIT_MIX.front[input.hair]?.defaultBack}):null;return value&&Object.keys(options).every(id=>options[id].includes(value[id]))?Object.fromEntries(Object.keys(options).map(id=>[id,value[id]])):null;};
  function create(storage){
   let slots=[null,null,null],undo=null;
   try{const data=JSON.parse(storage.getItem(key));if(data?.version===1&&Array.isArray(data.slots))slots=slots.map((_,i)=>clean(data.slots[i]));}catch(error){}
