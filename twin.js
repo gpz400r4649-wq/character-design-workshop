@@ -5,6 +5,7 @@ window.kitPartData=Object.create(null);
  function check(current){if(current&&!current())throw Error('Superseded character request');}
  function keep(map,key,value,limit){map.delete(key);map.set(key,value);while(map.size>limit)map.delete(map.keys().next().value);return value;}
  function load(id){
+  if(window.kitRuntimePartData?.[id])return Promise.resolve(kitRuntimePartData[id]);
   if(kitPartData[id])return Promise.resolve(kitPartData[id]);
   if(pending.has(id))return pending.get(id);
   if(!/^[a-f0-9]{24}$/.test(id))return Promise.reject(Error('Invalid character part'));
@@ -18,18 +19,18 @@ window.kitPartData=Object.create(null);
  }
  async function image(id){
   if(images.has(id)){const value=images.get(id);return keep(images,id,value,12);}
-  const src=location.protocol==='file:'?'data:image/png;base64,'+await load(id):'parts/'+id+'.png';
+  const src=window.kitRuntimePartData?.[id]?'data:image/png;base64,'+kitRuntimePartData[id]:location.protocol==='file:'?'data:image/png;base64,'+await load(id):'parts/'+id+'.png';
   try{return keep(images,id,await new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>reject(Error('Invalid character image'));im.src=src;}),12);}
   finally{delete kitPartData[id];}
  }
  async function render(variant,color,thumb,current){
   check(current);
   const eye=variant.eyeColor||'original',outfit=variant.outfitColor||'original';
-  const key=variant.template+':'+variant.visible.join('')+':'+color+':'+eye+':'+outfit+':'+thumb;
+  const key=variant.template+':'+variant.visible.join('')+':'+color+':'+eye+':'+outfit+':'+thumb+':'+!!variant.transparent;
   if(rendered.has(key))return rendered.get(key);
   const canvas=document.createElement('canvas');canvas.width=thumb?1024:KIT17.width;canvas.height=thumb?1536:KIT17.height;
   const ctx=canvas.getContext('2d'),scale=canvas.width/KIT17.width;
-  ctx.fillStyle='white';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.scale(scale,scale);
+  if(!variant.transparent){ctx.fillStyle='white';ctx.fillRect(0,0,canvas.width,canvas.height);}ctx.scale(scale,scale);
   try{
    const stack=KIT17.templates[variant.template];
    for(let i=stack.length-1;i>=0;i--){
