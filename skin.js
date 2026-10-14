@@ -1,4 +1,4 @@
-window.normalizeSkinTone=value=>['tone7','tone8','tone9','tone10'].includes(value)?'tone6':value||'original';
+window.normalizeSkinTone=value=>['tone6','tone7','tone8','tone9','tone10'].includes(value)?'tone5':value||'original';
 /* Apply only registered skin layers. Every file keeps its original alpha and position. */
 window.SkinKit=(()=>{
  const preview=ColorKit.preview,build=KitExport.build,compositions=new Map();
