@@ -1,8 +1,9 @@
+window.normalizeSkinTone=value=>['tone8','tone9','tone10'].includes(value)?'tone7':value||'original';
 /* Apply only registered skin layers. Every file keeps its original alpha and position. */
 window.SkinKit=(()=>{
  const preview=ColorKit.preview,build=KitExport.build,compositions=new Map();
  function apply(v){
-  const skin=v.skinColor||'original';
+  const skin=normalizeSkinTone(v.skinColor);
   if(skin==='original'||v.skinApplied||!KIT_SKIN.palette.some(x=>x.id===skin))return v;
   if(v.mix&&(v.mix.view!=='normal'||['color','copy'].includes(v.mix.activity)))return v;
   const eye=v.eyeColor||'original',template=v.template+'_skin_'+skin+'_'+eye,sourceStack=KIT17.templates[v.template],cached=compositions.get(template);
