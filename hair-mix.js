@@ -35,7 +35,7 @@ window.HairMix=(()=>{
   // Copy mode intentionally has no body or hair; its guides are prepared below.
   const template=`mix_${activity}_${front}__${back}_${outfit}_${view}${grid?'_grid':''}_${hint?'hint':'free'}`;
   KIT17.templates[template]=stack;
-  return {...original,template,visible,dynamic:true,mix:{activity,front,back,outfit,view,grid,hint},filename:`${activity}_${front}__${back}_${outfit}_${view}${grid?'_grid':''}${hairPractice||clothesPractice?'_'+(hint?'hint':'free'):''}_v51.psd`};
+  return {...original,template,visible,dynamic:true,mix:{activity,front,back,outfit,view,grid,hint},filename:`${activity}_${front}__${back}_${outfit}_${view}${grid?'_grid':''}${hairPractice||clothesPractice?'_'+(hint?'hint':'free'):''}_v52.psd`};
  }
  const b64=bytes=>{let text='';for(let i=0;i<bytes.length;i+=32768)text+=String.fromCharCode(...bytes.subarray(i,i+32768));return btoa(text);};
  function runtimeLayer(key,name,canvas){
