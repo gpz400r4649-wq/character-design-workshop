@@ -1,12 +1,12 @@
 window.FavoriteLibrary=(()=>{
  const key='character-design-workshop.favorites.v1';
  const options={hair:Object.keys(KIT_MIX.front),'hair-back':Object.keys(KIT_MIX.back),outfit:['blouse','sailor','cardigan'],'hair-color':['original','brown','black','honey','pink','lavender'],'eye-color':['original','blue','green','amber','purple','rose'],'outfit-color':['original','pink','blue','mint','lemon','lavender']};
- const clean=input=>{const value=input?normalizeHairSelection({...input,'hair-back':input['hair-back']||KIT_MIX.front[input.hair]?.defaultBack}):null;return value&&Object.keys(options).every(id=>options[id].includes(value[id]))?Object.fromEntries(Object.keys(options).map(id=>[id,value[id]])):null;};
+ const clean=(input,catalogVersion=KIT_MIX.version)=>{const value=input?normalizeHairSelection({...input,'hair-back':input['hair-back']||KIT_MIX.front[input.hair]?.defaultBack},catalogVersion):null;return value&&Object.keys(options).every(id=>options[id].includes(value[id]))?Object.fromEntries(Object.keys(options).map(id=>[id,value[id]])):null;};
  function create(storage){
   let slots=[null,null,null],undo=null;
-  try{const data=JSON.parse(storage.getItem(key));if(data?.version===1&&Array.isArray(data.slots))slots=slots.map((_,i)=>clean(data.slots[i]));}catch(error){}
+  try{const data=JSON.parse(storage.getItem(key));if(data?.version===1&&Array.isArray(data.slots))slots=slots.map((_,i)=>clean(data.slots[i],data.hairCatalogVersion||0));}catch(error){}
   const snapshot=()=>slots.map(value=>value?{...value}:null);
-  function write(next){storage.setItem(key,JSON.stringify({version:1,slots:next}));slots=next;}
+  function write(next){storage.setItem(key,JSON.stringify({version:1,hairCatalogVersion:KIT_MIX.version,slots:next}));slots=next;}
   return {snapshot,save(index,value){const valid=clean(value);if(!valid||!Number.isInteger(index)||index<0||index>2)throw new Error('Invalid favorite');const next=snapshot();next[index]=valid;write(next);undo=null;},remove(index){if(!slots[index])return;const next=snapshot(),removed=next[index];next[index]=null;write(next);undo={index,value:removed};},undo(){if(!undo)return;const next=snapshot();next[undo.index]=undo.value;write(next);undo=null;},canUndo:()=>!!undo};
  }
  return {create,options};
