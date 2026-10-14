@@ -13,11 +13,11 @@
  for(const node of [...controls.childNodes]){
   if(node===heading)continue;
   if(node.nodeType===1&&node.matches('#hair-part-tabs,#hair-choices,#hair-back-choices,#hair-pair-note,#hair-matching-back,#outfit-choices,#favorites'))continue;
-  if(node.nodeType===1&&node.matches('.hair-colors,.eye-colors,.outfit-colors'))continue;
+  if(node.nodeType===1&&node.matches('.hair-colors,.eye-colors,.outfit-colors,.skin-colors'))continue;
   panels.draw.appendChild(node);
  }
  for(const selector of ['#hair-part-tabs','#hair-choices','#hair-pair-note','#hair-matching-back','#hair-back-choices','#outfit-choices','#favorites'])panels.look.appendChild(controls.querySelector(selector));
- for(const selector of ['.hair-colors','.eye-colors','.outfit-colors'])panels.colors.appendChild(controls.querySelector(selector));
+ for(const selector of ['.skin-colors','.hair-colors','.eye-colors','.outfit-colors'])panels.colors.appendChild(controls.querySelector(selector));
  const favorites=controls.querySelector('#favorites')||panels.look.querySelector('#favorites');
  const save=favorites.querySelector('#favorite-save');
  for(const id of ['look','colors']){
