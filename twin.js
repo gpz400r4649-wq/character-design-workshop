@@ -17,10 +17,17 @@ window.kitPartData=Object.create(null);
    document.head.appendChild(script);
   }).finally(()=>pending.delete(id));pending.set(id,task);return task;
  }
- async function image(id){
+ async function image(id,current){
+  check(current);
   if(images.has(id)){const value=images.get(id);return keep(images,id,value,12);}
   const src=window.kitRuntimePartData?.[id]?'data:image/png;base64,'+kitRuntimePartData[id]:location.protocol==='file:'?'data:image/png;base64,'+await load(id):'parts/'+id+'.png';
-  try{return keep(images,id,await new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>reject(Error('Invalid character image'));im.src=src;}),12);}
+  try{return keep(images,id,await new Promise((resolve,reject)=>{const im=new Image(),signal=current?.signal;let timer;
+    const cleanup=()=>{clearTimeout(timer);signal?.removeEventListener('abort',abort);im.onload=im.onerror=null;};
+    const abort=()=>{cleanup();im.src='';reject(Error('Superseded character request'));};
+    im.onload=()=>{cleanup();resolve(im);};im.onerror=()=>{cleanup();reject(Error('Invalid character image'));};
+    signal?.addEventListener('abort',abort,{once:true});
+    timer=setTimeout(()=>{cleanup();im.src='';reject(Error('Character image timeout'));},180000);
+    if(signal?.aborted){abort();return;}im.src=src;}),12);}
   finally{delete kitPartData[id];}
  }
  async function render(variant,color,thumb,current){
@@ -37,7 +44,7 @@ window.kitPartData=Object.create(null);
     if(!variant.visible[i]||stack[i].key==='paper')continue;
     const entry=stack[i],paint=KIT_HAIR.layers[entry.blob]?.[color]||KIT_EYES.layers[entry.blob]?.[eye]||KIT_OUTFIT.layers[entry.blob]?.[outfit];
     const part=KIT_TWIN.parts[paint?paint.blob:entry.blob];if(part===null)continue;if(!part)throw Error('Missing character layer');
-    const im=await image(part.id);check(current);ctx.drawImage(im,part.x,part.y);
+    const im=await image(part.id,current);check(current);ctx.drawImage(im,part.x,part.y);
    }
    check(current);return keep(rendered,key,canvas.toDataURL('image/png').split(',')[1],6);
   }finally{canvas.width=canvas.height=0;}

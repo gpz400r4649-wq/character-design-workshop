@@ -51,17 +51,48 @@ window.HairMix=(()=>{
   const record=b64(raw);runtimeRecords.set(blob,record);
   return {key,name,blob,raw:record,visible:true,runtimePart:part};
  }
- async function picture(v,transparent=false){return new Promise(async(resolve,reject)=>{try{const data=await legacy.preview({...v,transparent},'original');const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src='data:image/png;base64,'+data;}catch(e){reject(e);}});}
+ async function picture(v,transparent=false,current){return new Promise(async(resolve,reject)=>{try{const data=await legacy.preview({...v,transparent},'original',current);const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src='data:image/png;base64,'+data;}catch(e){reject(e);}});}
  function canvas(){const c=document.createElement('canvas');c.width=W;c.height=H;return c;}
+ // Verify the filter actually paints: Safari may expose/accept the property without applying it.
+ let workingBlur;
+ function canBlur(){
+  if(workingBlur!==undefined)return workingBlur;
+  const a=document.createElement('canvas'),b=document.createElement('canvas');a.width=b.width=16;a.height=b.height=16;
+  const ac=a.getContext('2d'),bc=b.getContext('2d');ac.fillRect(7,7,2,2);bc.filter='blur(3.2px)';bc.drawImage(a,0,0);
+  workingBlur=bc.getImageData(4,7,1,1).data[3]>0;a.width=a.height=b.width=b.height=0;return workingBlur;
+ }
+ function smooth(image,rgba){
+  if(canBlur()){
+   const c=canvas(),ctx=c.getContext('2d');ctx.filter='blur(3.2px)';ctx.drawImage(image,0,0);const data=ctx.getImageData(0,0,W,H).data;c.width=c.height=0;
+   return {rgba:data};
+  }
+  // Three sliding box passes approximate a 3.2 px Gaussian. No browser filter or extra full-size canvas.
+  let a=new Float32Array(W*H),b=new Float32Array(W*H);
+  for(let i=0;i<a.length;i++){const j=i*4,alpha=rgba[j+3]/255;a[i]=(.299*rgba[j]+.587*rgba[j+1]+.114*rgba[j+2])*alpha+255*(1-alpha);}
+  function pass(radius,vertical){
+   const lines=vertical?W:H,length=vertical?H:W,step=vertical?W:1,div=radius*2+1;
+   for(let line=0;line<lines;line++){
+    const start=vertical?line:line*W;let sum=0;
+    for(let k=-radius;k<=radius;k++)sum+=a[start+Math.max(0,Math.min(length-1,k))*step];
+    for(let pos=0;pos<length;pos++){
+     b[start+pos*step]=sum/div;
+     sum+=a[start+Math.min(length-1,pos+radius+1)*step]-a[start+Math.max(0,pos-radius)*step];
+    }
+   }
+   [a,b]=[b,a];
+  }
+  for(const radius of [2,3,3]){pass(radius,false);pass(radius,true);}
+  return {gray:a};
+ }
+ function light(rgba,j,onWhite){const g=.299*rgba[j]+.587*rgba[j+1]+.114*rgba[j+2];return onWhite?g*rgba[j+3]/255+255*(1-rgba[j+3]/255):g;}
  async function makeGuide(v,current){
   const m=v.mix,kind=m.view==='space'?'hatch':m.view==='silhouette'?'silhouette':'lineart';
   const base=variant(kind==='lineart'&&m.activity!=='color'?m.activity:'create',m.front,m.back,m.outfit,'normal',false,false);
-  const image=await picture(base,kind!=='lineart');if(current&&!current())throw Error('Superseded');const c=canvas(),ctx=c.getContext('2d');ctx.drawImage(image,0,0);
+  const image=await picture(base,kind!=='lineart',current);if(current&&!current())throw Error('Superseded');const c=canvas(),ctx=c.getContext('2d');ctx.drawImage(image,0,0);
   const source=ctx.getImageData(0,0,W,H),output=ctx.createImageData(W,H),d=output.data,s=source.data;
   if(kind==='lineart'){
-   const blurred=canvas(),bc=blurred.getContext('2d');bc.filter='blur(3.2px)';bc.drawImage(image,0,0);const b=bc.getImageData(0,0,W,H).data;
-   for(let i=0;i<W*H;i++){const j=i*4,g=.299*s[j]+.587*s[j+1]+.114*s[j+2],bg=.299*b[j]+.587*b[j+1]+.114*b[j+2];d[j]=49;d[j+1]=42;d[j+2]=51;d[j+3]=Math.max(0,Math.min(255,(bg-g-3.5)*13));}
-   blurred.width=blurred.height=0;
+   const blurred=smooth(image,s),b=blurred.rgba;
+   for(let i=0;i<W*H;i++){const j=i*4,g=light(s,j,!!blurred.gray),bg=b?light(b,j,false):blurred.gray[i];d[j]=49;d[j+1]=42;d[j+2]=51;d[j+3]=Math.max(0,Math.min(255,(bg-g-3.5)*13));}
   }else for(let y=0;y<H;y++)for(let x=0;x<W;x++){const j=(y*W+x)*4;d[j]=kind==='hatch'?122:255;d[j+1]=kind==='hatch'?124:255;d[j+2]=kind==='hatch'?145:255;d[j+3]=kind==='hatch'?((x+y)%52<4?(255-s[j+3])*65/255:0):s[j+3];}
   ctx.putImageData(output,0,0);const layer=runtimeLayer(kind,kind==='hatch'?'しゃせん・くみあわせ':kind==='silhouette'?'しろぬき・くみあわせ':'せんが・くみあわせ',c);c.width=c.height=0;return layer;
  }
@@ -82,11 +113,11 @@ window.HairMix=(()=>{
   if(practiceHints.has(key)){const layer=practiceHints.get(key);practiceHints.delete(key);practiceHints.set(key,layer);return layer;}
   const layers=role==='outfit'?[KIT17.templates['create_twin_'+m.outfit].find(x=>x.key==='outfit_'+m.outfit)]:role==='back'?[...(KIT_MIX.front[m.front].integratedBack||[]),...KIT_MIX.back[id].layers]:KIT_MIX[role][id].layers;
   const template='practice_source_'+role+'_'+id;KIT17.templates[template]=layers;
-  const image=await picture({template,visible:layers.map(()=>true),dynamic:true});if(current&&!current())throw Error('Superseded');
-  const c=canvas(),ctx=c.getContext('2d'),blur=canvas(),bc=blur.getContext('2d');ctx.drawImage(image,0,0);bc.filter='blur(3.2px)';bc.drawImage(image,0,0);
-  const original=ctx.getImageData(0,0,W,H).data,b=bc.getImageData(0,0,W,H).data,result=ctx.createImageData(W,H),d=result.data;
-  for(let i=0;i<W*H;i++){const j=i*4,g=.299*original[j]+.587*original[j+1]+.114*original[j+2],bg=.299*b[j]+.587*b[j+1]+.114*b[j+2];d[j]=70;d[j+1]=63;d[j+2]=74;d[j+3]=Math.max(0,Math.min(255,(bg-g-3.5)*13))*.38;}
-  ctx.putImageData(result,0,0);const layer=runtimeLayer('practice_hint_'+role,'線のヒント・'+({front:'まえのかみ',back:'うしろのかみ',outfit:'ふく'}[role])+'（けしてOK）',c);c.width=c.height=blur.width=blur.height=0;
+  const image=await picture({template,visible:layers.map(()=>true),dynamic:true},false,current);if(current&&!current())throw Error('Superseded');
+  const c=canvas(),ctx=c.getContext('2d');ctx.drawImage(image,0,0);
+  const original=ctx.getImageData(0,0,W,H).data,blurred=smooth(image,original),b=blurred.rgba,result=ctx.createImageData(W,H),d=result.data;
+  for(let i=0;i<W*H;i++){const j=i*4,g=light(original,j,!!blurred.gray),bg=b?light(b,j,false):blurred.gray[i];d[j]=70;d[j+1]=63;d[j+2]=74;d[j+3]=Math.max(0,Math.min(255,(bg-g-3.5)*13))*.38;}
+  ctx.putImageData(result,0,0);const layer=runtimeLayer('practice_hint_'+role,'線のヒント・'+({front:'まえのかみ',back:'うしろのかみ',outfit:'ふく'}[role])+'（けしてOK）',c);c.width=c.height=0;
   practiceHints.set(key,layer);while(practiceHints.size>8){const [old,entry]=practiceHints.entries().next().value;practiceHints.delete(old);forget(entry);}return layer;
  }
  async function preparePractice(v,current){
@@ -101,7 +132,7 @@ window.HairMix=(()=>{
     const body=stack[i].key==='practice_body_blank',key=(body?'body-mask:':'mask:')+m.outfit;let layer=practiceHints.get(key);
     if(!layer){
      const source=KIT17.templates['create_twin_'+m.outfit].find(x=>x.key==='outfit_'+m.outfit),template='practice_mask_source_'+m.outfit;KIT17.templates[template]=[source];
-     const image=await picture(body?variant('hair_all',m.front,m.back,m.outfit,'normal',false,false):{template,visible:[true],dynamic:true},true);if(current&&!current())throw Error('Superseded');
+     const image=await picture(body?variant('hair_all',m.front,m.back,m.outfit,'normal',false,false):{template,visible:[true],dynamic:true},true,current);if(current&&!current())throw Error('Superseded');
      const c=canvas(),ctx=c.getContext('2d');ctx.drawImage(image,0,0);const pixels=ctx.getImageData(0,0,W,H);for(let j=0;j<pixels.data.length;j+=4)pixels.data[j]=pixels.data[j+1]=pixels.data[j+2]=255;ctx.putImageData(pixels,0,0);
      layer=runtimeLayer(body?'practice_body_blank':'practice_clothes_blank',body?'体の下地（白）':'ふくの下地（白）',c);c.width=c.height=0;practiceHints.set(key,layer);
     }else{practiceHints.delete(key);practiceHints.set(key,layer);}
