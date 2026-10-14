@@ -4,8 +4,8 @@ window.HairMix=(()=>{
  const legacy={...ColorKit},exportBuild=KitExport.build,prepared=new Map(),practiceHints=new Map(),runtimeRecords=new Map();let serial=Promise.resolve(),sequence=1,clothesDraw=null;
  const W=KIT17.width,H=KIT17.height;
  function valid(front,back){if(!KIT_MIX.front[front]||!KIT_MIX.back[back])throw Error('Unknown hair choice');}
- function variant(activity,front,back,outfit,view='normal',grid=false,hint=true){
-  valid(front,back);
+ function variant(activity,front,back,outfit,view='normal',grid=false,hint=true,hintStrength='faint'){
+  valid(front,back);hintStrength=activity==='hair_all'&&hintStrength==='clear'?'clear':'faint';
   const basis=KIT_MIX.front[front].baseStyle||'twin',baseActivity=activity==='outfit_practice'?'create':activity,key=`${baseActivity}_${basis}_${outfit}_${view}${grid?'_grid':''}`;
   const original=KIT17.variants[key];if(!original)throw Error('Missing drawing mode '+key);
   const source=KIT17.templates[original.template],stack=[],visible=[];
@@ -33,9 +33,9 @@ window.HairMix=(()=>{
    stack.push({...entry});visible.push(original.visible[i]);
   }
   // Copy mode intentionally has no body or hair; its guides are prepared below.
-  const template=`mix_${activity}_${front}__${back}_${outfit}_${view}${grid?'_grid':''}_${hint?'hint':'free'}`;
+  const template=`mix_${activity}_${front}__${back}_${outfit}_${view}${grid?'_grid':''}_${hint?'hint':'free'}${hairPractice?'_'+hintStrength:''}`;
   KIT17.templates[template]=stack;
-  return {...original,template,visible,dynamic:true,mix:{activity,front,back,outfit,view,grid,hint},filename:`${activity}_${front}__${back}_${outfit}_${view}${grid?'_grid':''}${hairPractice||clothesPractice?'_'+(hint?'hint':'free'):''}_v53.psd`};
+  return {...original,template,visible,dynamic:true,mix:{activity,front,back,outfit,view,grid,hint,hintStrength},filename:`${activity}_${front}__${back}_${outfit}_${view}${grid?'_grid':''}${hairPractice||clothesPractice?'_'+(hint?'hint':'free')+(hairPractice?'_'+hintStrength:''):''}_v56.psd`};
  }
  const b64=bytes=>{let text='';for(let i=0;i<bytes.length;i+=32768)text+=String.fromCharCode(...bytes.subarray(i,i+32768));return btoa(text);};
  function runtimeLayer(key,name,canvas){
@@ -109,15 +109,15 @@ window.HairMix=(()=>{
  }
  function forget(layer){delete kitLayerData[layer.blob];delete kitRuntimePartData[layer.runtimePart];delete KIT_TWIN.parts[layer.blob];runtimeRecords.delete(layer.blob);}
  async function practiceHint(role,m,current){
-  const id=role==='front'?m.front:role==='back'?m.back:m.outfit,key=role+':'+id+(role==='back'?':'+m.front:'');
+  const id=role==='front'?m.front:role==='back'?m.back:m.outfit,key=role+':'+id+(role==='back'?':'+m.front:'')+':'+(m.hintStrength||'faint');
   if(practiceHints.has(key)){const layer=practiceHints.get(key);practiceHints.delete(key);practiceHints.set(key,layer);return layer;}
   const layers=role==='outfit'?[KIT17.templates['create_twin_'+m.outfit].find(x=>x.key==='outfit_'+m.outfit)]:role==='back'?[...(KIT_MIX.front[m.front].integratedBack||[]),...KIT_MIX.back[id].layers]:KIT_MIX[role][id].layers;
   const template='practice_source_'+role+'_'+id;KIT17.templates[template]=layers;
   const image=await picture({template,visible:layers.map(()=>true),dynamic:true},false,current);if(current&&!current())throw Error('Superseded');
-  const c=canvas(),ctx=c.getContext('2d');ctx.drawImage(image,0,0);
+  const c=canvas(),ctx=c.getContext('2d'),clear=m.hintStrength==='clear';ctx.drawImage(image,0,0);
   const original=ctx.getImageData(0,0,W,H).data,blurred=smooth(image,original),b=blurred.rgba,result=ctx.createImageData(W,H),d=result.data;
-  for(let i=0;i<W*H;i++){const j=i*4,g=light(original,j,!!blurred.gray),bg=b?light(b,j,false):blurred.gray[i];d[j]=70;d[j+1]=63;d[j+2]=74;d[j+3]=Math.max(0,Math.min(255,(bg-g-3.5)*13))*.38;}
-  ctx.putImageData(result,0,0);const layer=runtimeLayer('practice_hint_'+role,'線のヒント・'+({front:'まえのかみ',back:'うしろのかみ',outfit:'ふく'}[role])+'（けしてOK）',c);c.width=c.height=0;
+  for(let i=0;i<W*H;i++){const j=i*4,g=light(original,j,!!blurred.gray),bg=b?light(b,j,false):blurred.gray[i];d[j]=clear?49:70;d[j+1]=clear?42:63;d[j+2]=clear?51:74;d[j+3]=Math.max(0,Math.min(255,(bg-g-3.5)*13))*(clear?1:.38);}
+  ctx.putImageData(result,0,0);const layer=runtimeLayer('practice_hint_'+role,'線のヒント・'+({front:'まえのかみ',back:'うしろのかみ',outfit:'ふく'}[role])+(clear?'・はっきり':'・うすい')+'（けしてOK）',c);c.width=c.height=0;
   practiceHints.set(key,layer);while(practiceHints.size>8){const [old,entry]=practiceHints.entries().next().value;practiceHints.delete(old);forget(entry);}return layer;
  }
  async function preparePractice(v,current){
