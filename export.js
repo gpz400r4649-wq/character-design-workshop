@@ -10,6 +10,10 @@ window.KitExport=(()=>{
   const store=kind==='layers'?window.kitLayerData:window.kitPreviewData;
   if(store[id])return Promise.resolve(store[id]);
   if(!/^[a-f0-9]{24}$/.test(id))return Promise.reject(new Error('Invalid local asset'));
+  if(kind==='layers'&&location.protocol!=='file:'){
+   const key='layers/'+id;if(pending.has(key))return pending.get(key);
+   const promise=fetch(key+'.bin').then(r=>{if(!r.ok)throw new Error('Layer data unavailable');return r.arrayBuffer();}).then(buffer=>{const data=new Uint8Array(buffer);let text='';for(let i=0;i<data.length;i+=32768)text+=String.fromCharCode(...data.subarray(i,i+32768));store[id]=btoa(text);return store[id];}).finally(()=>pending.delete(key));pending.set(key,promise);return promise;
+  }
   const key=kind+'/'+id;
   if(pending.has(key))return pending.get(key);
   const promise=new Promise((resolve,reject)=>{
