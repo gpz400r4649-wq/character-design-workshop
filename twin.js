@@ -20,7 +20,7 @@ window.kitPartData=Object.create(null);
  async function image(id,current){
   check(current);
   if(images.has(id)){const value=images.get(id);return keep(images,id,value,12);}
-  const src=window.kitRuntimePartData?.[id]?'data:image/png;base64,'+kitRuntimePartData[id]:location.protocol==='file:'?'data:image/png;base64,'+await load(id):'parts/'+id+'.png';
+  const src=window.kitRuntimePartData?.[id]?'data:image/png;base64,'+kitRuntimePartData[id]:location.protocol==='file:'?'data:image/png;base64,'+await load(id):'parts/'+id+(KIT_TWIN.webp?.[id]?'.webp':'.png');
   try{return keep(images,id,await new Promise((resolve,reject)=>{const im=new Image(),signal=current?.signal;let timer;
     const cleanup=()=>{clearTimeout(timer);signal?.removeEventListener('abort',abort);im.onload=im.onerror=null;};
     const abort=()=>{cleanup();im.src='';reject(Error('Superseded character request'));};
