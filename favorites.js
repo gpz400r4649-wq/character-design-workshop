@@ -1,7 +1,7 @@
 window.FavoriteLibrary=(()=>{
  const key='character-design-workshop.favorites.v1';
- const options={'skin-color':KIT_SKIN.palette.map(x=>x.id),hair:Object.keys(KIT_MIX.front),'hair-back':Object.keys(KIT_MIX.back),outfit:['blouse','sailor','cardigan'],'hair-color':['original','brown','black','honey','pink','lavender'],'eye-color':['original','blue','green','amber','purple','rose'],'outfit-color':['original','pink','blue','mint','lemon','lavender']};
- const clean=(input,catalogVersion=KIT_MIX.version)=>{const value=input?normalizeHairSelection({...input,'skin-color':normalizeSkinTone(input['skin-color']),'hair-back':input['hair-back']||KIT_MIX.front[input.hair]?.defaultBack},catalogVersion):null;return value&&Object.keys(options).every(id=>options[id].includes(value[id]))?Object.fromEntries(Object.keys(options).map(id=>[id,value[id]])):null;};
+ const options={'eye-style':Object.keys(KIT_EYE_STYLES),'skin-color':KIT_SKIN.palette.map(x=>x.id),hair:Object.keys(KIT_MIX.front),'hair-back':Object.keys(KIT_MIX.back),outfit:['blouse','sailor','cardigan'],'hair-color':['original','brown','black','honey','pink','lavender'],'eye-color':['original','blue','green','amber','purple','rose'],'outfit-color':['original','pink','blue','mint','lemon','lavender']};
+ const clean=(input,catalogVersion=KIT_MIX.version)=>{const value=input?normalizeHairSelection({...input,'eye-style':input['eye-style']||'default','skin-color':normalizeSkinTone(input['skin-color']),'hair-back':input['hair-back']||KIT_MIX.front[input.hair]?.defaultBack},catalogVersion):null;return value&&Object.keys(options).every(id=>options[id].includes(value[id]))?Object.fromEntries(Object.keys(options).map(id=>[id,value[id]])):null;};
  function create(storage){
   let slots=[null,null,null],undo=null;
   try{const data=JSON.parse(storage.getItem(key));if(data?.version===1&&Array.isArray(data.slots))slots=slots.map((_,i)=>clean(data.slots[i],data.hairCatalogVersion||0));}catch(error){}
@@ -30,7 +30,7 @@ window.FavoriteLibrary=(()=>{
    if(!saved){card.appendChild(button('ここに おぼえる',()=>mutate(()=>library.save(index,current()),'お気に入り '+(index+1)+' に おぼえたよ。')));list.appendChild(card);return;}
    const recall=button('この子を えらぶ',()=>{for(const [id,value] of Object.entries(saved))document.getElementById(id).value=value;update();report('お気に入り '+(index+1)+' を えらんだよ。');});recall.className='favorite-recall';
    const image=document.createElement('img');image.alt='お気に入り '+(index+1)+' の完成見本';image.src=`assets/hair-mix/${saved.hair}-front.png`;recall.prepend(image);card.appendChild(recall);
-   HairMix.reference(saved.hair,saved['hair-back'],saved.outfit,'normal',false,saved['hair-color'],true,()=>rev===revision,saved['eye-color'],saved['outfit-color'],saved['skin-color']).then(src=>{if(rev===revision)image.src=src;}).catch(()=>{if(rev===revision){image.hidden=true;image.alt='';const note=document.createElement('p');note.className='small';note.textContent='見本を よみこめなかったよ。もういちど ページを ひらいてね。';card.appendChild(note);}});
+   HairMix.reference(saved.hair,saved['hair-back'],saved.outfit,'normal',false,saved['hair-color'],true,()=>rev===revision,saved['eye-color'],saved['outfit-color'],saved['skin-color'],saved['eye-style']).then(src=>{if(rev===revision)image.src=src;}).catch(()=>{if(rev===revision){image.hidden=true;image.alt='';const note=document.createElement('p');note.className='small';note.textContent='見本を よみこめなかったよ。もういちど ページを ひらいてね。';card.appendChild(note);}});
    if(pending===index){
     const note=document.createElement('p');note.className='small';note.textContent='今の子に 入れかえる？';card.appendChild(note);
     card.appendChild(button('今の子に 入れかえる',()=>mutate(()=>library.save(index,current()),'お気に入り '+(index+1)+' を 入れかえたよ。')));

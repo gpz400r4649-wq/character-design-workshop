@@ -4,19 +4,19 @@
  const heading=controls.querySelector('h2');heading.id='controls-heading';
  const tabs=document.createElement('div');tabs.className='workshop-tabs';tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','キャラクターのえらびかた');
  const scroll=document.createElement('div');scroll.className='controls-scroll';
- const names={look:'かみがた・服',colors:'色',draw:'練習・保存'},panels={},buttons={};
+ const names={look:'かみ・目・服',colors:'色',draw:'練習・保存'},panels={},buttons={};
  for(const [id,name] of Object.entries(names)){
-  const button=document.createElement('button');button.type='button';button.id='tab-'+id;button.innerHTML={look:'かみがた・<ruby>服<rt>ふく</rt></ruby>',colors:'<ruby>色<rt>いろ</rt></ruby>',draw:'<ruby>練習<rt>れんしゅう</rt></ruby>・<ruby>保存<rt>ほぞん</rt></ruby>'}[id];button.setAttribute('role','tab');button.setAttribute('aria-controls','pane-'+id);buttons[id]=button;tabs.appendChild(button);
+  const button=document.createElement('button');button.type='button';button.id='tab-'+id;button.innerHTML={look:'かみ・<ruby>目<rt>め</rt></ruby>・<ruby>服<rt>ふく</rt></ruby>',colors:'<ruby>色<rt>いろ</rt></ruby>',draw:'<ruby>練習<rt>れんしゅう</rt></ruby>・<ruby>保存<rt>ほぞん</rt></ruby>'}[id];button.setAttribute('role','tab');button.setAttribute('aria-controls','pane-'+id);buttons[id]=button;tabs.appendChild(button);
   const panel=document.createElement('div');panel.id='pane-'+id;panel.setAttribute('role','tabpanel');panel.setAttribute('aria-labelledby',button.id);panel.tabIndex=0;panels[id]=panel;scroll.appendChild(panel);
  }
  // Keep the original control elements and IDs: selections and export handlers stay connected.
  for(const node of [...controls.childNodes]){
   if(node===heading)continue;
-  if(node.nodeType===1&&node.matches('#hair-part-tabs,#hair-choices,#hair-complete-choices,#hair-back-choices,#hair-pair-note,#hair-matching-back,#outfit-choices,#favorites'))continue;
+  if(node.nodeType===1&&node.matches('#eye-style-choices,#hair-part-tabs,#hair-choices,#hair-complete-choices,#hair-back-choices,#hair-pair-note,#hair-matching-back,#outfit-choices,#favorites'))continue;
   if(node.nodeType===1&&node.matches('.hair-colors,.eye-colors,.outfit-colors,.skin-colors'))continue;
   panels.draw.appendChild(node);
  }
- for(const selector of ['#hair-part-tabs','#hair-choices','#hair-complete-choices','#hair-pair-note','#hair-matching-back','#hair-back-choices','#outfit-choices','#favorites'])panels.look.appendChild(controls.querySelector(selector));
+ for(const selector of ['#hair-part-tabs','#eye-style-choices','#hair-choices','#hair-complete-choices','#hair-pair-note','#hair-matching-back','#hair-back-choices','#outfit-choices','#favorites'])panels.look.appendChild(controls.querySelector(selector));
  for(const selector of ['.skin-colors','.hair-colors','.eye-colors','.outfit-colors'])panels.colors.appendChild(controls.querySelector(selector));
  const favorites=controls.querySelector('#favorites')||panels.look.querySelector('#favorites');
  const save=favorites.querySelector('#favorite-save');

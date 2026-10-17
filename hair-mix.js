@@ -4,8 +4,8 @@ window.HairMix=(()=>{
  const legacy={...ColorKit},exportBuild=KitExport.build,prepared=new Map(),practiceHints=new Map(),runtimeRecords=new Map();let serial=Promise.resolve(),sequence=1,clothesDraw=null;
  const W=KIT17.width,H=KIT17.height;
  function valid(front,back){if(!KIT_MIX.front[front]||!KIT_MIX.back[back])throw Error('Unknown hair choice');}
- function variant(activity,front,back,outfit,view='normal',grid=false,hint=true,hintStrength='faint'){
-  valid(front,back);hintStrength=activity==='hair_all'&&hintStrength==='clear'?'clear':'faint';
+ function variant(activity,front,back,outfit,view='normal',grid=false,hint=true,hintStrength='faint',eyeStyle='default'){
+  valid(front,back);if(!KIT_EYE_STYLES[eyeStyle])eyeStyle='default';hintStrength=activity==='hair_all'&&hintStrength==='clear'?'clear':'faint';
   const basis=KIT_MIX.front[front].baseStyle||'twin',baseActivity=activity==='outfit_practice'?'create':activity,key=`${baseActivity}_${basis}_${outfit}_${view}${grid?'_grid':''}`;
   const original=KIT17.variants[key];if(!original)throw Error('Missing drawing mode '+key);
   const source=KIT17.templates[original.template],stack=[],visible=[];
@@ -17,7 +17,7 @@ window.HairMix=(()=>{
   let addedFront=false,addedBack=false;
   function insert(list,on){for(const item of list){stack.push({...item});visible.push(on);}}
   for(let i=0;i<source.length;i++){
-   const entry=source[i];
+   const entry=source[i].key==='eyes'&&eyeStyle!=='default'?{...source[i],...KIT_EYE_STYLES[eyeStyle].layer}:source[i];
    if(clothesPractice&&entry.key==='draw')continue;
    if(hairPractice&&view==='lineart'&&entry.key==='rear_draw'){stack.push({...blank,key:'practice_body_blank'});visible.push(true);}
    const guideKind=view==='space'?'hatch':view==='silhouette'?'silhouette':view==='lineart'?'lineart':null;
@@ -33,9 +33,9 @@ window.HairMix=(()=>{
    stack.push({...entry});visible.push(original.visible[i]);
   }
   // Copy mode intentionally has no body or hair; its guides are prepared below.
-  const template=`mix_${activity}_${front}__${back}_${outfit}_${view}${grid?'_grid':''}_${hint?'hint':'free'}${hairPractice?'_'+hintStrength:''}`;
+  const template=`mix_${activity}_${front}__${back}_${outfit}_${view}${grid?'_grid':''}_${hint?'hint':'free'}${hairPractice?'_'+hintStrength:''}_eyes_${eyeStyle}`;
   KIT17.templates[template]=stack;
-  return {...original,template,visible,dynamic:true,mix:{activity,front,back,outfit,view,grid,hint,hintStrength},filename:`${activity}_${front}__${back}_${outfit}_${view}${grid?'_grid':''}${hairPractice||clothesPractice?'_'+(hint?'hint':'free')+(hairPractice?'_'+hintStrength:''):''}_v56.psd`};
+  return {...original,template,visible,dynamic:true,mix:{activity,front,back,outfit,view,grid,hint,hintStrength,eyeStyle},filename:`${activity}_${front}__${back}_${outfit}_${view}${grid?'_grid':''}${hairPractice||clothesPractice?'_'+(hint?'hint':'free')+(hairPractice?'_'+hintStrength:''):''}_v56.psd`};
  }
  const b64=bytes=>{let text='';for(let i=0;i<bytes.length;i+=32768)text+=String.fromCharCode(...bytes.subarray(i,i+32768));return btoa(text);};
  function runtimeLayer(key,name,canvas){
@@ -87,7 +87,7 @@ window.HairMix=(()=>{
  function light(rgba,j,onWhite){const g=.299*rgba[j]+.587*rgba[j+1]+.114*rgba[j+2];return onWhite?g*rgba[j+3]/255+255*(1-rgba[j+3]/255):g;}
  async function makeGuide(v,current){
   const m=v.mix,kind=m.view==='space'?'hatch':m.view==='silhouette'?'silhouette':'lineart';
-  const base=variant(kind==='lineart'&&m.activity!=='color'?m.activity:'create',m.front,m.back,m.outfit,'normal',false,false);
+  const base=variant(kind==='lineart'&&m.activity!=='color'?m.activity:'create',m.front,m.back,m.outfit,'normal',false,false,'faint',m.eyeStyle);
   const image=await picture(base,kind!=='lineart',current);if(current&&!current())throw Error('Superseded');const c=canvas(),ctx=c.getContext('2d');ctx.drawImage(image,0,0);
   const source=ctx.getImageData(0,0,W,H),output=ctx.createImageData(W,H),d=output.data,s=source.data;
   if(kind==='lineart'){
@@ -170,8 +170,8 @@ window.HairMix=(()=>{
   layer.raw=b64(raw);runtimeRecords.set(layer.blob,layer.raw);kitLayerData[layer.blob]=b64(pako.deflate(channels));c.width=c.height=0;
  }
  KitExport.build=async v=>{if(v.mix)await queued(async()=>{await prepare(v);for(const layer of KIT17.templates[v.template])await materialize(layer);});return exportBuild(v);};
- async function reference(front,back,outfit,view,grid,color,thumb=false,current,eyeColor='original',outfitColor='original',skinColor='original'){
-  const v={...variant('create',front,back,outfit,view,grid),eyeColor,outfitColor,skinColor};const data=await ColorKit.preview(v,color,current);
+ async function reference(front,back,outfit,view,grid,color,thumb=false,current,eyeColor='original',outfitColor='original',skinColor='original',eyeStyle='default'){
+  const v={...variant('create',front,back,outfit,view,grid,true,'faint',eyeStyle),eyeColor,outfitColor,skinColor};const data=await ColorKit.preview(v,color,current);
   if(!thumb)return 'data:image/png;base64,'+data;
   const im=await new Promise((resolve,reject)=>{const i=new Image();i.onload=()=>resolve(i);i.onerror=reject;i.src='data:image/png;base64,'+data;});
   const c=document.createElement('canvas');c.width=512;c.height=768;c.getContext('2d').drawImage(im,0,0,512,768);const url=c.toDataURL('image/png');c.width=c.height=0;return url;
