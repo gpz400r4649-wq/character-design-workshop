@@ -77,8 +77,8 @@ window.KitExport=(()=>{
   return {w,h,rgb:opaque};
  }
  async function build(variant){
-  const color=variant.hairColor||'original',eyeColor=variant.eyeColor||'original',outfitColor=variant.outfitColor||'original';
-  const source=KIT17.templates[variant.template],ordered=source.map((entry,i)=>{const paint=KIT_HAIR.layers[entry.blob]?.[color]||KIT_EYES.layers[entry.blob]?.[eyeColor]||KIT_OUTFIT.layers[entry.blob]?.[outfitColor];return {...entry,blob:paint?paint.blob:entry.blob,coloredRaw:paint?.raw,visible:variant.visible[i]};}).reverse();
+  const color=variant.hairColor||'original',eyeColor=variant.eyeColor||'original',outfitColor=variant.outfitColor||'original',bottomColor=variant.bottomColor||'original';
+  const source=KIT17.templates[variant.template],ordered=source.map((entry,i)=>{const paint=KIT_HAIR.layers[entry.blob]?.[color]||KIT_EYES.layers[entry.blob]?.[eyeColor]||KIT_OUTFIT.layers[entry.blob]?.[entry.key==='outfit_bottom'?bottomColor:outfitColor];return {...entry,blob:paint?paint.blob:entry.blob,coloredRaw:paint?.raw,visible:variant.visible[i]};}).reverse();
   const loaded=await Promise.all(ordered.map(x=>load('layers',x.blob)));
   const records=[],channels=[];
   for(let i=0;i<ordered.length;i++){

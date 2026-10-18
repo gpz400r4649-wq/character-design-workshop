@@ -32,8 +32,8 @@ window.kitPartData=Object.create(null);
  }
  async function render(variant,color,thumb,current){
   check(current);
-  const eye=variant.eyeColor||'original',outfit=variant.outfitColor||'original';
-  const key=variant.template+':'+variant.visible.join('')+':'+color+':'+eye+':'+outfit+':'+thumb+':'+!!variant.transparent;
+  const eye=variant.eyeColor||'original',outfit=variant.outfitColor||'original',bottom=variant.bottomColor||'original';
+  const key=variant.template+':'+variant.visible.join('')+':'+color+':'+eye+':'+outfit+':'+bottom+':'+thumb+':'+!!variant.transparent;
   if(rendered.has(key))return rendered.get(key);
   const canvas=document.createElement('canvas');canvas.width=thumb?1024:KIT17.width;canvas.height=thumb?1536:KIT17.height;
   const ctx=canvas.getContext('2d'),scale=canvas.width/KIT17.width;
@@ -42,7 +42,7 @@ window.kitPartData=Object.create(null);
    const stack=KIT17.templates[variant.template];
    for(let i=stack.length-1;i>=0;i--){
     if(!variant.visible[i]||stack[i].key==='paper')continue;
-    const entry=stack[i],paint=KIT_HAIR.layers[entry.blob]?.[color]||KIT_EYES.layers[entry.blob]?.[eye]||KIT_OUTFIT.layers[entry.blob]?.[outfit];
+    const entry=stack[i],paint=KIT_HAIR.layers[entry.blob]?.[color]||KIT_EYES.layers[entry.blob]?.[eye]||KIT_OUTFIT.layers[entry.blob]?.[entry.key==='outfit_bottom'?bottom:outfit];
     const part=KIT_TWIN.parts[paint?paint.blob:entry.blob];if(part===null)continue;if(!part)throw Error('Missing character layer');
     const im=await image(part.id,current);check(current);ctx.drawImage(im,part.x,part.y);
    }

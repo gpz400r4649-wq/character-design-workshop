@@ -19,6 +19,7 @@ window.HairMix=(()=>{
   for(let i=0;i<source.length;i++){
    const entry=source[i].key==='eyes'&&eyeStyle!=='default'?{...source[i],...KIT_EYE_STYLES[eyeStyle].layer}:source[i];
    if(clothesPractice&&entry.key==='draw')continue;
+   if(clothesPractice&&entry.key==='outfit_bottom'){stack.push({...entry});visible.push(false);continue;}
    if(hairPractice&&view==='lineart'&&entry.key==='rear_draw'){stack.push({...blank,key:'practice_body_blank'});visible.push(true);}
    const guideKind=view==='space'?'hatch':view==='silhouette'?'silhouette':view==='lineart'?'lineart':null;
    // Hidden guides from the old complete hairstyle would be misleading in a mixed PSD.
@@ -35,7 +36,7 @@ window.HairMix=(()=>{
   // Copy mode intentionally has no body or hair; its guides are prepared below.
   const template=`mix_${activity}_${front}__${back}_${outfit}_${view}${grid?'_grid':''}_${hint?'hint':'free'}${hairPractice?'_'+hintStrength:''}_eyes_${eyeStyle}`;
   KIT17.templates[template]=stack;
-  return {...original,template,visible,dynamic:true,mix:{activity,front,back,outfit,view,grid,hint,hintStrength,eyeStyle},filename:`${activity}_${front}__${back}_${outfit}_${view}${grid?'_grid':''}${hairPractice||clothesPractice?'_'+(hint?'hint':'free')+(hairPractice?'_'+hintStrength:''):''}_v56.psd`};
+  return {...original,template,visible,dynamic:true,mix:{activity,front,back,outfit,view,grid,hint,hintStrength,eyeStyle},filename:`${activity}_${front}__${back}_${outfit}_${view}${grid?'_grid':''}${hairPractice||clothesPractice?'_'+(hint?'hint':'free')+(hairPractice?'_'+hintStrength:''):''}_v75.psd`};
  }
  const b64=bytes=>{let text='';for(let i=0;i<bytes.length;i+=32768)text+=String.fromCharCode(...bytes.subarray(i,i+32768));return btoa(text);};
  function runtimeLayer(key,name,canvas){
@@ -111,7 +112,7 @@ window.HairMix=(()=>{
  async function practiceHint(role,m,current){
   const id=role==='front'?m.front:role==='back'?m.back:m.outfit,key=role+':'+id+(role==='back'?':'+m.front:'')+':'+(m.hintStrength||'faint');
   if(practiceHints.has(key)){const layer=practiceHints.get(key);practiceHints.delete(key);practiceHints.set(key,layer);return layer;}
-  const layers=role==='outfit'?[KIT17.templates['create_twin_'+m.outfit].find(x=>x.key==='outfit_'+m.outfit)]:role==='back'?[...(KIT_MIX.front[m.front].integratedBack||[]),...KIT_MIX.back[id].layers]:KIT_MIX[role][id].layers;
+  const layers=role==='outfit'?KIT17.templates['create_twin_'+m.outfit].filter(x=>x.key==='outfit_'+m.outfit||x.key==='outfit_bottom'):role==='back'?[...(KIT_MIX.front[m.front].integratedBack||[]),...KIT_MIX.back[id].layers]:KIT_MIX[role][id].layers;
   const template='practice_source_'+role+'_'+id;KIT17.templates[template]=layers;
   const image=await picture({template,visible:layers.map(()=>true),dynamic:true},false,current);if(current&&!current())throw Error('Superseded');
   const c=canvas(),ctx=c.getContext('2d'),clear=m.hintStrength==='clear';ctx.drawImage(image,0,0);
@@ -131,8 +132,8 @@ window.HairMix=(()=>{
    }else if(['practice_clothes_blank','practice_body_blank'].includes(stack[i].key)){
     const body=stack[i].key==='practice_body_blank',key=(body?'body-mask:':'mask:')+m.outfit;let layer=practiceHints.get(key);
     if(!layer){
-     const source=KIT17.templates['create_twin_'+m.outfit].find(x=>x.key==='outfit_'+m.outfit),template='practice_mask_source_'+m.outfit;KIT17.templates[template]=[source];
-     const image=await picture(body?variant('hair_all',m.front,m.back,m.outfit,'normal',false,false):{template,visible:[true],dynamic:true},true,current);if(current&&!current())throw Error('Superseded');
+     const source=KIT17.templates['create_twin_'+m.outfit].filter(x=>x.key==='outfit_'+m.outfit||x.key==='outfit_bottom'),template='practice_mask_source_'+m.outfit;KIT17.templates[template]=source;
+     const image=await picture(body?variant('hair_all',m.front,m.back,m.outfit,'normal',false,false):{template,visible:source.map(()=>true),dynamic:true},true,current);if(current&&!current())throw Error('Superseded');
      const c=canvas(),ctx=c.getContext('2d');ctx.drawImage(image,0,0);const pixels=ctx.getImageData(0,0,W,H);for(let j=0;j<pixels.data.length;j+=4)pixels.data[j]=pixels.data[j+1]=pixels.data[j+2]=255;ctx.putImageData(pixels,0,0);
      layer=runtimeLayer(body?'practice_body_blank':'practice_clothes_blank',body?'体の下地（白）':'ふくの下地（白）',c);c.width=c.height=0;practiceHints.set(key,layer);
     }else{practiceHints.delete(key);practiceHints.set(key,layer);}
@@ -170,8 +171,8 @@ window.HairMix=(()=>{
   layer.raw=b64(raw);runtimeRecords.set(layer.blob,layer.raw);kitLayerData[layer.blob]=b64(pako.deflate(channels));c.width=c.height=0;
  }
  KitExport.build=async v=>{if(v.mix)await queued(async()=>{await prepare(v);for(const layer of KIT17.templates[v.template])await materialize(layer);});return exportBuild(v);};
- async function reference(front,back,outfit,view,grid,color,thumb=false,current,eyeColor='original',outfitColor='original',skinColor='original',eyeStyle='default'){
-  const v={...variant('create',front,back,outfit,view,grid,true,'faint',eyeStyle),eyeColor,outfitColor,skinColor};const data=await ColorKit.preview(v,color,current);
+ async function reference(front,back,outfit,view,grid,color,thumb=false,current,eyeColor='original',outfitColor='original',skinColor='original',eyeStyle='default',bottomColor='original'){
+  const v={...variant('create',front,back,outfit,view,grid,true,'faint',eyeStyle),eyeColor,outfitColor,skinColor,bottomColor};const data=await ColorKit.preview(v,color,current);
   if(!thumb)return 'data:image/png;base64,'+data;
   const im=await new Promise((resolve,reject)=>{const i=new Image();i.onload=()=>resolve(i);i.onerror=reject;i.src='data:image/png;base64,'+data;});
   const c=document.createElement('canvas');c.width=512;c.height=768;c.getContext('2d').drawImage(im,0,0,512,768);const url=c.toDataURL('image/png');c.width=c.height=0;return url;

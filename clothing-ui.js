@@ -1,0 +1,12 @@
+(()=>{
+ const el=id=>document.getElementById(id),C=KIT_CLOTHING;
+ const select=el('outfit');select.replaceChildren(...Object.entries(C.tops).map(([id,t])=>new Option(t.name,id)));
+ const root=el('outfit-choices');root.querySelector('legend').textContent='トップス';const grid=root.querySelector('.choice-grid');
+ for(const id of ['tshirt','relaxed']){const label=document.createElement('label');label.className='visual-choice';label.innerHTML='<input type="radio" name="outfit-choice" id="outfit-choice-'+id+'" value="'+id+'"><span class="choice-content"><span class="choice-art outfit-art"><img id="outfit-image-'+id+'" src="assets/clothing/'+id+'.png" alt=""></span><span class="choice-name">'+C.tops[id].name+'</span><span class="choice-description" id="outfit-description-'+id+'"></span><span class="choice-check" aria-hidden="true">✓ えらんでいるよ</span></span>';grid.appendChild(label);}
+ const section=document.createElement('fieldset');section.className='bottom-choices';section.innerHTML='<legend>ボトムス</legend><div class="choice-grid"></div>';const choices=section.querySelector('div');
+ for(const [id,b] of Object.entries(C.bottoms)){const label=document.createElement('label');label.className='visual-choice';label.innerHTML='<input type="radio" name="bottom-choice" id="bottom-choice-'+id+'" value="'+id+'" '+(id==='skirt'?'checked':'')+'><span class="choice-content"><span class="choice-art outfit-art"><img id="bottom-image-'+id+'" src="assets/clothing/'+id+'.png" alt=""></span><span class="choice-name">'+b.name+'</span><span class="choice-check" aria-hidden="true">✓ えらんでいるよ</span></span>';choices.appendChild(label);}
+ root.appendChild(section);const bottom=document.createElement('select');bottom.id='bottom';bottom.hidden=true;for(const [id,b] of Object.entries(C.bottoms))bottom.add(new Option(b.name,id));root.appendChild(bottom);
+ const colors=el('outfit-color').previousElementSibling;colors.querySelector('legend').textContent='トップスの色';const bc=colors.cloneNode(true);bc.className='bottom-colors';bc.querySelector('legend').textContent='ボトムスの色';
+ for(const node of bc.querySelectorAll('[id]'))node.id=node.id.replace('outfit','bottom');for(const input of bc.querySelectorAll('input'))input.name='bottom-color-choice';bc.querySelector('#bottom-color-note').textContent='スカート・ショートパンツ・ストレートパンツの色を えらぼう。';colors.after(bc);
+ const bs=el('outfit-color').cloneNode(true);bs.id='bottom-color';bc.after(bs);KIT_OUTFIT.originalSwatches.tshirt='#decded';KIT_OUTFIT.originalSwatches.relaxed='#decded';
+})();
