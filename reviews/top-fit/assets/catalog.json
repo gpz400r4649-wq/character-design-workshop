@@ -14,101 +14,167 @@
     {
       "id": "blouse",
       "name": "ブラウス",
-      "url": "assets/blouse.png?v=87",
+      "url": "assets/blouse.png?v=88",
       "x": 261,
       "y": 127,
       "w": 1192,
-      "h": 1161
+      "h": 1161,
+      "meshBox": [
+        606,
+        805,
+        845,
+        483
+      ]
     },
     {
       "id": "sailor",
       "name": "セーラーふう",
-      "url": "assets/sailor.png?v=87",
+      "url": "assets/sailor.png?v=88",
       "x": 500,
       "y": 634,
       "w": 1050,
-      "h": 654
+      "h": 654,
+      "meshBox": [
+        612,
+        805,
+        843,
+        483
+      ]
     },
     {
       "id": "cardigan",
       "name": "カーディガン",
-      "url": "assets/cardigan.png?v=87",
+      "url": "assets/cardigan.png?v=88",
       "x": 449,
       "y": 806,
       "w": 1099,
-      "h": 482
+      "h": 482,
+      "meshBox": [
+        621,
+        806,
+        805,
+        482
+      ]
     },
     {
       "id": "tshirt",
       "name": "Tシャツ",
-      "url": "assets/tshirt.png?v=87",
+      "url": "assets/tshirt.png?v=88",
       "x": 603,
       "y": 830,
       "w": 844,
-      "h": 480
+      "h": 480,
+      "meshBox": [
+        603,
+        830,
+        844,
+        480
+      ]
     },
     {
       "id": "relaxed",
       "name": "ゆったりTシャツ",
-      "url": "assets/relaxed.png?v=87",
+      "url": "assets/relaxed.png?v=88",
       "x": 557,
       "y": 830,
       "w": 939,
-      "h": 496
+      "h": 496,
+      "meshBox": [
+        557,
+        830,
+        939,
+        496
+      ]
     },
     {
       "id": "hoodie",
       "name": "ゆったりパーカー",
-      "url": "assets/hoodie.png?v=87",
+      "url": "assets/hoodie.png?v=88",
       "x": 541,
       "y": 781,
       "w": 930,
-      "h": 778
+      "h": 778,
+      "meshBox": [
+        541,
+        781,
+        930,
+        778
+      ]
     },
     {
       "id": "sweatshirt",
       "name": "ゆったりスウェット",
-      "url": "assets/sweatshirt.png?v=87",
+      "url": "assets/sweatshirt.png?v=88",
       "x": 541,
       "y": 819,
       "w": 930,
-      "h": 740
+      "h": 740,
+      "meshBox": [
+        541,
+        819,
+        930,
+        740
+      ]
     },
     {
       "id": "collared_sweatshirt",
       "name": "シャツ重ねスウェット",
-      "url": "assets/collared_sweatshirt.png?v=87",
+      "url": "assets/collared_sweatshirt.png?v=88",
       "x": 533,
       "y": 777,
       "w": 948,
-      "h": 790
+      "h": 790,
+      "meshBox": [
+        533,
+        777,
+        948,
+        790
+      ]
     },
     {
       "id": "longsleeve",
       "name": "すっきり長袖カットソー",
-      "url": "assets/longsleeve.png?v=87",
+      "url": "assets/longsleeve.png?v=88",
       "x": 547,
       "y": 823,
       "w": 956,
-      "h": 740
+      "h": 740,
+      "meshBox": [
+        547,
+        823,
+        956,
+        740
+      ]
     },
     {
       "id": "open_shirt",
       "name": "ゆったり羽織りシャツ",
-      "url": "assets/open_shirt.png?v=87",
+      "url": "assets/open_shirt.png?v=88",
       "x": 483,
       "y": 774,
       "w": 1092,
-      "h": 1015
+      "h": 1015,
+      "meshBox": [
+        483,
+        774,
+        1092,
+        1015
+      ]
     },
     {
       "id": "knit_vest",
       "name": "シャツ重ねニットベスト",
-      "url": "assets/knit_vest.png?v=87",
+      "url": "assets/knit_vest.png?v=88",
       "x": 477,
       "y": 770,
       "w": 1108,
-      "h": 907
+      "h": 907,
+      "meshBox": [
+        477,
+        770,
+        1108,
+        907
+      ]
     }
   ],
   "pants": [
@@ -177,5 +243,6 @@
       "width": 100,
       "height": 100
     }
-  }
+  },
+  "meshRevision": "mesh-v88-cleaned"
 }
