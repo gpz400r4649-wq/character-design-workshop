@@ -14,7 +14,7 @@
     {
       "id": "blouse",
       "name": "ブラウス",
-      "url": "assets/blouse.png?v=88",
+      "url": "assets/blouse.png?v=92",
       "x": 261,
       "y": 127,
       "w": 1192,
@@ -29,7 +29,7 @@
     {
       "id": "sailor",
       "name": "セーラーふう",
-      "url": "assets/sailor.png?v=88",
+      "url": "assets/sailor.png?v=92",
       "x": 500,
       "y": 634,
       "w": 1050,
@@ -44,7 +44,7 @@
     {
       "id": "cardigan",
       "name": "カーディガン",
-      "url": "assets/cardigan.png?v=88",
+      "url": "assets/cardigan.png?v=92",
       "x": 449,
       "y": 806,
       "w": 1099,
@@ -59,7 +59,7 @@
     {
       "id": "tshirt",
       "name": "Tシャツ",
-      "url": "assets/tshirt.png?v=88",
+      "url": "assets/tshirt.png?v=92",
       "x": 603,
       "y": 830,
       "w": 844,
@@ -74,7 +74,7 @@
     {
       "id": "relaxed",
       "name": "ゆったりTシャツ",
-      "url": "assets/relaxed.png?v=91",
+      "url": "assets/relaxed.png?v=92",
       "x": 557,
       "y": 830,
       "w": 939,
@@ -89,7 +89,7 @@
     {
       "id": "hoodie",
       "name": "ゆったりパーカー",
-      "url": "assets/hoodie.png?v=88",
+      "url": "assets/hoodie.png?v=92",
       "x": 541,
       "y": 781,
       "w": 930,
@@ -104,7 +104,7 @@
     {
       "id": "sweatshirt",
       "name": "ゆったりスウェット",
-      "url": "assets/sweatshirt.png?v=88",
+      "url": "assets/sweatshirt.png?v=92",
       "x": 541,
       "y": 819,
       "w": 930,
@@ -119,7 +119,7 @@
     {
       "id": "collared_sweatshirt",
       "name": "シャツ重ねスウェット",
-      "url": "assets/collared_sweatshirt.png?v=91",
+      "url": "assets/collared_sweatshirt.png?v=92",
       "x": 533,
       "y": 777,
       "w": 948,
@@ -134,7 +134,7 @@
     {
       "id": "longsleeve",
       "name": "すっきり長袖カットソー",
-      "url": "assets/longsleeve.png?v=88",
+      "url": "assets/longsleeve.png?v=92",
       "x": 547,
       "y": 823,
       "w": 956,
@@ -149,7 +149,7 @@
     {
       "id": "open_shirt",
       "name": "ゆったり羽織りシャツ",
-      "url": "assets/open_shirt.png?v=88",
+      "url": "assets/open_shirt.png?v=92",
       "x": 483,
       "y": 774,
       "w": 1092,
@@ -164,7 +164,7 @@
     {
       "id": "knit_vest",
       "name": "シャツ重ねニットベスト",
-      "url": "assets/knit_vest.png?v=91",
+      "url": "assets/knit_vest.png?v=92",
       "x": 477,
       "y": 770,
       "w": 1108,
@@ -244,5 +244,6 @@
       "height": 100
     }
   },
-  "meshRevision": "mesh-v88-cleaned"
+  "meshRevision": "mesh-v88-cleaned",
+  "materialRevision": "outline-repair-v92"
 }
