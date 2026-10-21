@@ -2,7 +2,9 @@
 'use strict';
 const $=id=>document.getElementById(id),KEY='character-workshop-pants-fit-v1',defaults=()=>({x:0,y:0,width:100,height:100});
 const specs=[['x','左右の位置','px',-250,250,1],['y','上下の位置','px',-300,300,1],['width','横の伸縮','%',60,150,.1],['height','縦の伸縮','%',60,150,.1]];
-let catalog,images={},values={},top,bottom,drag=null,ready=false,storageOK=true;
+let catalog,images={},values={},top,bottom,drag=null,ready=false,storageOK=true,selection=0;
+const loading=new Map(),upperCache=[];
+async function loadImage(name){if(images[name])return;if(!loading.has(name))loading.set(name,(async()=>{const im=new Image();im.src=catalog.assets[name].url;await im.decode();images[name]=im;})().finally(()=>loading.delete(name)));await loading.get(name);}
 const composed=document.createElement('canvas');composed.width=2048;composed.height=3072;const cx=composed.getContext('2d');
 const key=()=>top+'/'+bottom,current=()=>values[key()]||defaults();
 function message(s){$('status').textContent=s;}
@@ -20,7 +22,7 @@ function render(){if(!ready)return;const v=current(),b=catalog.bottoms.find(i=>i
 }
 function sync(){const v=current();for(const [id]of specs){$(id+'-number').value=v[id];$(id+'-range').value=v[id];}const t=catalog.tops.find(i=>i.id===top),b=catalog.bottoms.find(i=>i.id===bottom);$('editing-title').textContent=t.name+' × '+b.name;document.querySelector('input[name=top][value="'+top+'"]').checked=true;document.querySelector('input[name=bottom][value="'+bottom+'"]').checked=true;render();}
 function changed(v){values[key()]={...v};$('share-box').hidden=true;render();store();}
-function select(group,id){if(group==='top')top=id;else bottom=id;sync();store();history.replaceState(null,'','?top='+top+'&bottom='+bottom);}
+async function select(group,id){const request=++selection;try{if(group==='top'){if(!images['upper-'+id])message('トップスを読み込んでいます…');await loadImage('upper-'+id);if(request!==selection)return;top=id;upperCache.push(id);while(upperCache.length>3){const old=upperCache.shift();if(old!==top&&!upperCache.includes(old))delete images['upper-'+old];}}else bottom=id;sync();store();history.replaceState(null,'','?top='+top+'&bottom='+bottom);}catch{sync();message('トップスを読み込めませんでした。もう一度選んでください。');}}
 function download(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),30000);}
 for(const [id,label,unit,min,max,step]of specs){const box=document.createElement('div');box.className='control';box.innerHTML='<div class="control-title"><label for="'+id+'-number">'+label+'（'+unit+'）</label><input id="'+id+'-number" type="number" min="'+min+'" max="'+max+'" step="'+step+'" value="'+defaults()[id]+'"></div><div class="range-line"><button type="button" data-delta="-1" aria-label="'+label+'を減らす">−</button><input id="'+id+'-range" aria-label="'+label+'のスライダー" type="range" min="'+min+'" max="'+max+'" step="'+step+'" value="'+defaults()[id]+'"><button type="button" data-delta="1" aria-label="'+label+'を増やす">＋</button></div>';$('controls').append(box);
  const set=n=>{if(!Number.isFinite(n))return;const v={...current(),[id]:Math.round(Math.max(min,Math.min(max,n))*10)/10};changed(v);sync();};$(id+'-range').addEventListener('input',e=>set(Number(e.target.value)));$(id+'-number').addEventListener('change',e=>{if(e.target.value===''){sync();return;}set(Number(e.target.value));});box.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>set(current()[id]+Number(b.dataset.delta)*(id==='x'||id==='y'?1:.5))));}
@@ -38,7 +40,7 @@ $('share').addEventListener('click',async()=>{const url=new URL(location.href);u
  const params=new URLSearchParams(location.search);top=params.get('top')||saved?.selected?.top||'blouse';bottom=params.get('bottom')||saved?.selected?.bottom||'wide_pants';if(!catalog.tops.some(t=>t.id===top))top='blouse';if(!catalog.bottoms.some(b=>b.id===bottom))bottom='wide_pants';
  let shared=false,shareError=false;if(location.hash.startsWith('#fit=')){try{const p=JSON.parse(atob(decodeURIComponent(location.hash.slice(5))));Object.assign(values,valid(p));shared=true;}catch{shareError=true;}}
  for(const [group,items]of [['top',catalog.tops],['bottom',catalog.bottoms]])for(const item of items){const label=document.createElement('label'),input=document.createElement('input');input.type='radio';input.name=group;input.value=item.id;input.addEventListener('change',()=>select(group,item.id));label.append(input,document.createTextNode(item.name));$(group+'s').append(label);}
- await Promise.all(Object.entries(catalog.assets).map(async([name,a])=>{const im=new Image();im.src=a.url;await im.decode();images[name]=im;}));ready=true;$('editor').hidden=false;sync();if(shared){store();message('共有リンクの調整値を読み込み、このブラウザに保存しました。');}else message(shareError?'共有リンクを読み込めなかったため、ブラウザの保存値を表示しています。':'服とパンツを選んで位置を合わせてください。調整はこのブラウザに自動保存されます。');
+ await Promise.all(Object.keys(catalog.assets).filter(name=>!name.startsWith('upper-')||name==='upper-'+top).map(loadImage));upperCache.push(top);ready=true;$('editor').hidden=false;sync();if(shared){store();message('共有リンクの調整値を読み込み、このブラウザに保存しました。');}else message(shareError?'共有リンクを読み込めなかったため、ブラウザの保存値を表示しています。':'服とパンツを選んで位置を合わせてください。調整はこのブラウザに自動保存されます。');
  }catch(err){message('読み込みできませんでした。ページを再読み込みしてください。 '+err.message);}
 })();
 })();
