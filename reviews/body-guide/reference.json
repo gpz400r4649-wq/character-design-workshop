@@ -1,0 +1,140 @@
+{
+  "schema": "character-workshop-body-guide",
+  "version": 1,
+  "canvas": {
+    "width": 2048,
+    "height": 3072
+  },
+  "image": "reference-body.svg?v=86",
+  "source": "fixed v85 blouse body + v84 shorts legs and shoes",
+  "notes": "服合わせ専用の簡略化した素体。腕・脚・靴は既存シルエットを使用。衣服で隠れた肩・胴・腰は補完した目安であり、厳密な人体図ではありません。位置は体側で固定し、服側を合わせます。",
+  "points": [
+    {
+      "id": "shoulder-left",
+      "name": "画面左の肩",
+      "x": 820,
+      "y": 940,
+      "group": "shoulder"
+    },
+    {
+      "id": "shoulder-right",
+      "name": "画面右の肩",
+      "x": 1250,
+      "y": 940,
+      "group": "shoulder"
+    },
+    {
+      "id": "waist-left",
+      "name": "画面左の腰",
+      "x": 850,
+      "y": 1290,
+      "group": "waist"
+    },
+    {
+      "id": "waist-center",
+      "name": "腰の中心",
+      "x": 1036,
+      "y": 1290,
+      "group": "waist"
+    },
+    {
+      "id": "waist-right",
+      "name": "画面右の腰",
+      "x": 1220,
+      "y": 1290,
+      "group": "waist"
+    },
+    {
+      "id": "hip-left",
+      "name": "画面左のヒップ",
+      "x": 800,
+      "y": 1550,
+      "group": "hip"
+    },
+    {
+      "id": "hip-right",
+      "name": "画面右のヒップ",
+      "x": 1280,
+      "y": 1550,
+      "group": "hip"
+    },
+    {
+      "id": "crotch",
+      "name": "股の基準",
+      "x": 1036,
+      "y": 1669,
+      "group": "crotch"
+    },
+    {
+      "id": "knee-left",
+      "name": "画面左の膝",
+      "x": 900,
+      "y": 2140,
+      "group": "knee"
+    },
+    {
+      "id": "knee-right",
+      "name": "画面右の膝",
+      "x": 1165,
+      "y": 2160,
+      "group": "knee"
+    },
+    {
+      "id": "ankle-left",
+      "name": "画面左の足首",
+      "x": 787,
+      "y": 2600,
+      "group": "ankle"
+    },
+    {
+      "id": "ankle-right",
+      "name": "画面右の足首",
+      "x": 1198,
+      "y": 2600,
+      "group": "ankle"
+    }
+  ],
+  "lines": [
+    {
+      "id": "shoulder",
+      "name": "肩",
+      "y": 940,
+      "color": "#6286aa"
+    },
+    {
+      "id": "waist",
+      "name": "腰",
+      "y": 1290,
+      "color": "#a96494"
+    },
+    {
+      "id": "hip",
+      "name": "ヒップ",
+      "y": 1550,
+      "color": "#b28b48"
+    },
+    {
+      "id": "crotch",
+      "name": "股",
+      "y": 1669,
+      "color": "#638f7b"
+    },
+    {
+      "id": "knee",
+      "name": "膝",
+      "y": 2150,
+      "color": "#6484aa"
+    },
+    {
+      "id": "ankle",
+      "name": "足首",
+      "y": 2600,
+      "color": "#8d78a7"
+    }
+  ],
+  "center": {
+    "x": 1036,
+    "y1": 800,
+    "y2": 2760
+  }
+}
