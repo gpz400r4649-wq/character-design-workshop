@@ -14,3 +14,6 @@ URL: https://gpz400r4649-wq.github.io/character-design-workshop/reviews/pants-fi
 - 調整値は確認用。本体カタログへは自動反映しない。ユーザー提供のJSON/共有リンクから各トップスのbottomFits/lowerSetsへ登録する。
 
 素材はローカルv84の既存レイヤーから出力（原画80174d4由来）。別PCでもPNG群・catalog.json・HTML/CSS/JSを一緒に配信すれば使用可能。位置合わせは新しく生成した服を使わない。
+
+## v85
+ユーザーから受領した33組の調整値を approved-positions.json に保存し、初期値として使用。既存ブラウザの保存値・共有リンクは優先。リセットは今回の採用値に戻す。6トップスの裾周辺だけを調整した素材へ更新。パンツの元画像と変形座標系はv84と同じで二重適用しない。

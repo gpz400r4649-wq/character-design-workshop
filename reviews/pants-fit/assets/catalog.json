@@ -1,5 +1,6 @@
 {
   "version": 1,
+  "defaultPositions": "approved-positions.json?v=85",
   "source": "approved-pants-v84-80174d4",
   "width": 2048,
   "height": 3072,
@@ -72,105 +73,105 @@
   ],
   "assets": {
     "upper-blouse": {
-      "url": "assets/upper-blouse.png",
+      "url": "assets/upper-blouse.png?v=85",
       "x": 82,
       "y": 47,
       "w": 1922,
       "h": 2637
     },
     "upper-sailor": {
-      "url": "assets/upper-sailor.png",
+      "url": "assets/upper-sailor.png?v=85",
       "x": 82,
       "y": 47,
       "w": 1922,
       "h": 2637
     },
     "upper-cardigan": {
-      "url": "assets/upper-cardigan.png",
+      "url": "assets/upper-cardigan.png?v=85",
       "x": 82,
       "y": 47,
       "w": 1922,
       "h": 2637
     },
     "upper-tshirt": {
-      "url": "assets/upper-tshirt.png",
+      "url": "assets/upper-tshirt.png?v=85",
       "x": 82,
       "y": 47,
       "w": 1922,
       "h": 2637
     },
     "upper-relaxed": {
-      "url": "assets/upper-relaxed.png",
+      "url": "assets/upper-relaxed.png?v=85",
       "x": 82,
       "y": 47,
       "w": 1922,
       "h": 2637
     },
     "upper-hoodie": {
-      "url": "assets/upper-hoodie.png",
+      "url": "assets/upper-hoodie.png?v=85",
       "x": 82,
       "y": 47,
       "w": 1790,
       "h": 2637
     },
     "upper-sweatshirt": {
-      "url": "assets/upper-sweatshirt.png",
+      "url": "assets/upper-sweatshirt.png?v=85",
       "x": 82,
       "y": 47,
       "w": 1790,
       "h": 2637
     },
     "upper-collared_sweatshirt": {
-      "url": "assets/upper-collared_sweatshirt.png",
+      "url": "assets/upper-collared_sweatshirt.png?v=85",
       "x": 82,
       "y": 47,
       "w": 1790,
       "h": 2637
     },
     "upper-longsleeve": {
-      "url": "assets/upper-longsleeve.png",
+      "url": "assets/upper-longsleeve.png?v=85",
       "x": 82,
       "y": 47,
       "w": 1790,
       "h": 2637
     },
     "upper-open_shirt": {
-      "url": "assets/upper-open_shirt.png",
+      "url": "assets/upper-open_shirt.png?v=85",
       "x": 82,
       "y": 47,
       "w": 1887,
       "h": 2637
     },
     "upper-knit_vest": {
-      "url": "assets/upper-knit_vest.png",
+      "url": "assets/upper-knit_vest.png?v=85",
       "x": 82,
       "y": 47,
       "w": 1887,
       "h": 2637
     },
     "bottom-shorts": {
-      "url": "assets/bottom-shorts.png",
+      "url": "assets/bottom-shorts.png?v=85",
       "x": 687,
       "y": 1298,
       "w": 676,
       "h": 494
     },
     "bottom-cropped_wide": {
-      "url": "assets/bottom-cropped_wide.png",
+      "url": "assets/bottom-cropped_wide.png?v=85",
       "x": 620,
       "y": 1280,
       "w": 862,
       "h": 1314
     },
     "bottom-wide_pants": {
-      "url": "assets/bottom-wide_pants.png",
+      "url": "assets/bottom-wide_pants.png?v=85",
       "x": 626,
       "y": 1280,
       "w": 848,
       "h": 1458
     },
     "legs": {
-      "url": "assets/legs.png",
+      "url": "assets/legs.png?v=85",
       "x": 654,
       "y": 1374,
       "w": 778,

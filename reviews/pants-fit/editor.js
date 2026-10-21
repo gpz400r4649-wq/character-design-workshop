@@ -2,7 +2,7 @@
 'use strict';
 const $=id=>document.getElementById(id),KEY='character-workshop-pants-fit-v1',defaults=()=>({x:0,y:0,width:100,height:100});
 const specs=[['x','左右の位置','px',-250,250,1],['y','上下の位置','px',-300,300,1],['width','横の伸縮','%',60,150,.1],['height','縦の伸縮','%',60,150,.1]];
-let catalog,images={},values={},top,bottom,drag=null,ready=false,storageOK=true,selection=0;
+let catalog,images={},values={},baseline={},top,bottom,drag=null,ready=false,storageOK=true,selection=0;
 const loading=new Map(),upperCache=[];
 async function loadImage(name){if(images[name])return;if(!loading.has(name))loading.set(name,(async()=>{const im=new Image();im.src=catalog.assets[name].url;await im.decode();images[name]=im;})().finally(()=>loading.delete(name)));await loading.get(name);}
 const composed=document.createElement('canvas');composed.width=2048;composed.height=3072;const cx=composed.getContext('2d');
@@ -28,14 +28,15 @@ for(const [id,label,unit,min,max,step]of specs){const box=document.createElement
  const set=n=>{if(!Number.isFinite(n))return;const v={...current(),[id]:Math.round(Math.max(min,Math.min(max,n))*10)/10};changed(v);sync();};$(id+'-range').addEventListener('input',e=>set(Number(e.target.value)));$(id+'-number').addEventListener('change',e=>{if(e.target.value===''){sync();return;}set(Number(e.target.value));});box.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>set(current()[id]+Number(b.dataset.delta)*(id==='x'||id==='y'?1:.5))));}
 for(const [id,rect]of [['full',[0,0,2048,3072]],['waist',[480,1080,1152,960]]]){const cv=$(id);cv.addEventListener('pointerdown',e=>{if(!ready||e.button!==0)return;drag={id:e.pointerId,x:e.clientX,y:e.clientY,value:{...current()}};cv.setPointerCapture(e.pointerId);});cv.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId)return;const r=cv.getBoundingClientRect(),v={...drag.value,x:Math.round(Math.max(-250,Math.min(250,drag.value.x+(e.clientX-drag.x)*rect[2]/r.width))),y:Math.round(Math.max(-300,Math.min(300,drag.value.y+(e.clientY-drag.y)*rect[3]/r.height)))};values[key()]=v;sync();});const stop=e=>{if(drag&&drag.id===e.pointerId){drag=null;$('share-box').hidden=true;store();}};cv.addEventListener('pointerup',stop);cv.addEventListener('pointercancel',stop);cv.addEventListener('lostpointercapture',stop);}
 $('guides').addEventListener('change',render);$('ghost').addEventListener('change',render);
-$('reset').addEventListener('click',()=>{changed(defaults());sync();});
+$('reset').addEventListener('click',()=>{changed({...baseline[key()]||defaults()});sync();});
 $('save').addEventListener('click',()=>download(new Blob([JSON.stringify(payload(),null,2)],{type:'application/json'}),'pants-positions-'+new Date().toISOString().slice(0,10)+'.json'));
 $('load').addEventListener('click',()=>$('file').click());$('file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{if(f.size>100000)throw Error('ファイルが大きすぎます。調整値のJSONを選んでください。');const p=JSON.parse(await f.text()),next=valid(p);values={...values,...next};sync();store();$('share-box').hidden=true;message('調整値を読み込み、このブラウザに保存しました。');}catch(err){message('読み込みできませんでした：'+err.message);}e.target.value='';});
 $('png').addEventListener('click',()=>{render();composed.toBlob(blob=>{if(blob)download(blob,'pants-'+top+'-'+bottom+'.png');else message('PNGを保存できませんでした。');},'image/png');});
 $('share').addEventListener('click',async()=>{const url=new URL(location.href);url.hash='fit='+btoa(JSON.stringify(payload()));url.search='?top='+top+'&bottom='+bottom;$('share-url').value=url.href;$('share-box').hidden=false;try{await navigator.clipboard.writeText(url.href);$('share-message').textContent='リンクをコピーしました。別の端末に送って開いてください。';}catch{$('share-message').textContent='上のリンクを選択してコピーしてください。';$('share-url').focus();$('share-url').select();}});
 (async()=>{try{
- const res=await fetch('assets/catalog.json');if(!res.ok)throw Error('素材一覧を取得できません');catalog=await res.json();
+ const res=await fetch('assets/catalog.json?v=85');if(!res.ok)throw Error('素材一覧を取得できません');catalog=await res.json();
  for(const t of catalog.tops)for(const b of catalog.bottoms)values[t.id+'/'+b.id]=defaults();
+ if(catalog.defaultPositions){const response=await fetch(catalog.defaultPositions);if(!response.ok)throw Error('採用した調整値を取得できません');Object.assign(values,valid(await response.json()));}baseline=JSON.parse(JSON.stringify(values));
  let saved;try{saved=JSON.parse(localStorage.getItem(KEY)||'null');if(saved)Object.assign(values,valid(saved));}catch{saved=null;}
  const params=new URLSearchParams(location.search);top=params.get('top')||saved?.selected?.top||'blouse';bottom=params.get('bottom')||saved?.selected?.bottom||'wide_pants';if(!catalog.tops.some(t=>t.id===top))top='blouse';if(!catalog.bottoms.some(b=>b.id===bottom))bottom='wide_pants';
  let shared=false,shareError=false;if(location.hash.startsWith('#fit=')){try{const p=JSON.parse(atob(decodeURIComponent(location.hash.slice(5))));Object.assign(values,valid(p));shared=true;}catch{shareError=true;}}

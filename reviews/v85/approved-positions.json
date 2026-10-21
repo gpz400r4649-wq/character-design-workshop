@@ -1,0 +1,217 @@
+{
+  "schema": "character-workshop-pants-fit",
+  "version": 1,
+  "source": "approved-pants-v84-80174d4",
+  "canvas": {
+    "width": 2048,
+    "height": 3072
+  },
+  "origin": [
+    1036,
+    1290
+  ],
+  "positions": {
+    "blouse/shorts": {
+      "x": 0,
+      "y": -19,
+      "width": 100,
+      "height": 100
+    },
+    "blouse/cropped_wide": {
+      "x": 0,
+      "y": 12,
+      "width": 100,
+      "height": 100
+    },
+    "blouse/wide_pants": {
+      "x": 0,
+      "y": 12,
+      "width": 100,
+      "height": 100
+    },
+    "sailor/shorts": {
+      "x": 0,
+      "y": -12,
+      "width": 100,
+      "height": 100
+    },
+    "sailor/cropped_wide": {
+      "x": 0,
+      "y": 8,
+      "width": 100,
+      "height": 100
+    },
+    "sailor/wide_pants": {
+      "x": 0,
+      "y": 7,
+      "width": 100,
+      "height": 100
+    },
+    "cardigan/shorts": {
+      "x": 0,
+      "y": -25,
+      "width": 100,
+      "height": 100
+    },
+    "cardigan/cropped_wide": {
+      "x": 0,
+      "y": 5,
+      "width": 100,
+      "height": 100
+    },
+    "cardigan/wide_pants": {
+      "x": 0,
+      "y": 5,
+      "width": 100,
+      "height": 100
+    },
+    "tshirt/shorts": {
+      "x": 0,
+      "y": 0,
+      "width": 100,
+      "height": 100
+    },
+    "tshirt/cropped_wide": {
+      "x": 0,
+      "y": 15,
+      "width": 100,
+      "height": 100
+    },
+    "tshirt/wide_pants": {
+      "x": 0,
+      "y": 15,
+      "width": 100,
+      "height": 100
+    },
+    "relaxed/shorts": {
+      "x": 0,
+      "y": 0,
+      "width": 100,
+      "height": 100
+    },
+    "relaxed/cropped_wide": {
+      "x": 0,
+      "y": 22,
+      "width": 100,
+      "height": 100
+    },
+    "relaxed/wide_pants": {
+      "x": 0,
+      "y": 20,
+      "width": 100,
+      "height": 100
+    },
+    "hoodie/shorts": {
+      "x": 0,
+      "y": 0,
+      "width": 100,
+      "height": 100
+    },
+    "hoodie/cropped_wide": {
+      "x": 0,
+      "y": 18,
+      "width": 100,
+      "height": 100
+    },
+    "hoodie/wide_pants": {
+      "x": 0,
+      "y": 15,
+      "width": 100,
+      "height": 100
+    },
+    "sweatshirt/shorts": {
+      "x": 0,
+      "y": 0,
+      "width": 100,
+      "height": 100
+    },
+    "sweatshirt/cropped_wide": {
+      "x": 0,
+      "y": 17,
+      "width": 100,
+      "height": 100
+    },
+    "sweatshirt/wide_pants": {
+      "x": 0,
+      "y": 15,
+      "width": 100,
+      "height": 100
+    },
+    "collared_sweatshirt/shorts": {
+      "x": 0,
+      "y": 0,
+      "width": 100,
+      "height": 100
+    },
+    "collared_sweatshirt/cropped_wide": {
+      "x": 0,
+      "y": 17,
+      "width": 100,
+      "height": 100
+    },
+    "collared_sweatshirt/wide_pants": {
+      "x": 0,
+      "y": 16,
+      "width": 100,
+      "height": 100
+    },
+    "longsleeve/shorts": {
+      "x": 0,
+      "y": 45,
+      "width": 100,
+      "height": 100
+    },
+    "longsleeve/cropped_wide": {
+      "x": 0,
+      "y": 77,
+      "width": 100,
+      "height": 100
+    },
+    "longsleeve/wide_pants": {
+      "x": 0,
+      "y": 77,
+      "width": 100,
+      "height": 100
+    },
+    "open_shirt/shorts": {
+      "x": 0,
+      "y": 19,
+      "width": 100,
+      "height": 100
+    },
+    "open_shirt/cropped_wide": {
+      "x": 0,
+      "y": 52,
+      "width": 100,
+      "height": 100
+    },
+    "open_shirt/wide_pants": {
+      "x": 0,
+      "y": 51,
+      "width": 100,
+      "height": 100
+    },
+    "knit_vest/shorts": {
+      "x": 0,
+      "y": 76,
+      "width": 100,
+      "height": 100
+    },
+    "knit_vest/cropped_wide": {
+      "x": 0,
+      "y": 93,
+      "width": 100,
+      "height": 100
+    },
+    "knit_vest/wide_pants": {
+      "x": 0,
+      "y": 90,
+      "width": 100,
+      "height": 100
+    }
+  },
+  "selected": {
+    "top": "knit_vest",
+    "bottom": "wide_pants"
+  }
+}
