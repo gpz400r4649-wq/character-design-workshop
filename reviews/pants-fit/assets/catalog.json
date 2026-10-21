@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "defaultPositions": "approved-positions.json?v=85",
+  "defaultPositions": "approved-positions.json?v=87",
   "source": "approved-pants-v84-80174d4",
   "width": 2048,
   "height": 3072,
@@ -177,5 +177,6 @@
       "w": 778,
       "h": 1652
     }
-  }
+  },
+  "positionsRevision": "unified-pants-2026-10-21"
 }

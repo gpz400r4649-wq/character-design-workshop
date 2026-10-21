@@ -1,6 +1,6 @@
 (()=>{
 'use strict';
-const $=id=>document.getElementById(id),KEY='character-workshop-pants-fit-v1',defaults=()=>({x:0,y:0,width:100,height:100});
+const $=id=>document.getElementById(id),KEY='character-workshop-pants-fit-unified-v87',defaults=()=>({x:0,y:0,width:100,height:100});
 const specs=[['x','左右の位置','px',-250,250,1],['y','上下の位置','px',-300,300,1],['width','横の伸縮','%',60,150,.1],['height','縦の伸縮','%',60,150,.1]];
 let catalog,images={},values={},baseline={},top,bottom,drag=null,ready=false,storageOK=true,selection=0;
 const loading=new Map(),upperCache=[];
@@ -36,7 +36,7 @@ $('load').addEventListener('click',()=>$('file').click());$('file').addEventList
 $('png').addEventListener('click',()=>{render();composed.toBlob(blob=>{if(blob)download(blob,'pants-'+top+'-'+bottom+'.png');else message('PNGを保存できませんでした。');},'image/png');});
 $('share').addEventListener('click',async()=>{const url=new URL(location.href);url.hash='fit='+btoa(JSON.stringify(payload()));url.search='?top='+top+'&bottom='+bottom+'&view='+viewMode();$('share-url').value=url.href;$('share-box').hidden=false;try{await navigator.clipboard.writeText(url.href);$('share-message').textContent='リンクをコピーしました。別の端末に送って開いてください。';}catch{$('share-message').textContent='上のリンクを選択してコピーしてください。';$('share-url').focus();$('share-url').select();}});
 (async()=>{try{
- const res=await fetch('assets/catalog.json?v=85');if(!res.ok)throw Error('素材一覧を取得できません');catalog=await res.json();
+ const res=await fetch('assets/catalog.json?v=87');if(!res.ok)throw Error('素材一覧を取得できません');catalog=await res.json();
  for(const t of catalog.tops)for(const b of catalog.bottoms)values[t.id+'/'+b.id]=defaults();
  if(catalog.defaultPositions){const response=await fetch(catalog.defaultPositions);if(!response.ok)throw Error('採用した調整値を取得できません');Object.assign(values,valid(await response.json()));}baseline=JSON.parse(JSON.stringify(values));
  let saved;try{saved=JSON.parse(localStorage.getItem(KEY)||'null');if(saved)Object.assign(values,valid(saved));}catch{saved=null;}
