@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>パンツの位置合わせ｜キャラクターデザイン工房</title><link rel="stylesheet" href="editor.css"></head>
+<body><main><h1>パンツの位置合わせ</h1><p>トップスとパンツの組み合わせごとに調整できます。体・脚・靴を固定し、パンツだけを動かします。</p>
+<p id="status" role="status">画像を読み込んでいます…</p>
+<div id="editor" hidden>
+<fieldset><legend>トップス</legend><div id="tops" class="choices"></div></fieldset>
+<fieldset><legend>調整するパンツ</legend><div id="bottoms" class="choices"></div></fieldset>
+<div class="workspace"><section class="views" aria-label="調整プレビュー"><div class="view"><h2>全身</h2><canvas id="full" width="512" height="768" aria-label="全身プレビュー。ドラッグでパンツを移動"></canvas></div><div class="view"><h2>腰・股の拡大</h2><canvas id="waist" width="768" height="640" aria-label="腰と股の拡大。ドラッグでパンツを移動"></canvas><p class="hint">画像をドラッグして移動。スマホでは指で動かせます。</p></div></section>
+<section class="panel"><h2 id="editing-title">調整</h2><div id="controls"></div>
+<div class="toggles"><label><input type="checkbox" id="guides" checked>腰・股のガイド</label><label><input type="checkbox" id="ghost">調整したショートパンツを薄く重ねる</label></div>
+<p class="hint">基準ショートパンツも自由に調整できます。ガイド線は位置を見る目安です。</p>
+<button id="reset" type="button">この組み合わせを初期位置に戻す</button><hr>
+<div class="actions"><button id="png" type="button">調整した全身をPNG保存</button><button id="save" type="button">すべての調整値を保存</button><button id="load" type="button">調整値を読み込む</button><input id="file" type="file" accept=".json,application/json" hidden><button id="share" type="button">調整を引き継ぐリンクを作る</button></div>
+<label id="share-box" hidden>別PC・スマホへ送るリンク<input id="share-url" type="text" readonly><span id="share-message"></span></label>
+<p class="hint">調整値はこのブラウザに自動保存されます。別の端末へは共有リンク、または保存したJSONファイルで引き継げます。アプリ本体にはまだ反映されません。</p>
+</section></div><p><a href="../v84/">変更前の比較ページ</a> ／ <a href="../../">公開中の着せ替えアプリ</a></p></div>
+</main><script src="editor.js"></script></body></html>

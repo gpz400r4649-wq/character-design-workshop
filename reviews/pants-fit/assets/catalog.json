@@ -1,0 +1,180 @@
+{
+  "version": 1,
+  "source": "approved-pants-v84-80174d4",
+  "width": 2048,
+  "height": 3072,
+  "origin": [
+    1036,
+    1290
+  ],
+  "tops": [
+    {
+      "id": "blouse",
+      "name": "ブラウス"
+    },
+    {
+      "id": "sailor",
+      "name": "セーラーふう"
+    },
+    {
+      "id": "cardigan",
+      "name": "カーディガン"
+    },
+    {
+      "id": "tshirt",
+      "name": "Tシャツ"
+    },
+    {
+      "id": "relaxed",
+      "name": "ゆったりTシャツ"
+    },
+    {
+      "id": "hoodie",
+      "name": "ゆったりパーカー"
+    },
+    {
+      "id": "sweatshirt",
+      "name": "ゆったりスウェット"
+    },
+    {
+      "id": "collared_sweatshirt",
+      "name": "シャツ重ねスウェット"
+    },
+    {
+      "id": "longsleeve",
+      "name": "すっきり長袖カットソー"
+    },
+    {
+      "id": "open_shirt",
+      "name": "ゆったり羽織りシャツ"
+    },
+    {
+      "id": "knit_vest",
+      "name": "シャツ重ねニットベスト"
+    }
+  ],
+  "bottoms": [
+    {
+      "id": "shorts",
+      "name": "ショートパンツ",
+      "clipY": 1710
+    },
+    {
+      "id": "cropped_wide",
+      "name": "七分丈ワイドパンツ",
+      "clipY": 2500
+    },
+    {
+      "id": "wide_pants",
+      "name": "くるぶし丈ワイドパンツ",
+      "clipY": 2630
+    }
+  ],
+  "assets": {
+    "upper-blouse": {
+      "url": "assets/upper-blouse.png",
+      "x": 82,
+      "y": 47,
+      "w": 1922,
+      "h": 2637
+    },
+    "upper-sailor": {
+      "url": "assets/upper-sailor.png",
+      "x": 82,
+      "y": 47,
+      "w": 1922,
+      "h": 2637
+    },
+    "upper-cardigan": {
+      "url": "assets/upper-cardigan.png",
+      "x": 82,
+      "y": 47,
+      "w": 1922,
+      "h": 2637
+    },
+    "upper-tshirt": {
+      "url": "assets/upper-tshirt.png",
+      "x": 82,
+      "y": 47,
+      "w": 1922,
+      "h": 2637
+    },
+    "upper-relaxed": {
+      "url": "assets/upper-relaxed.png",
+      "x": 82,
+      "y": 47,
+      "w": 1922,
+      "h": 2637
+    },
+    "upper-hoodie": {
+      "url": "assets/upper-hoodie.png",
+      "x": 82,
+      "y": 47,
+      "w": 1790,
+      "h": 2637
+    },
+    "upper-sweatshirt": {
+      "url": "assets/upper-sweatshirt.png",
+      "x": 82,
+      "y": 47,
+      "w": 1790,
+      "h": 2637
+    },
+    "upper-collared_sweatshirt": {
+      "url": "assets/upper-collared_sweatshirt.png",
+      "x": 82,
+      "y": 47,
+      "w": 1790,
+      "h": 2637
+    },
+    "upper-longsleeve": {
+      "url": "assets/upper-longsleeve.png",
+      "x": 82,
+      "y": 47,
+      "w": 1790,
+      "h": 2637
+    },
+    "upper-open_shirt": {
+      "url": "assets/upper-open_shirt.png",
+      "x": 82,
+      "y": 47,
+      "w": 1887,
+      "h": 2637
+    },
+    "upper-knit_vest": {
+      "url": "assets/upper-knit_vest.png",
+      "x": 82,
+      "y": 47,
+      "w": 1887,
+      "h": 2637
+    },
+    "bottom-shorts": {
+      "url": "assets/bottom-shorts.png",
+      "x": 687,
+      "y": 1298,
+      "w": 676,
+      "h": 494
+    },
+    "bottom-cropped_wide": {
+      "url": "assets/bottom-cropped_wide.png",
+      "x": 620,
+      "y": 1280,
+      "w": 862,
+      "h": 1314
+    },
+    "bottom-wide_pants": {
+      "url": "assets/bottom-wide_pants.png",
+      "x": 626,
+      "y": 1280,
+      "w": 848,
+      "h": 1458
+    },
+    "legs": {
+      "url": "assets/legs.png",
+      "x": 654,
+      "y": 1374,
+      "w": 778,
+      "h": 1652
+    }
+  }
+}
