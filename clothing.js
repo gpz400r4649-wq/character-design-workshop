@@ -5,8 +5,8 @@ window.ClothingKit=(()=>{
   const id=top+'__'+bottom,basis=['blouse','sailor','cardigan'].includes(top)?top:'blouse';
   const covered=top==='salopette'||(!t.onePiece&&['trousers','wide_pants'].includes(bottom));
   const longSleeve=t.new&&top!=='salopette';
-  const body=longSleeve?(covered?C.longCoveredBody:C.longBody):(t.new||['wide_pants','cropped_wide','pleated'].includes(bottom))?(covered?C.coveredBody:C.newBody):bottom!=='skirt'?C.body:null;
-  const extension=top==='shirt_dress'||(!t.onePiece&&['cropped_wide','pleated'].includes(bottom))?C.lowerExtension:(!t.onePiece&&(bottom==='shorts'||(t.new&&bottom==='skirt')))?C.extension:null;
+  const body=bottom==='shorts'&&C.shortsBodies?C.shortsBodies[longSleeve?'longBody':'body']:longSleeve?(covered?C.longCoveredBody:C.longBody):(t.new||['wide_pants','cropped_wide','pleated'].includes(bottom))?(covered?C.coveredBody:C.newBody):bottom!=='skirt'?C.body:null;
+  const extension=bottom==='shorts'&&C.shortsLegs?C.shortsLegs:top==='shirt_dress'||(!t.onePiece&&['cropped_wide','pleated'].includes(bottom))?C.lowerExtension:(!t.onePiece&&(bottom==='shorts'||(t.new&&bottom==='skirt')))?C.extension:null;
   for(const [name,v] of Object.entries({...KIT17.variants})){
    if(!name.includes('_'+basis+'_')||name.includes('__'))continue;
    const template=v.template.replace('_'+basis,'_'+id),source=KIT17.templates[v.template],stack=[],visible=[];
