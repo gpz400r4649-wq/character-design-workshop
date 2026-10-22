@@ -1,0 +1,48 @@
+{
+  "source": "shirt-dress-fit-v102",
+  "canvas": {
+    "width": 2048,
+    "height": 3072
+  },
+  "origin": [
+    1036,
+    820
+  ],
+  "tops": [
+    {
+      "id": "shirt_dress",
+      "name": "シャツワンピース",
+      "url": "assets/shirt_dress.png",
+      "x": 460,
+      "y": 778,
+      "w": 1128,
+      "h": 1309,
+      "meshBox": [
+        460,
+        778,
+        1128,
+        1309
+      ]
+    }
+  ],
+  "pants": [
+    {
+      "id": "none",
+      "name": "なし",
+      "fixed": {
+        "x": 0,
+        "y": 0,
+        "width": 100,
+        "height": 100
+      }
+    }
+  ],
+  "fixedPants": {
+    "none": {
+      "x": 0,
+      "y": 0,
+      "width": 100,
+      "height": 100
+    }
+  }
+}
