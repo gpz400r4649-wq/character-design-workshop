@@ -1,7 +1,7 @@
 {
   "schema": "character-workshop-top-fit-catalog",
   "version": 1,
-  "source": "tops-v85-body-v86-unified-pants-v87",
+  "source": "user-final-clothes-2026-10-22-v96",
   "canvas": {
     "width": 2048,
     "height": 3072
@@ -14,166 +14,166 @@
     {
       "id": "blouse",
       "name": "ブラウス",
-      "url": "assets/blouse.png?v=92",
-      "x": 261,
-      "y": 127,
-      "w": 1192,
-      "h": 1161,
+      "url": "../../parts/5a34b40ac7e57e5139f76024.png",
+      "x": 607,
+      "y": 805,
+      "w": 843,
+      "h": 483,
       "meshBox": [
-        606,
-        805,
-        845,
-        483
-      ]
-    },
-    {
-      "id": "sailor",
-      "name": "セーラーふう",
-      "url": "assets/sailor.png?v=92",
-      "x": 500,
-      "y": 634,
-      "w": 1050,
-      "h": 654,
-      "meshBox": [
-        612,
+        607,
         805,
         843,
         483
       ]
     },
     {
-      "id": "cardigan",
-      "name": "カーディガン",
-      "url": "assets/cardigan.png?v=92",
-      "x": 449,
+      "id": "sailor",
+      "name": "セーラーふう",
+      "url": "../../parts/006a0ef5c5976c1d6d8e16c3.png",
+      "x": 613,
       "y": 806,
-      "w": 1099,
+      "w": 843,
       "h": 482,
       "meshBox": [
-        621,
+        613,
         806,
-        805,
+        843,
         482
+      ]
+    },
+    {
+      "id": "cardigan",
+      "name": "カーディガン",
+      "url": "../../parts/e270cba24a836056b7e2526d.png",
+      "x": 622,
+      "y": 806,
+      "w": 802,
+      "h": 479,
+      "meshBox": [
+        622,
+        806,
+        802,
+        479
       ]
     },
     {
       "id": "tshirt",
       "name": "Tシャツ",
-      "url": "assets/tshirt.png?v=92",
-      "x": 603,
+      "url": "../../parts/e7503f74c262c4434c08eea6.png",
+      "x": 600,
       "y": 830,
-      "w": 844,
-      "h": 480,
+      "w": 849,
+      "h": 479,
       "meshBox": [
-        603,
+        600,
         830,
-        844,
-        480
+        849,
+        479
       ]
     },
     {
       "id": "relaxed",
       "name": "ゆったりTシャツ",
-      "url": "assets/relaxed.png?v=92",
-      "x": 557,
-      "y": 830,
-      "w": 939,
-      "h": 496,
+      "url": "../../parts/b44de3cded40998254161439.png",
+      "x": 541,
+      "y": 833,
+      "w": 967,
+      "h": 596,
       "meshBox": [
-        557,
-        830,
-        939,
-        496
+        541,
+        833,
+        967,
+        596
       ]
     },
     {
       "id": "hoodie",
       "name": "ゆったりパーカー",
-      "url": "assets/hoodie.png?v=94",
-      "x": 541,
-      "y": 781,
-      "w": 930,
-      "h": 778,
+      "url": "../../parts/a64aa148427d9843b1a258b2.png",
+      "x": 481,
+      "y": 783,
+      "w": 1090,
+      "h": 856,
       "meshBox": [
-        541,
-        781,
-        930,
-        778
+        481,
+        783,
+        1090,
+        856
       ]
     },
     {
       "id": "sweatshirt",
       "name": "ゆったりスウェット",
-      "url": "assets/sweatshirt.png?v=92",
-      "x": 541,
+      "url": "../../parts/7d551160f5c50b24a18cefb5.png",
+      "x": 491,
       "y": 819,
-      "w": 930,
-      "h": 740,
+      "w": 1066,
+      "h": 809,
       "meshBox": [
-        541,
+        491,
         819,
-        930,
-        740
+        1066,
+        809
       ]
     },
     {
       "id": "collared_sweatshirt",
       "name": "シャツ重ねスウェット",
-      "url": "assets/collared_sweatshirt.png?v=92",
-      "x": 533,
-      "y": 777,
-      "w": 948,
-      "h": 790,
+      "url": "../../parts/9543bbaf054e0fa196bb2516.png",
+      "x": 490,
+      "y": 787,
+      "w": 1089,
+      "h": 850,
       "meshBox": [
-        533,
-        777,
-        948,
-        790
+        490,
+        787,
+        1089,
+        850
       ]
     },
     {
       "id": "longsleeve",
       "name": "すっきり長袖カットソー",
-      "url": "assets/longsleeve.png?v=95",
-      "x": 547,
-      "y": 823,
-      "w": 956,
-      "h": 740,
+      "url": "../../parts/e5a0c2dc14f1d58e77402600.png",
+      "x": 494,
+      "y": 830,
+      "w": 1071,
+      "h": 799,
       "meshBox": [
-        547,
-        823,
-        956,
-        740
+        494,
+        830,
+        1071,
+        799
       ]
     },
     {
       "id": "open_shirt",
       "name": "ゆったり羽織りシャツ",
-      "url": "assets/open_shirt.png?v=92",
-      "x": 483,
-      "y": 774,
-      "w": 1092,
-      "h": 1015,
+      "url": "../../parts/474caaf18223e03f7befddc5.png",
+      "x": 495,
+      "y": 793,
+      "w": 1082,
+      "h": 976,
       "meshBox": [
-        483,
-        774,
-        1092,
-        1015
+        495,
+        793,
+        1082,
+        976
       ]
     },
     {
       "id": "knit_vest",
       "name": "シャツ重ねニットベスト",
-      "url": "assets/knit_vest.png?v=92",
-      "x": 477,
-      "y": 770,
-      "w": 1108,
-      "h": 907,
+      "url": "../../parts/d14cfed7c639974fb736637a.png",
+      "x": 499,
+      "y": 789,
+      "w": 1062,
+      "h": 862,
       "meshBox": [
-        477,
-        770,
-        1108,
-        907
+        499,
+        789,
+        1062,
+        862
       ]
     }
   ],
@@ -244,6 +244,6 @@
       "height": 100
     }
   },
-  "meshRevision": "mesh-v88-cleaned",
-  "materialRevision": "outline-repair-v92"
+  "meshRevision": "baked-final-v96",
+  "materialRevision": "user-approved-v96"
 }
