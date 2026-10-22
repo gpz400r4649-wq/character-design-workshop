@@ -18,7 +18,7 @@ function asset(ctx,name){const a=catalog.assets[name];ctx.drawImage(images[name]
 const shapeSpecs=[['waistY','腰ベルトの上下','px',-90,90,0],['waistWidth','腰ベルトの幅','%',80,120,100],['beltHeight','ベルトの厚み','px',-25,35,0],['crotchY','股の分かれ目の上下','px',-90,120,0],['crotchWidth','内股の開き','px',-60,60,0]];
 function shapeDefaults(){return Object.fromEntries(shapeSpecs.map(s=>[s[0],s[5]]));}
 function readShapes(p){const out={};if(p.shapes===undefined)return out;if(!p.shapes||typeof p.shapes!=='object'||Array.isArray(p.shapes))throw Error('形の調整値が不正です');for(const [id,v]of Object.entries(p.shapes)){if(!catalog.bottoms.some(b=>b.id===id))throw Error('未対応のパンツです');out[id]={};for(const [k,n,u,min,max]of shapeSpecs){const value=v?.[k];if(typeof value!=='number'||!Number.isFinite(value)||value<min||value>max)throw Error('腰・股の調整値が範囲外です');out[id][k]=value;}}return out;}
-function syncShape(){for(const [id]of shapeSpecs){const v=(shapes[bottom]||shapeDefaults())[id];$(id+'-number').value=v;$(id+'-range').value=v;}}
+function syncShape(){for(const id of ["crotchY","crotchWidth"])$(id+"-number").closest(".control").hidden=["skirt","pleated"].includes(bottom);for(const [id]of shapeSpecs){const v=(shapes[bottom]||shapeDefaults())[id];$(id+'-number').value=v;$(id+'-range').value=v;}}
 const smooth=t=>{t=Math.max(0,Math.min(1,t));return t*t*(3-2*t);};
 function shapeCanvas(id){const a=catalog.assets['bottom-'+id],s=shapes[id]||shapeDefaults(),cacheKey=id+JSON.stringify(s);if(shapeCache?.key===cacheKey)return shapeCache.canvas;const cv=document.createElement('canvas');cv.width=2048;cv.height=3072;const x=cv.getContext('2d');if(shapeSpecs.every(([k,n,u,l,h,d])=>s[k]===d)){asset(x,'bottom-'+id);shapeCache={key:cacheKey,canvas:cv};return cv;}
  const im=images['bottom-'+id],scan=document.createElement('canvas');scan.width=a.w;scan.height=a.h;const z=scan.getContext('2d');z.drawImage(im,0,0,a.w,a.h);const alpha=z.getImageData(0,0,a.w,a.h).data,c=1036;let crotch=a.y+250,run=0;for(let y=100;y<Math.min(a.h-20,500);y++){let empty=true;for(let dx=-3;dx<=3;dx++){const sx=Math.max(0,Math.min(a.w-1,Math.round(c-a.x+dx)));if(alpha[(y*a.w+sx)*4+3]>64)empty=false;}run=empty?run+1:0;if(run===8){crotch=a.y+y-7;break;}}
@@ -53,7 +53,7 @@ $('png').addEventListener('click',()=>{render();composed.toBlob(blob=>{if(blob)d
 $('share').addEventListener('click',async()=>{const url=new URL(location.href);url.hash='fit='+btoa(JSON.stringify(payload()));url.search='?top='+top+'&bottom='+bottom+'&view='+viewMode();$('share-url').value=url.href;$('share-box').hidden=false;try{await navigator.clipboard.writeText(url.href);$('share-message').textContent='リンクをコピーしました。別の端末に送って開いてください。';}catch{$('share-message').textContent='上のリンクを選択してコピーしてください。';$('share-url').focus();$('share-url').select();}});
 setupShape();
 (async()=>{try{
- const res=await fetch('assets/catalog.json?v=97');if(!res.ok)throw Error('素材一覧を取得できません');catalog=await res.json();
+ const res=await fetch('assets/catalog.json?v=98');if(!res.ok)throw Error('素材一覧を取得できません');catalog=await res.json();
  for(const b of catalog.bottoms)values[b.id]=defaults();
  if(catalog.defaultPositions){const response=await fetch(catalog.defaultPositions);if(!response.ok)throw Error('採用した調整値を取得できません');Object.assign(values,valid(await response.json()));}baseline=JSON.parse(JSON.stringify(values));
  let saved;try{saved=JSON.parse(localStorage.getItem(KEY)||'null');if(saved){Object.assign(values,valid(saved));shapes=readShapes(saved);}}catch{saved=null;}

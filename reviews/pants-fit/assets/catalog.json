@@ -69,6 +69,18 @@
       "id": "wide_pants",
       "name": "くるぶし丈ワイドパンツ",
       "clipY": 2630
+    },
+    {
+      "id": "skirt",
+      "name": "フレアスカート",
+      "clipY": 1700,
+      "kind": "skirt"
+    },
+    {
+      "id": "pleated",
+      "name": "プリーツスカート",
+      "clipY": 1700,
+      "kind": "skirt"
     }
   ],
   "assets": {
@@ -176,6 +188,20 @@
       "y": 1374,
       "w": 778,
       "h": 1652
+    },
+    "bottom-skirt": {
+      "url": "../../parts/613117e19bc2f696c8d09f3f.webp",
+      "x": 512,
+      "y": 1288,
+      "w": 1192,
+      "h": 775
+    },
+    "bottom-pleated": {
+      "url": "../../parts/19be3a438095fb205e109c45.png",
+      "x": 545,
+      "y": 1288,
+      "w": 981,
+      "h": 833
     }
   },
   "positionsRevision": "unified-pants-2026-10-21"
