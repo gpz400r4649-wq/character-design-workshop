@@ -1,18 +1,18 @@
 <!doctype html>
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>パンツの位置合わせ｜キャラクターデザイン工房</title><link rel="stylesheet" href="editor.css?v=87"></head>
-<body><main><h1>パンツの位置合わせ</h1><p>トップスとパンツの組み合わせごとに調整できます。体・脚・靴を固定し、パンツだけを動かします。</p>
+<body><main><h1>パンツの位置合わせ</h1><p>パンツの調整値は、すべてのトップスで共通です。確定版トップスを重ねて確認できます。体・脚・靴を固定し、パンツだけを動かします。</p>
 <p id="status" role="status">画像を読み込んでいます…</p>
 <div id="editor" hidden>
 <fieldset><legend>トップス</legend><div id="tops" class="choices"></div></fieldset>
 <fieldset><legend>調整するパンツ</legend><div id="bottoms" class="choices"></div></fieldset>
 <fieldset id="view-mode"><legend>表示</legend><div class="choices"><label><input type="radio" name="view" value="clothes" checked>服を着た表示</label><label><input type="radio" name="view" value="pants">素体＋パンツ</label><label><input type="radio" name="view" value="body">素体だけ</label></div></fieldset>
 <div class="workspace"><section class="views" aria-label="調整プレビュー"><div class="view"><h2>全身</h2><canvas id="full" width="512" height="768" aria-label="全身プレビュー。ドラッグでパンツを移動"></canvas></div><div class="view"><h2>腰・股の拡大</h2><canvas id="waist" width="768" height="640" aria-label="腰と股の拡大。ドラッグでパンツを移動"></canvas><p class="hint" id="drag-hint">画像をドラッグして移動。スマホでは指で動かせます。</p></div></section>
-<section class="panel"><h2 id="editing-title">調整</h2><div id="controls"></div>
+<section class="panel"><h2 id="editing-title">調整</h2><h3>全体の位置・サイズ</h3><div id="controls"></div><h3>腰・股だけの形</h3><div id="shape-controls"></div><button id="shape-reset" type="button">腰・股だけを元に戻す</button><p class="hint">全体サイズを保ったまま腰と股を調整できます。裾と靴は動かしません。強い変形は、線が交差しない範囲に抑えます。</p>
 <div class="toggles"><label><input type="checkbox" id="guides" checked>素体の基準点・ガイド</label><label><input type="checkbox" id="body-overlay">服の上に素体を薄く重ねる</label><label id="body-opacity-label">素体の濃さ <output id="body-opacity-value">35%</output><input type="range" id="body-opacity" aria-label="重ねる素体の濃さ" min="10" max="80" value="35" step="5"></label><label><input type="checkbox" id="ghost">調整したショートパンツを薄く重ねる</label></div>
 <p class="hint">基準ショートパンツも自由に調整できます。ガイド線は位置を見る目安です。</p>
 <button id="reset" type="button">この組み合わせを初期位置に戻す</button><hr>
-<div class="actions"><button id="png" type="button">服を着た全身をPNG保存</button><button id="save" type="button">すべての調整値を保存</button><button id="load" type="button">調整値を読み込む</button><input id="file" type="file" accept=".json,application/json" hidden><button id="share" type="button">調整を引き継ぐリンクを作る</button><a href="../body-guide/index.html?v=86">素体と基準点を表示・保存する</a></div><p class="hint">全身PNGには、確認用の素体・基準点・ガイドは入りません。</p>
+<div class="actions"><button id="bottom-png">パンツだけの透過PNGを保存</button><button id="png" type="button">服を着た全身をPNG保存</button><button id="save" type="button">すべての調整値を保存</button><button id="load" type="button">調整値を読み込む</button><input id="file" type="file" accept=".json,application/json" hidden><button id="share" type="button">調整を引き継ぐリンクを作る</button><a href="../body-guide/index.html?v=86">素体と基準点を表示・保存する</a></div><p class="hint">全身PNGには、確認用の素体・基準点・ガイドは入りません。</p>
 <label id="share-box" hidden>別PC・スマホへ送るリンク<input id="share-url" type="text" readonly><span id="share-message"></span></label>
 <p class="hint">今回いただいた調整値を初期位置として用意しています。このブラウザに保存値がある場合は保存値を優先します。調整値はこのブラウザに自動保存されます。別の端末へは共有リンク、または保存したJSONファイルで引き継げます。アプリ本体にはまだ反映されません。</p>
 </section></div><p><a href="../v84/">変更前の比較ページ</a> ／ <a href="../../">公開中の着せ替えアプリ</a></p></div>
-<p><a href="../top-fit/index.html?v=88">パンツを固定してトップスを合わせる</a></p></main><script src="../body-guide/body-guide.js?v=86"></script><script src="editor.js?v=87"></script></body></html>
+<p><a href="../top-fit/index.html?v=96">パンツを固定してトップスを合わせる</a></p></main><script src="../body-guide/body-guide.js?v=86"></script><script src="editor.js?v=97"></script></body></html>

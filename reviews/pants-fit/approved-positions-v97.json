@@ -1,0 +1,38 @@
+{
+  "schema": "character-workshop-pants-fit",
+  "version": 2,
+  "source": "pants-local-shape-v97",
+  "positions": {
+    "shorts": {
+      "x": 0,
+      "y": -20,
+      "width": 100,
+      "height": 100
+    },
+    "cropped_wide": {
+      "x": 0,
+      "y": 0,
+      "width": 100,
+      "height": 100
+    },
+    "wide_pants": {
+      "x": 0,
+      "y": -2,
+      "width": 100,
+      "height": 100
+    }
+  },
+  "shapes": {},
+  "canvas": {
+    "width": 2048,
+    "height": 3072
+  },
+  "origin": [
+    1036,
+    1290
+  ],
+  "selected": {
+    "top": "hoodie",
+    "bottom": "wide_pants"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "defaultPositions": "approved-positions.json?v=87",
-  "source": "approved-pants-v84-80174d4",
+  "defaultPositions": "approved-positions-v97.json",
+  "source": "pants-local-shape-v97",
   "width": 2048,
   "height": 3072,
   "origin": [
@@ -73,81 +73,81 @@
   ],
   "assets": {
     "upper-blouse": {
-      "url": "assets/upper-blouse.png?v=85",
-      "x": 82,
-      "y": 47,
-      "w": 1922,
-      "h": 2637
+      "url": "assets/upper-blouse-v97.png",
+      "x": 0,
+      "y": 0,
+      "w": 2048,
+      "h": 3072
     },
     "upper-sailor": {
-      "url": "assets/upper-sailor.png?v=85",
-      "x": 82,
-      "y": 47,
-      "w": 1922,
-      "h": 2637
+      "url": "assets/upper-sailor-v97.png",
+      "x": 0,
+      "y": 0,
+      "w": 2048,
+      "h": 3072
     },
     "upper-cardigan": {
-      "url": "assets/upper-cardigan.png?v=85",
-      "x": 82,
-      "y": 47,
-      "w": 1922,
-      "h": 2637
+      "url": "assets/upper-cardigan-v97.png",
+      "x": 0,
+      "y": 0,
+      "w": 2048,
+      "h": 3072
     },
     "upper-tshirt": {
-      "url": "assets/upper-tshirt.png?v=85",
-      "x": 82,
-      "y": 47,
-      "w": 1922,
-      "h": 2637
+      "url": "assets/upper-tshirt-v97.png",
+      "x": 0,
+      "y": 0,
+      "w": 2048,
+      "h": 3072
     },
     "upper-relaxed": {
-      "url": "assets/upper-relaxed.png?v=85",
-      "x": 82,
-      "y": 47,
-      "w": 1922,
-      "h": 2637
+      "url": "assets/upper-relaxed-v97.png",
+      "x": 0,
+      "y": 0,
+      "w": 2048,
+      "h": 3072
     },
     "upper-hoodie": {
-      "url": "assets/upper-hoodie.png?v=85",
-      "x": 82,
-      "y": 47,
-      "w": 1790,
-      "h": 2637
+      "url": "assets/upper-hoodie-v97.png",
+      "x": 0,
+      "y": 0,
+      "w": 2048,
+      "h": 3072
     },
     "upper-sweatshirt": {
-      "url": "assets/upper-sweatshirt.png?v=85",
-      "x": 82,
-      "y": 47,
-      "w": 1790,
-      "h": 2637
+      "url": "assets/upper-sweatshirt-v97.png",
+      "x": 0,
+      "y": 0,
+      "w": 2048,
+      "h": 3072
     },
     "upper-collared_sweatshirt": {
-      "url": "assets/upper-collared_sweatshirt.png?v=85",
-      "x": 82,
-      "y": 47,
-      "w": 1790,
-      "h": 2637
+      "url": "assets/upper-collared_sweatshirt-v97.png",
+      "x": 0,
+      "y": 0,
+      "w": 2048,
+      "h": 3072
     },
     "upper-longsleeve": {
-      "url": "assets/upper-longsleeve.png?v=85",
-      "x": 82,
-      "y": 47,
-      "w": 1790,
-      "h": 2637
+      "url": "assets/upper-longsleeve-v97.png",
+      "x": 0,
+      "y": 0,
+      "w": 2048,
+      "h": 3072
     },
     "upper-open_shirt": {
-      "url": "assets/upper-open_shirt.png?v=85",
-      "x": 82,
-      "y": 47,
-      "w": 1887,
-      "h": 2637
+      "url": "assets/upper-open_shirt-v97.png",
+      "x": 0,
+      "y": 0,
+      "w": 2048,
+      "h": 3072
     },
     "upper-knit_vest": {
-      "url": "assets/upper-knit_vest.png?v=85",
-      "x": 82,
-      "y": 47,
-      "w": 1887,
-      "h": 2637
+      "url": "assets/upper-knit_vest-v97.png",
+      "x": 0,
+      "y": 0,
+      "w": 2048,
+      "h": 3072
     },
     "bottom-shorts": {
       "url": "assets/bottom-shorts.png?v=85",
