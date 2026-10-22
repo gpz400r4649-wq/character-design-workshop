@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "defaultPositions": "approved-positions-v99.json",
-  "source": "shared-bottom-masters-v99",
+  "defaultPositions": "approved-positions-v100.json",
+  "source": "approved-bottoms-2026-10-22-v100",
   "width": 2048,
   "height": 3072,
   "origin": [
@@ -75,17 +75,6 @@
       "name": "フレアスカート",
       "clipY": 1700,
       "kind": "skirt"
-    },
-    {
-      "id": "pleated",
-      "name": "プリーツスカート",
-      "clipY": 1700,
-      "kind": "skirt"
-    },
-    {
-      "id": "trousers",
-      "name": "ストレートパンツ",
-      "clipY": 2630
     }
   ],
   "assets": {
@@ -167,23 +156,23 @@
       "h": 3072
     },
     "bottom-shorts": {
-      "url": "../../parts/aa43aad8e11368847153bfe5.png",
+      "url": "../../parts/934dbedde3ab2a790a328fb7.png",
       "x": 687,
-      "y": 1300,
+      "y": 1266,
       "w": 676,
       "h": 494
     },
     "bottom-cropped_wide": {
-      "url": "../../parts/6048e8bab69fee04bd5215bd.png",
+      "url": "../../parts/4b1b9f3aa2d21414a97e74ec.png",
       "x": 620,
-      "y": 1300,
+      "y": 1266,
       "w": 862,
       "h": 1294
     },
     "bottom-wide_pants": {
-      "url": "../../parts/0dbfbe499dbd50530fe6b070.png",
+      "url": "../../parts/5f0cd704f08aa61e0e2dbe84.png",
       "x": 626,
-      "y": 1300,
+      "y": 1266,
       "w": 848,
       "h": 1436
     },
@@ -195,25 +184,11 @@
       "h": 1652
     },
     "bottom-skirt": {
-      "url": "../../parts/3bdca91d128f231b57b68794.png",
+      "url": "../../parts/6d673e8c3ab0d851e2793bb4.png",
       "x": 512,
-      "y": 1288,
+      "y": 1272,
       "w": 1192,
       "h": 775
-    },
-    "bottom-pleated": {
-      "url": "../../parts/af4c4c0605c739e40b59b9b0.png",
-      "x": 545,
-      "y": 1288,
-      "w": 981,
-      "h": 833
-    },
-    "bottom-trousers": {
-      "url": "../../parts/0ddfb4c8bf5bcae50ecd1f5e.png",
-      "x": 706,
-      "y": 1300,
-      "w": 641,
-      "h": 1366
     }
   },
   "positionsRevision": "unified-pants-2026-10-21",
@@ -221,12 +196,10 @@
     "pants": [
       "shorts",
       "wide_pants",
-      "cropped_wide",
-      "trousers"
+      "cropped_wide"
     ],
     "skirt": [
-      "skirt",
-      "pleated"
+      "skirt"
     ]
   }
 }

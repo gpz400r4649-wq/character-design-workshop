@@ -1,0 +1,24 @@
+{
+  "schema": "character-workshop-pants-fit",
+  "version": 3,
+  "source": "approved-bottoms-2026-10-22-v100",
+  "positions": {
+    "pants": {
+      "x": 0,
+      "y": 0,
+      "width": 100,
+      "height": 100
+    },
+    "skirt": {
+      "x": 0,
+      "y": 0,
+      "width": 100,
+      "height": 100
+    }
+  },
+  "shapes": {},
+  "selected": {
+    "top": "blouse",
+    "bottom": "skirt"
+  }
+}

@@ -181,9 +181,9 @@
     {
       "id": "shorts",
       "name": "ショートパンツ",
-      "url": "../../parts/aa43aad8e11368847153bfe5.png",
+      "url": "../../parts/934dbedde3ab2a790a328fb7.png",
       "x": 687,
-      "y": 1300,
+      "y": 1266,
       "w": 676,
       "h": 494,
       "fixed": {
@@ -196,9 +196,9 @@
     {
       "id": "cropped_wide",
       "name": "七分丈ワイドパンツ",
-      "url": "../../parts/6048e8bab69fee04bd5215bd.png",
+      "url": "../../parts/4b1b9f3aa2d21414a97e74ec.png",
       "x": 620,
-      "y": 1300,
+      "y": 1266,
       "w": 862,
       "h": 1294,
       "fixed": {
@@ -211,9 +211,9 @@
     {
       "id": "wide_pants",
       "name": "くるぶし丈ワイドパンツ",
-      "url": "../../parts/0dbfbe499dbd50530fe6b070.png",
+      "url": "../../parts/5f0cd704f08aa61e0e2dbe84.png",
       "x": 626,
-      "y": 1300,
+      "y": 1266,
       "w": 848,
       "h": 1436,
       "fixed": {
