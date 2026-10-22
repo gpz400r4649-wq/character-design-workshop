@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "defaultPositions": "approved-positions-v97.json",
-  "source": "pants-local-shape-v97",
+  "defaultPositions": "approved-positions-v99.json",
+  "source": "shared-bottom-masters-v99",
   "width": 2048,
   "height": 3072,
   "origin": [
@@ -81,6 +81,11 @@
       "name": "プリーツスカート",
       "clipY": 1700,
       "kind": "skirt"
+    },
+    {
+      "id": "trousers",
+      "name": "ストレートパンツ",
+      "clipY": 2630
     }
   ],
   "assets": {
@@ -162,25 +167,25 @@
       "h": 3072
     },
     "bottom-shorts": {
-      "url": "assets/bottom-shorts.png?v=85",
+      "url": "../../parts/aa43aad8e11368847153bfe5.png",
       "x": 687,
-      "y": 1298,
+      "y": 1300,
       "w": 676,
       "h": 494
     },
     "bottom-cropped_wide": {
-      "url": "assets/bottom-cropped_wide.png?v=85",
+      "url": "../../parts/6048e8bab69fee04bd5215bd.png",
       "x": 620,
-      "y": 1280,
+      "y": 1300,
       "w": 862,
-      "h": 1314
+      "h": 1294
     },
     "bottom-wide_pants": {
-      "url": "assets/bottom-wide_pants.png?v=85",
+      "url": "../../parts/0dbfbe499dbd50530fe6b070.png",
       "x": 626,
-      "y": 1280,
+      "y": 1300,
       "w": 848,
-      "h": 1458
+      "h": 1436
     },
     "legs": {
       "url": "assets/legs.png?v=85",
@@ -190,19 +195,38 @@
       "h": 1652
     },
     "bottom-skirt": {
-      "url": "../../parts/613117e19bc2f696c8d09f3f.webp",
+      "url": "../../parts/3bdca91d128f231b57b68794.png",
       "x": 512,
       "y": 1288,
       "w": 1192,
       "h": 775
     },
     "bottom-pleated": {
-      "url": "../../parts/19be3a438095fb205e109c45.png",
+      "url": "../../parts/af4c4c0605c739e40b59b9b0.png",
       "x": 545,
       "y": 1288,
       "w": 981,
       "h": 833
+    },
+    "bottom-trousers": {
+      "url": "../../parts/0ddfb4c8bf5bcae50ecd1f5e.png",
+      "x": 706,
+      "y": 1300,
+      "w": 641,
+      "h": 1366
     }
   },
-  "positionsRevision": "unified-pants-2026-10-21"
+  "positionsRevision": "unified-pants-2026-10-21",
+  "sharedGroups": {
+    "pants": [
+      "shorts",
+      "wide_pants",
+      "cropped_wide",
+      "trousers"
+    ],
+    "skirt": [
+      "skirt",
+      "pleated"
+    ]
+  }
 }

@@ -1,7 +1,7 @@
 {
   "schema": "character-workshop-top-fit-catalog",
   "version": 1,
-  "source": "user-final-clothes-2026-10-22-v96",
+  "source": "user-final-tops-v96-shared-bottoms-v99",
   "canvas": {
     "width": 2048,
     "height": 3072
@@ -181,14 +181,14 @@
     {
       "id": "shorts",
       "name": "ショートパンツ",
-      "url": "../pants-fit/assets/bottom-shorts.png?v=85",
+      "url": "../../parts/aa43aad8e11368847153bfe5.png",
       "x": 687,
-      "y": 1298,
+      "y": 1300,
       "w": 676,
       "h": 494,
       "fixed": {
         "x": 0,
-        "y": -20,
+        "y": 0,
         "width": 100,
         "height": 100
       }
@@ -196,11 +196,11 @@
     {
       "id": "cropped_wide",
       "name": "七分丈ワイドパンツ",
-      "url": "../pants-fit/assets/bottom-cropped_wide.png?v=85",
+      "url": "../../parts/6048e8bab69fee04bd5215bd.png",
       "x": 620,
-      "y": 1280,
+      "y": 1300,
       "w": 862,
-      "h": 1314,
+      "h": 1294,
       "fixed": {
         "x": 0,
         "y": 0,
@@ -211,14 +211,14 @@
     {
       "id": "wide_pants",
       "name": "くるぶし丈ワイドパンツ",
-      "url": "../pants-fit/assets/bottom-wide_pants.png?v=85",
+      "url": "../../parts/0dbfbe499dbd50530fe6b070.png",
       "x": 626,
-      "y": 1280,
+      "y": 1300,
       "w": 848,
-      "h": 1458,
+      "h": 1436,
       "fixed": {
         "x": 0,
-        "y": -2,
+        "y": 0,
         "width": 100,
         "height": 100
       }
@@ -227,7 +227,7 @@
   "fixedPants": {
     "shorts": {
       "x": 0,
-      "y": -20,
+      "y": 0,
       "width": 100,
       "height": 100
     },
@@ -239,7 +239,7 @@
     },
     "wide_pants": {
       "x": 0,
-      "y": -2,
+      "y": 0,
       "width": 100,
       "height": 100
     }
