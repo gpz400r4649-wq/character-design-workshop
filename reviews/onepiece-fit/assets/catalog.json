@@ -1,5 +1,5 @@
 {
-  "source": "shirt-dress-fit-v102",
+  "source": "shirt-dress-original-v103",
   "canvas": {
     "width": 2048,
     "height": 3072
@@ -12,16 +12,16 @@
     {
       "id": "shirt_dress",
       "name": "シャツワンピース",
-      "url": "assets/shirt_dress.png",
-      "x": 460,
-      "y": 778,
-      "w": 1128,
-      "h": 1309,
+      "url": "assets/shirt-dress-original-v103.png",
+      "x": 0,
+      "y": 0,
+      "w": 2048,
+      "h": 3072,
       "meshBox": [
-        460,
-        778,
-        1128,
-        1309
+        500,
+        684,
+        1040,
+        1425
       ]
     }
   ],
