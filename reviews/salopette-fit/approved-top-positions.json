@@ -1,7 +1,7 @@
 {
   "schema": "character-workshop-onepiece-fit",
   "version": 3,
-  "source": "salopette-original-v105",
+  "source": "salopette-final-v108",
   "canvas": {
     "width": 2048,
     "height": 3072
@@ -33,4 +33,3 @@
     "pants": "none"
   }
 }
-

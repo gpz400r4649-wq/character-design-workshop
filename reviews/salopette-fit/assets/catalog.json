@@ -1,5 +1,5 @@
 {
-  "source": "salopette-original-v105",
+  "source": "salopette-final-v108",
   "canvas": {
     "width": 2048,
     "height": 3072
@@ -12,16 +12,16 @@
     {
       "id": "salopette",
       "name": "サロペット",
-      "url": "assets/salopette-original.png",
+      "url": "assets/salopette-final-v108.png",
       "x": 0,
       "y": 0,
       "w": 2048,
       "h": 3072,
       "meshBox": [
-        592,
-        724,
-        844,
-        1882
+        585,
+        847,
+        863,
+        1888
       ]
     }
   ],
