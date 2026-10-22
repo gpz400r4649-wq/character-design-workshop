@@ -1,0 +1,36 @@
+{
+  "schema": "character-workshop-onepiece-fit",
+  "version": 3,
+  "source": "salopette-original-v105",
+  "canvas": {
+    "width": 2048,
+    "height": 3072
+  },
+  "origin": [
+    1036,
+    820
+  ],
+  "fixedPants": {
+    "none": {
+      "x": 0,
+      "y": 0,
+      "width": 100,
+      "height": 100
+    }
+  },
+  "upperPositions": {
+    "salopette": {
+      "x": 0,
+      "y": 0,
+      "width": 100,
+      "height": 100
+    }
+  },
+  "meshOffsets": {},
+  "hemWidths": {},
+  "selected": {
+    "top": "salopette",
+    "pants": "none"
+  }
+}
+
