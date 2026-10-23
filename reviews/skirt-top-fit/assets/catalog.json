@@ -1,0 +1,207 @@
+{
+  "schema": "character-workshop-top-fit-catalog",
+  "version": 1,
+  "source": "skirt-tops-fixed-flare-v110",
+  "canvas": {
+    "width": 2048,
+    "height": 3072
+  },
+  "origin": [
+    1036,
+    820
+  ],
+  "tops": [
+    {
+      "id": "blouse",
+      "name": "ブラウス",
+      "url": "../../parts/5a34b40ac7e57e5139f76024.png",
+      "x": 607,
+      "y": 805,
+      "w": 843,
+      "h": 483,
+      "meshBox": [
+        607,
+        805,
+        843,
+        483
+      ]
+    },
+    {
+      "id": "sailor",
+      "name": "セーラーふう",
+      "url": "../../parts/006a0ef5c5976c1d6d8e16c3.png",
+      "x": 613,
+      "y": 806,
+      "w": 843,
+      "h": 482,
+      "meshBox": [
+        613,
+        806,
+        843,
+        482
+      ]
+    },
+    {
+      "id": "cardigan",
+      "name": "カーディガン",
+      "url": "../../parts/e270cba24a836056b7e2526d.png",
+      "x": 622,
+      "y": 806,
+      "w": 802,
+      "h": 479,
+      "meshBox": [
+        622,
+        806,
+        802,
+        479
+      ]
+    },
+    {
+      "id": "tshirt",
+      "name": "Tシャツ",
+      "url": "../../parts/e7503f74c262c4434c08eea6.png",
+      "x": 600,
+      "y": 830,
+      "w": 849,
+      "h": 479,
+      "meshBox": [
+        600,
+        830,
+        849,
+        479
+      ]
+    },
+    {
+      "id": "relaxed",
+      "name": "ゆったりTシャツ",
+      "url": "../../parts/b44de3cded40998254161439.png",
+      "x": 541,
+      "y": 833,
+      "w": 967,
+      "h": 596,
+      "meshBox": [
+        541,
+        833,
+        967,
+        596
+      ]
+    },
+    {
+      "id": "hoodie",
+      "name": "ゆったりパーカー",
+      "url": "../../parts/a64aa148427d9843b1a258b2.png",
+      "x": 481,
+      "y": 783,
+      "w": 1090,
+      "h": 856,
+      "meshBox": [
+        481,
+        783,
+        1090,
+        856
+      ]
+    },
+    {
+      "id": "sweatshirt",
+      "name": "ゆったりスウェット",
+      "url": "../../parts/7d551160f5c50b24a18cefb5.png",
+      "x": 491,
+      "y": 819,
+      "w": 1066,
+      "h": 809,
+      "meshBox": [
+        491,
+        819,
+        1066,
+        809
+      ]
+    },
+    {
+      "id": "collared_sweatshirt",
+      "name": "シャツ重ねスウェット",
+      "url": "../../parts/9543bbaf054e0fa196bb2516.png",
+      "x": 490,
+      "y": 787,
+      "w": 1089,
+      "h": 850,
+      "meshBox": [
+        490,
+        787,
+        1089,
+        850
+      ]
+    },
+    {
+      "id": "longsleeve",
+      "name": "すっきり長袖カットソー",
+      "url": "../../parts/e5a0c2dc14f1d58e77402600.png",
+      "x": 494,
+      "y": 830,
+      "w": 1071,
+      "h": 799,
+      "meshBox": [
+        494,
+        830,
+        1071,
+        799
+      ]
+    },
+    {
+      "id": "open_shirt",
+      "name": "ゆったり羽織りシャツ",
+      "url": "../../parts/474caaf18223e03f7befddc5.png",
+      "x": 495,
+      "y": 793,
+      "w": 1082,
+      "h": 976,
+      "meshBox": [
+        495,
+        793,
+        1082,
+        976
+      ]
+    },
+    {
+      "id": "knit_vest",
+      "name": "シャツ重ねニットベスト",
+      "url": "../../parts/d14cfed7c639974fb736637a.png",
+      "x": 499,
+      "y": 789,
+      "w": 1062,
+      "h": 862,
+      "meshBox": [
+        499,
+        789,
+        1062,
+        862
+      ]
+    }
+  ],
+  "pants": [
+    {
+      "id": "skirt",
+      "name": "フレアスカート（確定位置）",
+      "url": "../../parts/6d673e8c3ab0d851e2793bb4.png",
+      "x": 512,
+      "y": 1272,
+      "w": 1192,
+      "h": 775,
+      "fixed": {
+        "x": 0,
+        "y": 0,
+        "width": 100,
+        "height": 100
+      }
+    }
+  ],
+  "fixedPants": {
+    "skirt": {
+      "x": 0,
+      "y": 0,
+      "width": 100,
+      "height": 100
+    }
+  },
+  "meshRevision": "baked-final-v96",
+  "materialRevision": "user-approved-v96"
+}
