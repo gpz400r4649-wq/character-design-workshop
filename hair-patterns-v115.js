@@ -42,12 +42,13 @@ window.HairPatterns=(()=>{
   KIT_HAIR.layers[entry.blob][token]={blob,raw:b64(raw)};
   return {blob,source:entry.blob,token};
  }
- async function generate(entry,source,kind,base,accent,bounds,token){
+ async function generate(entry,source,kind,base,accent,bounds,token,tunes){
   const key=entry.blob+':'+token;
   if(cache.has(key)){const v=cache.get(key);cache.delete(key);cache.set(key,v);return;}
   if(pending.has(key))return pending.get(key);
   const task=(async()=>{
-   const image=await paint(entry,base,source),other=await paint(entry,accent,source),d=image.data;
+   const image=await paint(entry,base,source),other=kind==='none'?image:await paint(entry,accent,source),d=image.data;
+   if(ColorTune.active(tunes[0])||(kind!=='none'&&ColorTune.active(tunes[1]))){const original=await paint(entry,'original',source);ColorTune.hair(d,tunes[0],original.data);if(kind!=='none')ColorTune.hair(other.data,tunes[1],original.data);}
    for(let y=0;y<source.h;y++)for(let x=0;x<source.w;x++){
     const i=(y*source.w+x)*4;if(!d[i+3])continue;
     const a=weight(kind,x+source.x,y+source.y,bounds);
@@ -58,10 +59,10 @@ window.HairPatterns=(()=>{
   })().finally(()=>pending.delete(key));pending.set(key,task);return task;
  }
  async function apply(v,color,current){
-  const kind=normalizeHairPattern(v.hairPattern),accent=v.hairAccent||'pink';
-  if(v.hairPatternApplied||kind==='none'||!kinds.includes(kind)||color===accent||!KIT_HAIR.palette.some(c=>c.id===color)||!KIT_HAIR.palette.some(c=>c.id===accent))return {variant:v,color};
+  const kind=normalizeHairPattern(v.hairPattern),accent=v.hairAccent||'pink',tunes=[ColorTune.forVariant(v,0),ColorTune.forVariant(v,1)],tuned=ColorTune.active(tunes[0])||(kind!=='none'&&ColorTune.active(tunes[1]));
+  if(v.hairPatternApplied||(!tuned&&(kind==='none'||color===accent))||!kinds.includes(kind)||!KIT_HAIR.palette.some(c=>c.id===color)||!KIT_HAIR.palette.some(c=>c.id===accent))return {variant:v,color};
   if(current&&!current())throw Error('Superseded character request');
-  await HairPalette.prepare(v,color);await HairPalette.prepare(v,accent);
+  await HairPalette.prepare(v,color);if(kind!=='none')await HairPalette.prepare(v,accent);
   const entries=KIT17.templates[v.template].filter(e=>KIT_HAIR.layers[e.blob]),sources=new Map();
   let l=KIT17.width,t=KIT17.height,r=0,b=0;
   for(const e of entries){
@@ -71,8 +72,8 @@ window.HairPatterns=(()=>{
    sources.set(e.blob,source);l=Math.min(l,source.x);t=Math.min(t,source.y);r=Math.max(r,source.x+source.w);b=Math.max(b,source.y+source.h);
   }
   if(!sources.size)return {variant:v,color};
-  const bounds=[l,t,r,b],token=['hp115',kind,color,accent,...bounds].join('_');
-  for(const entry of entries){if(current&&!current())throw Error('Superseded character request');const source=sources.get(entry.blob);if(source)await generate(entry,source,kind,color,accent,bounds,token);}
+  const bounds=[l,t,r,b],token=['hp115',kind,color,accent,...bounds,...(tuned?[...tunes[0],...tunes[1]]:[])].join('_');
+  for(const entry of entries){if(current&&!current())throw Error('Superseded character request');const source=sources.get(entry.blob);if(source)await generate(entry,source,kind,color,accent,bounds,token,tunes);}
   return {variant:{...v,hairColor:token,hairPatternApplied:true},color:token};
  }
  const preview=ColorKit.preview,build=KitExport.build;

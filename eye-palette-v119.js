@@ -54,8 +54,9 @@ window.EyeColorKit=(()=>{
   kitLayerData[blob]=b64(pako.deflate(bytes));KIT_TWIN.parts[blob]={id:blob,x:frame.x,y:frame.y};
   return {...entry,blob,raw:b64(raw)};
  }
- async function generate(source,skin,left,right){
-  const key=[source.blob,skin.blob,left,right].join(':');
+ function irisWeight(o,b,j,hue){const [,s,v]=hsv(o[j],o[j+1],o[j+2]),full=rgb(hue,s,v);let dot=0,norm=0;for(let q=0;q<3;q++){const delta=full[q]-o[j+q];dot+=(b[j+q]-o[j+q])*delta;norm+=delta*delta;}return Math.max(0,Math.min(1,norm?dot/norm:0));}
+ async function generate(source,skin,left,right,tunes){
+  const key=[source.blob,skin.blob,left,right,...tunes[0],...tunes[1]].join(':');
   if(cache.has(key)){const value=cache.get(key);cache.delete(key);cache.set(key,value);return value;}
   if(pending.has(key))return pending.get(key);
   const task=(async()=>{
@@ -66,8 +67,8 @@ window.EyeColorKit=(()=>{
    const d=base.data,o=original.data,b=blue.data,support=irisSupport(source,o,b,frame);
    for(let y=0;y<frame.h;y++)for(let x=0;x<frame.w;x++){
     const j=(y*frame.w+x)*4;if(!o[j+3]||(support&&!support[y*frame.w+x]))continue;
-    const id=x+frame.x<KIT17.width/2?left:right;
-    if(paints[id]){for(let q=0;q<3;q++)d[j+q]=Math.max(0,Math.min(255,d[j+q]+paints[id].data[j+q]-o[j+q]));continue;}
+    const side=x+frame.x<KIT17.width/2?0:1,id=side?right:left,tune=tunes[side];
+    if(paints[id]){for(let q=0;q<3;q++)d[j+q]=Math.max(0,Math.min(255,d[j+q]+paints[id].data[j+q]-o[j+q]));if(ColorTune.active(tune))ColorTune.pixel(d,j,tune,irisWeight(o,b,j,blueHue));continue;}
     if(o[j]===b[j]&&o[j+1]===b[j+1]&&o[j+2]===b[j+2])continue;
     const [,sat,value]=hsv(o[j],o[j+1],o[j+2]),fullBlue=rgb(blueHue,sat,value);let dot=0,norm=0;
     for(let q=0;q<3;q++){const delta=fullBlue[q]-o[j+q];dot+=(b[j+q]-o[j+q])*delta;norm+=delta*delta;}
@@ -75,6 +76,7 @@ window.EyeColorKit=(()=>{
     const saturation=s<.18?sat*s:Math.min(.95,sat*s/.45),brightness=s<.18||id==='black'?Math.min(.97,value*v/.68):Math.min(.97,value*(.85+.15*v));
     const shifted=rgb(h,saturation,brightness);
     for(let q=0;q<3;q++)d[j+q]=Math.max(0,Math.min(255,Math.round(d[j+q]+(shifted[q]-o[j+q])*weight)));
+    if(ColorTune.active(tune))ColorTune.pixel(d,j,tune,weight);
    }
    const entry=register(skin,base,frame);cache.set(key,entry);
    while(cache.size>24){const first=cache.keys().next().value,e=cache.get(first);cache.delete(first);delete kitLayerData[e.blob];delete kitRuntimePartData[e.blob];delete KIT_TWIN.parts[e.blob];}
@@ -83,13 +85,13 @@ window.EyeColorKit=(()=>{
  }
  async function apply(v,current){
   if(v.eyeColorsApplied)return v;
-  const left=v.eyeColor||'original',right=normalizeEyeMode(v.eyeMode)==='odd'?(v.eyeRightColor||'blue'):left;
+  const left=v.eyeColor||'original',right=normalizeEyeMode(v.eyeMode)==='odd'?(v.eyeRightColor||'blue'):left,tunes=[ColorTune.forVariant(v,2),ColorTune.forVariant(v,normalizeEyeMode(v.eyeMode)==='odd'?3:2)];
   if(!KIT_EYES.palette.some(c=>c.id===left)||!KIT_EYES.palette.some(c=>c.id===right))return v;
-  if(left===right&&!colors.has(left))return {...v,eyeColor:left};
+  if(left===right&&!colors.has(left)&&!tunes.some(ColorTune.active))return {...v,eyeColor:left};
   const source=KIT17.templates[v.template].find(e=>e.key==='eyes');if(!source||!KIT_EYES.layers[source.blob]?.blue)return v;
   const applied=SkinKit.apply({...v,eyeColor:'original'}),stack=KIT17.templates[applied.template],skin=stack.find(e=>e.key==='eyes');
   if(current&&!current())throw Error('Superseded character request');
-  const painted=await generate(source,skin,left,right),template=applied.template+'_eye119_'+painted.blob;
+  const painted=await generate(source,skin,left,right,tunes),template=applied.template+'_eye119_'+painted.blob;
   KIT17.templates[template]=stack.map(e=>e.key==='eyes'?{...painted}:e);
   return {...applied,template,eyeColor:'original',skinApplied:true,eyeColorsApplied:true};
  }
