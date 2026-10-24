@@ -1,7 +1,7 @@
 {
   "schema": "character-workshop-top-fit-catalog",
   "version": 1,
-  "source": "skirt-tops-fixed-flare-v110",
+  "source": "approved-skirt-tops-v112",
   "canvas": {
     "width": 2048,
     "height": 3072
@@ -89,7 +89,7 @@
     {
       "id": "hoodie",
       "name": "ゆったりパーカー",
-      "url": "../../parts/a64aa148427d9843b1a258b2.png",
+      "url": "../../parts/3242eb56268f1119be499511.png",
       "x": 481,
       "y": 783,
       "w": 1090,
@@ -104,7 +104,7 @@
     {
       "id": "sweatshirt",
       "name": "ゆったりスウェット",
-      "url": "../../parts/7d551160f5c50b24a18cefb5.png",
+      "url": "../../parts/fd148423df5a993ee3d0fe10.png",
       "x": 491,
       "y": 819,
       "w": 1066,
@@ -119,7 +119,7 @@
     {
       "id": "collared_sweatshirt",
       "name": "シャツ重ねスウェット",
-      "url": "../../parts/9543bbaf054e0fa196bb2516.png",
+      "url": "../../parts/b8690a1ead1efbad06f12343.png",
       "x": 490,
       "y": 787,
       "w": 1089,
@@ -149,7 +149,7 @@
     {
       "id": "open_shirt",
       "name": "ゆったり羽織りシャツ",
-      "url": "../../parts/474caaf18223e03f7befddc5.png",
+      "url": "../../parts/ca9e582ead2645f66e09fd04.png",
       "x": 495,
       "y": 793,
       "w": 1082,
@@ -164,16 +164,16 @@
     {
       "id": "knit_vest",
       "name": "シャツ重ねニットベスト",
-      "url": "../../parts/d14cfed7c639974fb736637a.png",
+      "url": "../../parts/931bbc29e8afdf54b1241695.png",
       "x": 499,
       "y": 789,
       "w": 1062,
-      "h": 862,
+      "h": 880,
       "meshBox": [
         499,
         789,
         1062,
-        862
+        880
       ]
     }
   ],
