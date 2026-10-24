@@ -1,7 +1,8 @@
 /* Two-color hair masks use shared character coordinates across front/back layers.
    They change RGB only. Original hair silhouettes and single-color assets remain intact. */
 window.HairPatterns=(()=>{
- const kinds=['none','streaks','tips','gradient','split'],cache=new Map(),pending=new Map(),sourceInfo=new Map();let sequence=1;
+ const kinds=['none','tips','gradient','split'],cache=new Map(),pending=new Map(),sourceInfo=new Map();let sequence=1;
+ window.normalizeHairPattern=value=>kinds.includes(value)?value:'none';
  const b64=a=>{let s='';for(let i=0;i<a.length;i+=32768)s+=String.fromCharCode(...a.subarray(i,i+32768));return btoa(s);};
  const smooth=(a,b,x)=>{const t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3-2*t);};
  function weight(kind,x,y,bounds){
@@ -9,10 +10,7 @@ window.HairPatterns=(()=>{
   if(kind==='split')return smooth(KIT17.width/2-2,KIT17.width/2+2,x);
   if(kind==='tips')return smooth(.72,.79,v);
   if(kind==='gradient')return smooth(.18,.95,v);
-  // Tapered locks fan out from the crown, rather than straight vertical stripes.
-  const flow=Math.max(0,Math.min(1,v)),width=w*(.012+.017*smooth(0,.3,flow));
-  const distance=Math.min(Math.abs(x-l-w*(.34-.10*flow)),Math.abs(x-l-w*(.64+.10*flow)));
-  return (1-smooth(width*.65,width,distance))*smooth(.02,.15,v);
+  return 0;
  }
  async function picture(part){
   let data=kitRuntimePartData[part.id];
@@ -59,7 +57,7 @@ window.HairPatterns=(()=>{
   })().finally(()=>pending.delete(key));pending.set(key,task);return task;
  }
  async function apply(v,color,current){
-  const kind=v.hairPattern||'none',accent=v.hairAccent||'pink';
+  const kind=normalizeHairPattern(v.hairPattern),accent=v.hairAccent||'pink';
   if(v.hairPatternApplied||kind==='none'||!kinds.includes(kind)||color===accent||!KIT_HAIR.palette.some(c=>c.id===color)||!KIT_HAIR.palette.some(c=>c.id===accent))return {variant:v,color};
   if(current&&!current())throw Error('Superseded character request');
   await HairPalette.prepare(v,color);await HairPalette.prepare(v,accent);
