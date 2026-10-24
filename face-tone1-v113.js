@@ -1,0 +1,2 @@
+/* Match face tone 1 warmth to the existing limbs; other tones unchanged. */
+(()=>{const A={"source":"02c7eedadaca0e1d7c97682a","tone1":{"key":"face","name":"かお・めなし・肌色1（手足と共通の色味）","blob":"a5586be3d0c6f5c1870436f7","raw":"AAAAbwAAAk0AAAPWAAAFVwAEAAAAClcIAAEAClcIAAIAClcI//8AClcIOEJJTW5vcm3/AAAAAAAASAAAAAAAAAAABGNsb3QAAAA4QklNbHVuaQAAACwAAAAUMEswSjD7MIEwajBXMPuAjIJyADH/CGJLjbMwaFFxkBowboJyVHP/CQ=="},"parts":{"a5586be3d0c6f5c1870436f7":{"id":"b12c33642e03b96d958a77d8","x":589,"y":111}}};Object.assign(KIT_TWIN.parts,A.parts);KIT_SKIN.layers[A.source].tone1=A.tone1;})();
