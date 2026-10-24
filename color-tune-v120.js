@@ -1,9 +1,9 @@
 /* Small, bounded adjustments shared by preview, reference PNG and PSD generation. */
 window.ColorTune=(()=>{
  const ids=['hair-tune','hair-accent-tune','eye-tune','eye-right-tune'],limits=[180,100,60],zero='[0,0,0]';
- function parse(input){try{const a=typeof input==='string'?JSON.parse(input):input;return limits.map((m,i)=>Array.isArray(a)&&Number.isFinite(a[i])?Math.max(-m,Math.min(m,Math.round(a[i]))):0);}catch{return [0,0,0];}}
+ function parse(input){try{const a=typeof input==='string'?JSON.parse(input):input;return limits.map((m,i)=>i===0?0:Array.isArray(a)&&Number.isFinite(a[i])?Math.max(-m,Math.min(m,Math.round(a[i]))):0);}catch{return [0,0,0];}}
  const text=input=>JSON.stringify(parse(input)),active=a=>parse(a).some(Boolean),forVariant=(v,i)=>parse(v.colorTunes?.[i]);
- const preferences=Object.fromEntries(ids.map(id=>[id,{includes:v=>typeof v==='string'&&v===text(v)}]));
+ const preferences=Object.fromEntries(ids.map(id=>[id,{includes:v=>typeof v==='string'&&(()=>{try{const a=JSON.parse(v);return Array.isArray(a)&&a.length===3&&a.every(Number.isFinite);}catch{return false;}})()}]));
  function clean(selection){return {...selection,...Object.fromEntries(ids.map(id=>[id,text(selection?.[id])]))};}
  function any(v){return active(v.colorTunes?.[0])||(v.hairPattern!=='none'&&!!v.hairPattern&&active(v.colorTunes?.[1]))||active(v.colorTunes?.[2])||(v.eyeMode==='odd'&&active(v.colorTunes?.[3]));}
  function pixel(data,i,tune,weight=1){
