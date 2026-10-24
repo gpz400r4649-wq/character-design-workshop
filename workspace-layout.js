@@ -1,50 +1,62 @@
+/* Organize editing by body part while retaining every selection/export control. */
 (()=>{
- const controls=document.querySelector('.layout > .panel:not(#preview-panel)');
- controls.id='controls-panel';
+ const controls=document.querySelector('.layout > .panel:not(#preview-panel)');controls.id='controls-panel';
  const heading=controls.querySelector('h2');heading.id='controls-heading';
- const tabs=document.createElement('div');tabs.className='workshop-tabs';tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','キャラクターのえらびかた');
  const scroll=document.createElement('div');scroll.className='controls-scroll';
- const names={look:'かみ・目・服',colors:'色',draw:'練習・保存'},panels={},buttons={};
- for(const [id,name] of Object.entries(names)){
-  const button=document.createElement('button');button.type='button';button.id='tab-'+id;button.innerHTML={look:'かみ・<ruby>目<rt>め</rt></ruby>・<ruby>服<rt>ふく</rt></ruby>',colors:'<ruby>色<rt>いろ</rt></ruby>',draw:'<ruby>練習<rt>れんしゅう</rt></ruby>・<ruby>保存<rt>ほぞん</rt></ruby>'}[id];button.setAttribute('role','tab');button.setAttribute('aria-controls','pane-'+id);buttons[id]=button;tabs.appendChild(button);
+ const names={hair:'かみ',eyes:'目',clothes:'服',skin:'肌',draw:'練習・保存'},labels={hair:'かみ',eyes:'<ruby>目<rt>め</rt></ruby>',clothes:'<ruby>服<rt>ふく</rt></ruby>',skin:'<ruby>肌<rt>はだ</rt></ruby>',draw:'<ruby>練習<rt>れんしゅう</rt></ruby><br><ruby>保存<rt>ほぞん</rt></ruby>'};
+ const tabs=document.createElement('div');tabs.className='workshop-tabs';tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','えらぶ ところ');
+ const panels={},buttons={};
+ for(const id of Object.keys(names)){
+  const button=document.createElement('button');button.type='button';button.id='tab-'+id;button.innerHTML=labels[id];button.setAttribute('role','tab');button.setAttribute('aria-controls','pane-'+id);buttons[id]=button;tabs.appendChild(button);
   const panel=document.createElement('div');panel.id='pane-'+id;panel.setAttribute('role','tabpanel');panel.setAttribute('aria-labelledby',button.id);panel.tabIndex=0;panels[id]=panel;scroll.appendChild(panel);
  }
- // Keep the original control elements and IDs: selections and export handlers stay connected.
- for(const node of [...controls.childNodes]){
-  if(node===heading)continue;
-  if(node.nodeType===1&&node.matches('#eye-style-choices,#hair-part-tabs,#hair-choices,#hair-complete-choices,#hair-back-choices,#hair-pair-note,#hair-matching-back,#outfit-choices,#favorites'))continue;
-  if(node.nodeType===1&&node.matches('.hair-colors,.eye-colors,.outfit-colors,.bottom-colors,.skin-colors'))continue;
-  panels.draw.appendChild(node);
+ const find=selector=>controls.querySelector(selector),hairColors=find('.hair-colors'),eyeColors=find('.eye-colors'),topColors=find('.outfit-colors'),bottomColors=find('.bottom-colors'),skinColors=find('.skin-colors'),eyes=find('#eye-style-choices'),clothes=find('#outfit-choices'),favorites=find('#favorites');
+ const hairNodes=['#hair-part-tabs','#hair-choices','#hair-complete-choices','#hair-back-choices','#hair-pair-note','#hair-matching-back'].map(find);
+ const special=new Set([...hairNodes,hairColors,eyeColors,topColors,bottomColors,skinColors,eyes,clothes,favorites]);
+ for(const node of [...controls.childNodes])if(node!==heading&&!special.has(node))panels.draw.appendChild(node);
+ // Hair has its own shape/color tabs, with the existing front/back choices inside shape.
+ const hairTabs=document.createElement('div');hairTabs.className='section-tabs';hairTabs.setAttribute('role','tablist');hairTabs.setAttribute('aria-label','かみの えらびかた');
+ const hairPanels={},hairButtons={};
+ for(const [id,label] of [['shape','かたち'],['colors','色（いろ）']]){
+  const button=document.createElement('button');button.type='button';button.id='hair-tab-'+id;button.textContent=label;button.setAttribute('role','tab');button.setAttribute('aria-controls','hair-pane-'+id);hairButtons[id]=button;hairTabs.appendChild(button);
+  const panel=document.createElement('div');panel.id='hair-pane-'+id;panel.setAttribute('role','tabpanel');panel.setAttribute('aria-labelledby',button.id);hairPanels[id]=panel;
  }
- for(const selector of ['#hair-part-tabs','#eye-style-choices','#hair-choices','#hair-complete-choices','#hair-pair-note','#hair-matching-back','#hair-back-choices','#outfit-choices','#favorites'])panels.look.appendChild(controls.querySelector(selector));
- for(const selector of ['.skin-colors','.hair-colors','.eye-colors','.outfit-colors','.bottom-colors'])panels.colors.appendChild(controls.querySelector(selector));
- const favorites=controls.querySelector('#favorites')||panels.look.querySelector('#favorites');
- const save=favorites.querySelector('#favorite-save');
- for(const id of ['look','colors']){
-  const actions=document.createElement('div');actions.className='favorite-actions';
-  const button=id==='look'?save:document.createElement('button');button.type='button';button.id=id==='look'?'favorite-save':'favorite-save-colors';button.textContent='この子を お気に入りに';actions.appendChild(button);
-  const note=document.createElement('p');note.id='favorite-action-status-'+id;note.className='small';note.setAttribute('role','status');note.setAttribute('aria-live','polite');actions.appendChild(note);
-  panels[id].appendChild(actions);
- }
- const status=panels.draw.querySelector('#preference-status');controls.appendChild(tabs);controls.appendChild(scroll);controls.appendChild(status);
+ hairNodes[0].setAttribute('aria-label','かみの かたち');panels.hair.append(hairTabs,hairPanels.shape,hairPanels.colors);hairNodes.forEach(node=>hairPanels.shape.appendChild(node));hairPanels.colors.appendChild(hairColors);
+ for(const id of ['eyes','clothes'])hairNodes[0].querySelector('#hair-part-'+id).remove();
+ eyes.hidden=false;clothes.hidden=false;panels.eyes.append(eyes,eyeColors);panels.clothes.appendChild(clothes);panels.skin.appendChild(skinColors);
+ for(const p of eyes.querySelectorAll('p'))if(p.textContent.includes('色のタブ'))p.textContent='下で、ひとみの色も かえられるよ。';
+ const bottom=clothes.querySelector('#bottom-choice-section');bottom.before(topColors);bottom.appendChild(bottomColors);topColors.after(clothes.querySelector('#onepiece-note'));
+ // One shared favorite action and library follows the currently selected category.
+ const actions=document.createElement('div');actions.className='favorite-actions';
+ const save=favorites.querySelector('#favorite-save');save.dataset.favoriteSave='';actions.appendChild(save);
+ const note=document.createElement('p');note.className='small';note.id='favorite-action-status';note.dataset.favoriteActionStatus='';note.setAttribute('role','status');note.setAttribute('aria-live','polite');actions.appendChild(note);
+ const status=panels.draw.querySelector('#preference-status');controls.append(tabs,scroll,status);
+ const storageKey='character-design-workshop.tabs.v117';let active='hair',hairActive='shape';
+ try{const saved=JSON.parse(localStorage.getItem(storageKey));if(names[saved?.category])active=saved.category;if(hairPanels[saved?.hair])hairActive=saved.hair;}catch{}
+ function remember(){try{localStorage.setItem(storageKey,JSON.stringify({category:active,hair:hairActive}));}catch{}}
  function activate(id,focus=false){
+  if(!panels[id])return;active=id;
   for(const name of Object.keys(names)){const selected=id===name;buttons[name].setAttribute('aria-selected',String(selected));buttons[name].tabIndex=selected?0:-1;panels[name].hidden=!selected;}
-  if(id==='look'||id==='colors')panels[id].appendChild(favorites);
-  scroll.scrollTop=0;if(focus)buttons[id].focus();
+  panels[id].append(actions,favorites);scroll.scrollTop=0;if(focus)buttons[id].focus();remember();
  }
- for(const [id,button] of Object.entries(buttons)){
-  button.addEventListener('click',()=>activate(id));
-  button.addEventListener('keydown',event=>{const order=Object.keys(names),index=order.indexOf(id);let next;
-   if(event.key==='ArrowRight')next=order[(index+1)%order.length];if(event.key==='ArrowLeft')next=order[(index+order.length-1)%order.length];if(event.key==='Home')next=order[0];if(event.key==='End')next=order[order.length-1];
-   if(next){event.preventDefault();activate(next,true);}
-  });
+ function hairTab(id,focus=false){
+  if(!hairPanels[id])return;hairActive=id;
+  for(const name of Object.keys(hairPanels)){const selected=id===name;hairButtons[name].setAttribute('aria-selected',String(selected));hairButtons[name].tabIndex=selected?0:-1;hairPanels[name].hidden=!selected;}
+  scroll.scrollTop=0;if(focus)hairButtons[id].focus();remember();
  }
+ function bind(buttons,change){
+  const order=Object.keys(buttons);
+  for(const [id,button] of Object.entries(buttons)){
+   button.addEventListener('click',()=>change(id));
+   button.addEventListener('keydown',event=>{const i=order.indexOf(id);let next;if(event.key==='ArrowRight')next=order[(i+1)%order.length];if(event.key==='ArrowLeft')next=order[(i+order.length-1)%order.length];if(event.key==='Home')next=order[0];if(event.key==='End')next=order.at(-1);if(next){event.preventDefault();change(next,true);}});
+  }
+ }
+ bind(buttons,activate);bind(hairButtons,hairTab);
+ window.WorkshopTabs={activate,hairTab};
  const reference=document.querySelector('#preview-panel > .reference-box'),drawer=document.createElement('details'),summary=document.createElement('summary');
  drawer.className='reference-drawer';summary.textContent='お手本を 見る';drawer.appendChild(summary);reference.before(drawer);drawer.appendChild(reference);
  let previousCopy=false;
- function referenceMode(){const copy=['copy','hair','clothes'].includes(document.getElementById('activity').value);if(copy){document.getElementById('preview-panel').appendChild(reference);}else{drawer.appendChild(reference);}if(copy||previousCopy)drawer.open=copy;previousCopy=copy;}
- window.syncReferencePractice=referenceMode;
- document.getElementById('activity').addEventListener('change',referenceMode);
- document.addEventListener('DOMContentLoaded',referenceMode);
- activate('look');
+ function referenceMode(){const copy=['copy','hair','clothes'].includes(document.getElementById('activity').value);if(copy)document.getElementById('preview-panel').appendChild(reference);else drawer.appendChild(reference);if(copy||previousCopy)drawer.open=copy;previousCopy=copy;}
+ window.syncReferencePractice=referenceMode;document.getElementById('activity').addEventListener('change',referenceMode);document.addEventListener('DOMContentLoaded',referenceMode);
+ hairTab(hairActive);activate(active);
 })();

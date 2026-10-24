@@ -19,7 +19,7 @@ window.FavoriteLibrary=(()=>{
  let revision=0,pending=-1;
  const current=()=>Object.fromEntries(Object.keys(FavoriteLibrary.options).map(id=>[id,document.getElementById(id).value]));
  const same=(a,b)=>a&&Object.keys(FavoriteLibrary.options).every(id=>a[id]===b[id]);
- function report(message){status.textContent=message;for(const id of ['look','colors']){const note=document.getElementById('favorite-action-status-'+id);if(note)note.textContent=message;}}
+ function report(message){status.textContent=message;for(const note of document.querySelectorAll('[data-favorite-action-status]'))note.textContent=message;}
  function mutate(action,message){try{action();pending=-1;render();report(message);}catch(error){report('おぼえられなかったよ。お気に入りは そのままだよ。');}}
  function button(text,action){const el=document.createElement('button');el.type='button';el.textContent=text;el.addEventListener('click',action);return el;}
  function render(){
@@ -42,7 +42,7 @@ window.FavoriteLibrary=(()=>{
    list.appendChild(card);
   });
  }
- for(const id of ['favorite-save','favorite-save-colors'])document.getElementById(id).addEventListener('click',()=>{
+ for(const button of document.querySelectorAll('[data-favorite-save]'))button.addEventListener('click',()=>{
   const selection=current(),slots=library.snapshot(),duplicate=slots.findIndex(value=>same(value,selection));
   if(duplicate>=0){report('この子は お気に入り '+(duplicate+1)+' に いるよ。');return;}
   const empty=slots.indexOf(null);if(empty<0){root.scrollIntoView({block:'nearest',behavior:'smooth'});report('3人とも そろったよ。入れかえる子を 下から えらんでね。');return;}
