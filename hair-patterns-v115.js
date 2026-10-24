@@ -7,7 +7,8 @@ window.HairPatterns=(()=>{
  const smooth=(a,b,x)=>{const t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3-2*t);};
  function weight(kind,x,y,bounds){
   const [l,t,r,b]=bounds,w=r-l,h=b-t,v=(y-t)/Math.max(h,1);
-  if(kind==='split')return smooth(KIT17.width/2-2,KIT17.width/2+2,x);
+  // Reference: the part leans about 2.4 degrees rightward from crown to tips.
+  if(kind==='split'){const splitX=KIT17.width/2+(y-KIT17.height*.303)*.0415;return smooth(splitX-2,splitX+2,x);}
   if(kind==='tips')return smooth(.72,.79,v);
   if(kind==='gradient')return smooth(.18,.95,v);
   return 0;

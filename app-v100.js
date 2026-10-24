@@ -91,7 +91,7 @@ for(const part of Object.keys(lookSections)){
 function syncHairPatternControls(s){
  element('hair-accent-panel').hidden=s.pattern==='none';
  for(const c of KIT_HAIR.palette)element('hair-accent-'+c.id).checked=s.accent===c.id;
- element('hair-pattern-note').textContent=s.pattern==='none'?'１色で 全体を そろえるよ。':s.color===s.accent?'ちがう２色を えらぶと、色の 入れ方が 見えるよ。':({tips:'毛先に、追加の色を 入れるよ。',gradient:'上から 毛先へ、少しずつ 追加の色に かわるよ。',split:'画面の 左が 基本の色、右が 追加の色だよ。'})[s.pattern];
+ element('hair-pattern-note').textContent=s.pattern==='none'?'１色で 全体を そろえるよ。':s.color===s.accent?'ちがう２色を えらぶと、色の 入れ方が 見えるよ。':({tips:'毛先に、追加の色を 入れるよ。',gradient:'上から 毛先へ、少しずつ 追加の色に かわるよ。',split:'少し ななめに 分かれるよ。画面の 左が 基本の色、右が 追加の色だよ。'})[s.pattern];
 }
 element('hair-colors-swap').addEventListener('click',()=>{const a=value('hair-color');element('hair-color').value=value('hair-accent');element('hair-accent').value=a;update();});
 restorePreferences();
