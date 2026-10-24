@@ -64,7 +64,7 @@ for(const group of ['hair-color','hair-accent','eye-color','outfit-color','botto
 let lastFrontChoice=value('hair'),lastVisibleFrontType=null;
 for(const group of ['eye-style','hair','hair-back','outfit','bottom'])for(const option of preferenceOptions[group])element(group+'-choice-'+option).addEventListener('change',e=>{if(!e.target.checked)return;element(group).value=option;if(group==='hair'){const previous=KIT_MIX.front[lastFrontChoice];if(KIT_MIX.front[option].onePiece)element('hair-back').value='none';else if(previous?.onePiece&&value('hair-back')==='none')element('hair-back').value=KIT_MIX.front[option].defaultBack;lastFrontChoice=option;}update();});
 element('hair-matching-back').addEventListener('click',()=>{element('hair-back').value=KIT_MIX.front[value('hair')].defaultBack;update();});
-function syncHairPairControls(){element('hair-matching-back').hidden=!!KIT_MIX.front[value('hair')].onePiece;}
+function syncHairPairControls(){const matching=element('hair-matching-back'),choose=element('hair-choose-back');matching.hidden=!!KIT_MIX.front[value('hair')].onePiece;choose.hidden=element('hair-part-front').getAttribute('aria-selected')!=='true';element('hair-pair-actions').hidden=matching.hidden&&choose.hidden;}
 element('hair-choose-back').addEventListener('click',()=>hairPartTab('back',true));
 const lookSections={complete:'hair-complete-choices',front:'hair-choices',back:'hair-back-choices'};
 function hairPartTab(part,focus=false){
