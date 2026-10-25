@@ -1,0 +1,135 @@
+[
+  {
+    "id": "ankle_boots",
+    "name": "編み上げショートブーツ",
+    "url": "../shoe-worn/assets/ankle_boots.png",
+    "boxes": [
+      [
+        0,
+        0,
+        430,
+        1827
+      ],
+      [
+        430,
+        0,
+        431,
+        1827
+      ]
+    ]
+  },
+  {
+    "id": "sneakers",
+    "name": "スニーカー",
+    "url": "../shoe-worn/assets/sneakers.png",
+    "boxes": [
+      [
+        0,
+        0,
+        430,
+        1827
+      ],
+      [
+        430,
+        0,
+        431,
+        1827
+      ]
+    ]
+  },
+  {
+    "id": "loafers",
+    "name": "ローファー",
+    "url": "../shoe-worn/assets/loafers.png",
+    "boxes": [
+      [
+        0,
+        0,
+        430,
+        1827
+      ],
+      [
+        430,
+        0,
+        431,
+        1827
+      ]
+    ]
+  },
+  {
+    "id": "sandals",
+    "name": "サンダル",
+    "url": "../shoe-worn/assets/sandals.png",
+    "boxes": [
+      [
+        0,
+        0,
+        430,
+        1827
+      ],
+      [
+        430,
+        0,
+        431,
+        1827
+      ]
+    ]
+  },
+  {
+    "id": "highcut_sport",
+    "name": "ハイカット・ベルト付き",
+    "url": "../shoe-worn/assets/highcut_sport.png",
+    "boxes": [
+      [
+        0,
+        0,
+        430,
+        1827
+      ],
+      [
+        430,
+        0,
+        431,
+        1827
+      ]
+    ]
+  },
+  {
+    "id": "highcut_canvas",
+    "name": "ハイカット・キャンバス風",
+    "url": "../shoe-worn/assets/highcut_canvas.png",
+    "boxes": [
+      [
+        0,
+        0,
+        430,
+        1827
+      ],
+      [
+        430,
+        0,
+        431,
+        1827
+      ]
+    ]
+  },
+  {
+    "id": "long_boots",
+    "name": "編み上げロングブーツ",
+    "url": "../shoe-worn/assets/long_boots.png",
+    "boxes": [
+      [
+        0,
+        0,
+        430,
+        1827
+      ],
+      [
+        430,
+        0,
+        431,
+        1827
+      ]
+    ]
+  }
+]
