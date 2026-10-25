@@ -183,8 +183,8 @@ window.HairMix=(()=>{
    return await exportBuild(frozen);
   }finally{delete KIT17.templates[template];}
  };
- async function reference(front,back,outfit,view,grid,color,thumb=false,current,eyeColor='original',outfitColor='original',skinColor='original',eyeStyle='default',bottomColor='original',hairPattern='none',hairAccent='pink',eyeMode='same',eyeRightColor='blue',colorTunes=null,fabricPatterns=null,shoe='original'){
-  const v={...variant('create',front,back,outfit,view,grid,true,'faint',eyeStyle),eyeColor,outfitColor,skinColor,bottomColor,hairPattern,hairAccent,eyeMode,eyeRightColor,colorTunes,fabricPatterns,shoe};const data=await ColorKit.preview(v,color,current);
+ async function reference(front,back,outfit,view,grid,color,thumb=false,current,eyeColor='original',outfitColor='original',skinColor='original',eyeStyle='default',bottomColor='original',hairPattern='none',hairAccent='pink',eyeMode='same',eyeRightColor='blue',colorTunes=null,fabricPatterns=null,shoe='original',shoeColor='original'){
+  const v={...variant('create',front,back,outfit,view,grid,true,'faint',eyeStyle),eyeColor,outfitColor,skinColor,bottomColor,hairPattern,hairAccent,eyeMode,eyeRightColor,colorTunes,fabricPatterns,shoe,shoeColor};const data=await ColorKit.preview(v,color,current);
   if(!thumb)return 'data:image/png;base64,'+data;
   const im=await new Promise((resolve,reject)=>{const i=new Image();i.onload=()=>resolve(i);i.onerror=reject;i.src='data:image/png;base64,'+data;});
   const c=document.createElement('canvas');c.width=512;c.height=768;c.getContext('2d').drawImage(im,0,0,512,768);const url=c.toDataURL('image/png');c.width=c.height=0;return url;
