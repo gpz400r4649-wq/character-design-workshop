@@ -1,0 +1,79 @@
+{
+  "status": "user-approved-final",
+  "date": "2026-10-26",
+  "note": "ユーザー提供PNG原本を無加工で保存。位置・形・左右の合わせはこの7種類で確定。",
+  "positions": "worn-shoe-positions.json",
+  "positions_sha256": "5f94fea294aec061fd0f87c78daed85c7e41d1c5082989de61e6f5e16d382618",
+  "assets": [
+    {
+      "id": "long_boots",
+      "file": "legs-shoes-only-long_boots.png",
+      "size": [
+        2048,
+        3072
+      ],
+      "mode": "RGBA",
+      "sha256": "1a0c4dc42f1a1e26af7f5eebc294a7262a0f1bb10a09063041abc128d28a644a"
+    },
+    {
+      "id": "ankle_boots",
+      "file": "legs-shoes-only-ankle_boots.png",
+      "size": [
+        2048,
+        3072
+      ],
+      "mode": "RGBA",
+      "sha256": "3e9d67ff599d68100381e0a6642e18f694f6b082315af1cac793bc179a04cc55"
+    },
+    {
+      "id": "sneakers",
+      "file": "legs-shoes-only-sneakers.png",
+      "size": [
+        2048,
+        3072
+      ],
+      "mode": "RGBA",
+      "sha256": "fa9fcddc02e51bc98775355e4d8038ffd6e1852bb2a828ddbe0766eeda539544"
+    },
+    {
+      "id": "loafers",
+      "file": "legs-shoes-only-loafers.png",
+      "size": [
+        2048,
+        3072
+      ],
+      "mode": "RGBA",
+      "sha256": "f447bdbb7fe90fd17732459611deed44d974f29005d9c47b2a7eef3c5b0259b0"
+    },
+    {
+      "id": "sandals",
+      "file": "legs-shoes-only-sandals.png",
+      "size": [
+        2048,
+        3072
+      ],
+      "mode": "RGBA",
+      "sha256": "759834036480c6aab58bea93dbb373c0eb51f306e28dd0c7db98a5e8af5289ce"
+    },
+    {
+      "id": "highcut_sport",
+      "file": "legs-shoes-only-highcut_sport.png",
+      "size": [
+        2048,
+        3072
+      ],
+      "mode": "RGBA",
+      "sha256": "7d2d81a70c2fb19f165c5639dd4525e60daa52178612e69f564a24550fd66814"
+    },
+    {
+      "id": "highcut_canvas",
+      "file": "legs-shoes-only-highcut_canvas.png",
+      "size": [
+        2048,
+        3072
+      ],
+      "mode": "RGBA",
+      "sha256": "65ab7abb5d14777ebd2947455e778d530303c9d5b8aebb52e4a2a98100f720fc"
+    }
+  ]
+}

@@ -31,13 +31,13 @@
  // Keep each garment's shape, colors and motifs together.
  const clothesTabs=document.createElement('div');clothesTabs.className='section-tabs';clothesTabs.setAttribute('role','tablist');clothesTabs.setAttribute('aria-label','服のカテゴリー');
  const clothesPanels={},clothesButtons={};
- for(const [id,label] of [['tops','トップス'],['bottoms','ボトムス']]){
+ for(const [id,label] of [['tops','トップス'],['bottoms','ボトムス'],['shoes','靴']]){
   const button=document.createElement('button');button.type='button';button.id='clothes-tab-'+id;button.textContent=label;button.setAttribute('role','tab');button.setAttribute('aria-controls','clothes-pane-'+id);clothesButtons[id]=button;clothesTabs.appendChild(button);
   const panel=document.createElement('div');panel.id='clothes-pane-'+id;panel.setAttribute('role','tabpanel');panel.setAttribute('aria-labelledby',button.id);clothesPanels[id]=panel;
  }
  clothesPanels.bottoms.appendChild(bottom);clothesPanels.tops.appendChild(clothes);
  const bottomNote=document.createElement('p');bottomNote.id='bottom-onepiece-note';bottomNote.className='small';bottomNote.hidden=true;bottomNote.textContent='この服は 上下がひとつのセットです。トップスで 別の服を えらぶと、ボトムスを えらべるよ。';clothesPanels.bottoms.prepend(bottomNote);
- panels.clothes.append(clothesTabs,clothesPanels.tops,clothesPanels.bottoms);
+ panels.clothes.append(clothesTabs,clothesPanels.tops,clothesPanels.bottoms,clothesPanels.shoes);
  // One shared favorite action and library follows the currently selected category.
  const actions=document.createElement('div');actions.className='favorite-actions';
  const save=favorites.querySelector('#favorite-save');save.dataset.favoriteSave='';actions.appendChild(save);
