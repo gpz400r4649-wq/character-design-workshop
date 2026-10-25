@@ -21,7 +21,7 @@ function update(){
  lastFrontChoice=value('hair');const revision=++selectionRevision,activity=value('activity'),s=selection(),current=()=>revision===selectionRevision;current.signal=previewController.signal;
  for(const group of ['shoe','eye-style','hair','hair-back','outfit','bottom','bottom-color','hair-color','eye-color','outfit-color','skin-color'])for(const id of preferenceOptions[group]){const radio=element(group+(group.endsWith('color')?'-':'-choice-')+id);if(radio)radio.checked=value(group)===id;}
  syncHairPatternControls(s);syncEyeColorControls(s);ColorTuneUI.sync(s);FabricPatternsUI.sync(s);
- const onePiece=!!KIT_CLOTHING.tops[s.outfit]?.onePiece;element('bottom-choice-section').hidden=onePiece;element('onepiece-note').hidden=!onePiece;element('bottom-onepiece-note').hidden=!onePiece;document.querySelector('.bottom-colors').hidden=onePiece;
+ const onePiece=!!KIT_CLOTHING.tops[s.outfit]?.onePiece;element('bottom-choice-section').hidden=false;element('bottom-choice-section').disabled=onePiece;element('onepiece-note').hidden=!onePiece;element('bottom-onepiece-note').hidden=!onePiece;if(onePiece)element('bottom-onepiece-note').textContent=KIT_CLOTHING.tops[s.outfit].name+'は 上下がひとつの服です。トップスで 別の服を選ぶと、ボトムスを変更できます。';document.querySelector('.bottom-colors').hidden=onePiece;
  const view=element('view');if(previousActivity==='copy'&&activity!=='copy'){view.value='normal';element('grid').checked=false;}
  if(['hair','clothes'].includes(activity)&&previousActivity!==activity)view.value='normal';
  if(activity==='color'){view.value='lineart';view.disabled=true;}else{if(view.disabled)view.value='normal';view.disabled=false;}
@@ -53,7 +53,7 @@ function update(){
  ColorKit.preview(selectedVariant,s.color,current).then(async data=>{
   if(!current())return;clearTimeout(previewWaitTimer);element('preview').src='data:image/png;base64,'+data;element('preview').style.visibility='visible';element('preview').setAttribute('aria-busy','false');previewStatus('');if(!saving)element('export-status').textContent='';
   try{const reference=await referenceFor(s,ref.view,ref.grid,false,current);if(!current())return;element('reference-preview').src=reference;element('reference').href=reference;
-  for(const bottom of preferenceOptions.bottom){const thumb=await referenceFor({...s,bottom},'normal',false,true,current);if(!current())return;element('bottom-image-'+bottom).src=thumb;}
+  for(const bottom of preferenceOptions.bottom){const thumb=await referenceFor({...s,bottom,outfit:KIT_CLOTHING.tops[s.outfit]?.onePiece?'blouse':s.outfit},'normal',false,true,current);if(!current())return;element('bottom-image-'+bottom).src=thumb;}
   for(const outfit of preferenceOptions.outfit){const thumb=await referenceFor({...s,outfit},'normal',false,true,current);if(!current())return;element('outfit-image-'+outfit).src=thumb;}
   }catch(e){if(current()){console.error(e);if(!saving)element('export-status').textContent='お手本の よみこみに 時間が かかっています。';}}
  }).catch(e=>{if(current()){clearTimeout(previewWaitTimer);console.error(e);element('preview').setAttribute('aria-busy','false');previewStatus('よみこめなかったよ。つながりを たしかめて、もういちど よみこんでね。画像は まえの 子のままだよ。',true);if(!saving)element('export-status').textContent='';}});

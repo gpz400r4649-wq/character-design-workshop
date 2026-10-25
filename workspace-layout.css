@@ -26,3 +26,5 @@ main{padding-top:16px}main>h1{font-size:28px}main>.intro{margin:6px 0}main>p{mar
 #pane-clothes>.section-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}.shoe-choices .shoe-art{height:130px;overflow:hidden;display:block}.shoe-choices .shoe-art img{width:100%;height:100%;object-fit:cover;object-position:50% 100%;transform:scale(1.7);transform-origin:50% 100%}
 
 .shoe-choices .shoe-art canvas{width:100%;height:100%;object-fit:contain}
+
+#bottom-choice-section:disabled .visual-choice{opacity:.6}#bottom-onepiece-note:not([hidden]){padding:12px;background:#fff5dd;border-radius:10px}
