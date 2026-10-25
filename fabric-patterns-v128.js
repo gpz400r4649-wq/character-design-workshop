@@ -6,7 +6,7 @@ window.FabricPatterns=(()=>{
  const options=Object.fromEntries(ids.map((id,i)=>[id,i<4?(i%2?colors().map(c=>c.id):kinds.map(k=>k.id)):['1','2','3','4','5','6','7']]));
  const clean=s=>({...s,...Object.fromEntries(ids.map((id,i)=>[id,options[id].includes(s?.[id])?s[id]:defaults[i]]))});
  const onePiece=v=>!!KIT_CLOTHING.tops[(v.mix?.outfit||v.outfit||'').split('__')[0]]?.onePiece;
- function forVariant(v,bottom=false){const i=bottom?2:0,a=v.fabricPatterns||defaults;return {kind:bottom&&onePiece(v)?'none':options[ids[i]].includes(a[i])?a[i]:'none',color:options[ids[i+1]].includes(a[i+1])?a[i+1]:'navy',size:options[ids[4+i]].includes(a[4+i])?a[4+i]:'3',weight:options[ids[5+i]].includes(a[5+i])?a[5+i]:'3'};}
+ function forVariant(v,bottom=false){const i=bottom?2:0,a=v.fabricPatterns||defaults;return {kind:bottom&&onePiece(v)?'none':options[ids[i]].includes(a[i])?a[i]:'none',color:options[ids[i+1]].includes(a[i+1])?a[i+1]:'navy',size:options[ids[4+i]].includes(a[4+i])?a[4+i]:'3',weight:options[ids[5+i]].includes(a[5+i])?a[5+i]:'3',tune:ColorTune.forVariant(v,bottom?7:6)};}
  const active=v=>forVariant(v).kind!=='none'||forVariant(v,true).kind!=='none';
  const stamp=v=>{if(!active(v))return '';const a=forVariant(v),b=forVariant(v,true),extra=[a,b].some(p=>p.kind!=='none'&&(p.size!=='3'||p.weight!=='3'));return '_pattern_'+a.kind+'_'+b.kind+(extra?'_s'+(a.kind==='none'?'3':a.size)+'w'+(a.kind==='none'?'3':a.weight)+'_s'+(b.kind==='none'?'3':b.size)+'w'+(b.kind==='none'?'3':b.weight):'');};
  const sizes=[.6,.8,1,1.25,1.6,2.4,3.2],weights=[.5,.75,1,1.25,1.5,2.25,3];

@@ -1,11 +1,11 @@
 /* Small, bounded adjustments shared by preview, reference PNG and PSD generation. */
 window.ColorTune=(()=>{
- const ids=['hair-tune','hair-accent-tune','eye-tune','eye-right-tune','outfit-tune','bottom-tune'],limits=[180,100,60],zero='[0,0,0]';
+ const ids=['hair-tune','hair-accent-tune','eye-tune','eye-right-tune','outfit-tune','bottom-tune','outfit-pattern-tune','bottom-pattern-tune'],limits=[180,100,60],zero='[0,0,0]';
  function parse(input){try{const a=typeof input==='string'?JSON.parse(input):input;return limits.map((m,i)=>i===0?0:Array.isArray(a)&&Number.isFinite(a[i])?Math.max(-m,Math.min(m,Math.round(a[i]))):0);}catch{return [0,0,0];}}
  const text=input=>JSON.stringify(parse(input)),active=a=>parse(a).some(Boolean),forVariant=(v,i)=>parse(v.colorTunes?.[i]);
  const preferences=Object.fromEntries(ids.map(id=>[id,{includes:v=>typeof v==='string'&&(()=>{try{const a=JSON.parse(v);return Array.isArray(a)&&a.length===3&&a.every(Number.isFinite);}catch{return false;}})()}]));
  function clean(selection){return {...selection,...Object.fromEntries(ids.map(id=>[id,text(selection?.[id])]))};}
- function any(v){return active(v.colorTunes?.[0])||(v.hairPattern!=='none'&&!!v.hairPattern&&active(v.colorTunes?.[1]))||active(v.colorTunes?.[2])||(v.eyeMode==='odd'&&active(v.colorTunes?.[3]))||active(v.colorTunes?.[4])||(!KIT_CLOTHING.tops[(v.mix?.outfit||v.outfit||'').split('__')[0]]?.onePiece&&active(v.colorTunes?.[5]));}
+ function any(v){return active(v.colorTunes?.[0])||(v.hairPattern!=='none'&&!!v.hairPattern&&active(v.colorTunes?.[1]))||active(v.colorTunes?.[2])||(v.eyeMode==='odd'&&active(v.colorTunes?.[3]))||active(v.colorTunes?.[4])||(!KIT_CLOTHING.tops[(v.mix?.outfit||v.outfit||'').split('__')[0]]?.onePiece&&active(v.colorTunes?.[5]))||(!!window.FabricPatterns&&FabricPatterns.forVariant(v).kind!=='none'&&active(v.colorTunes?.[6]))||(!!window.FabricPatterns&&FabricPatterns.forVariant(v,true).kind!=='none'&&active(v.colorTunes?.[7]));}
  function pixel(data,i,tune,weight=1){
   if(!weight||!tune.some(Boolean))return;
   const r=data[i]/255,g=data[i+1]/255,b=data[i+2]/255,max=Math.max(r,g,b),min=Math.min(r,g,b),d=max-min;
