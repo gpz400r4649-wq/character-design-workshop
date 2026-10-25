@@ -28,5 +28,10 @@
     "id": "highcut_canvas",
     "name": "ハイカット・キャンバス風",
     "url": "assets/highcut_canvas.png"
+  },
+  {
+    "id": "long_boots",
+    "name": "編み上げロングブーツ",
+    "url": "assets/long_boots.png"
   }
 ]
