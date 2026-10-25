@@ -89,7 +89,8 @@ window.HairMix=(()=>{
  async function makeGuide(v,current){
   const m=v.mix,kind=m.view==='space'?'hatch':m.view==='silhouette'?'silhouette':'lineart';
   const base=variant(kind==='lineart'&&m.activity!=='color'?m.activity:'create',m.front,m.back,m.outfit,'normal',false,false,'faint',m.eyeStyle);
-  const image=await picture(base,kind!=='lineart',current);if(current&&!current())throw Error('Superseded');const c=canvas(),ctx=c.getContext('2d');ctx.drawImage(image,0,0);
+  let guideBase=base;if(kind==='lineart'&&window.FabricPatterns?.active(v)){const patterns=[...v.fabricPatterns];patterns[1]=patterns[3]='black';guideBase=await OutfitPalette.prepare({...base,fabricPatterns:patterns});}
+  const image=await picture(guideBase,kind!=='lineart',current);if(current&&!current())throw Error('Superseded');const c=canvas(),ctx=c.getContext('2d');ctx.drawImage(image,0,0);
   const source=ctx.getImageData(0,0,W,H),output=ctx.createImageData(W,H),d=output.data,s=source.data;
   if(kind==='lineart'){
    const blurred=smooth(image,s),b=blurred.rgba;
@@ -99,14 +100,16 @@ window.HairMix=(()=>{
  }
  async function prepare(v,current){
   if(current&&!current())throw Error('Superseded');
+  if(v.exportPrepared)return KIT17.templates[v.template];
   if(v.mix)await preparePractice(v,current);
-  if(!v.mix||v.mix.view==='normal')return;
-  const key=v.template;
-  let layer=prepared.get(key);
-  if(!layer){layer=await makeGuide(v,current);prepared.set(key,layer);}
-  else{prepared.delete(key);prepared.set(key,layer);}
+  if(!v.mix||v.mix.view==='normal')return KIT17.templates[v.template];
+  const key=v.template,cacheKey=key+(window.FabricPatterns?.stamp(v)||'');
+  let layer=prepared.get(cacheKey);
+  if(!layer){layer=await makeGuide(v,current);prepared.set(cacheKey,layer);}
+  else{prepared.delete(cacheKey);prepared.set(cacheKey,layer);}
   const stack=KIT17.templates[key];for(let i=0;i<stack.length;i++)if(stack[i].key===layer.key)stack[i]={...layer};
   while(prepared.size>6){const [old,item]=prepared.entries().next().value;prepared.delete(old);forget(item);}
+  return stack;
  }
  function forget(layer){delete kitLayerData[layer.blob];delete kitRuntimePartData[layer.runtimePart];delete KIT_TWIN.parts[layer.blob];runtimeRecords.delete(layer.blob);}
  async function practiceHint(role,m,current){
@@ -170,9 +173,17 @@ window.HairMix=(()=>{
   const raw=Uint8Array.from(atob(layer.raw),char=>char.charCodeAt(0)),view=new DataView(raw.buffer);for(let channel=0;channel<4;channel++)view.setUint32(20+channel*6,chunks[channel].length);
   layer.raw=b64(raw);runtimeRecords.set(layer.blob,layer.raw);kitLayerData[layer.blob]=b64(pako.deflate(channels));c.width=c.height=0;
  }
- KitExport.build=async v=>{if(v.mix)await queued(async()=>{await prepare(v);for(const layer of KIT17.templates[v.template])await materialize(layer);});return exportBuild(v);};
- async function reference(front,back,outfit,view,grid,color,thumb=false,current,eyeColor='original',outfitColor='original',skinColor='original',eyeStyle='default',bottomColor='original',hairPattern='none',hairAccent='pink',eyeMode='same',eyeRightColor='blue',colorTunes=null){
-  const v={...variant('create',front,back,outfit,view,grid,true,'faint',eyeStyle),eyeColor,outfitColor,skinColor,bottomColor,hairPattern,hairAccent,eyeMode,eyeRightColor,colorTunes};const data=await ColorKit.preview(v,color,current);
+ // Freeze the prepared stack: refreshing the live preview must not replace a guide during PSD loading.
+ KitExport.build=async v=>{
+  if(!v.mix)return exportBuild(v);
+  const template='mix_export_'+(sequence++);let frozen;
+  try{
+   await queued(async()=>{const preparedStack=await prepare(v),stack=preparedStack.map(layer=>({...layer}));KIT17.templates[template]=stack;frozen={...v,template,exportPrepared:true};for(const layer of stack)await materialize(layer);});
+   return await exportBuild(frozen);
+  }finally{delete KIT17.templates[template];}
+ };
+ async function reference(front,back,outfit,view,grid,color,thumb=false,current,eyeColor='original',outfitColor='original',skinColor='original',eyeStyle='default',bottomColor='original',hairPattern='none',hairAccent='pink',eyeMode='same',eyeRightColor='blue',colorTunes=null,fabricPatterns=null){
+  const v={...variant('create',front,back,outfit,view,grid,true,'faint',eyeStyle),eyeColor,outfitColor,skinColor,bottomColor,hairPattern,hairAccent,eyeMode,eyeRightColor,colorTunes,fabricPatterns};const data=await ColorKit.preview(v,color,current);
   if(!thumb)return 'data:image/png;base64,'+data;
   const im=await new Promise((resolve,reject)=>{const i=new Image();i.onload=()=>resolve(i);i.onerror=reject;i.src='data:image/png;base64,'+data;});
   const c=document.createElement('canvas');c.width=512;c.height=768;c.getContext('2d').drawImage(im,0,0,512,768);const url=c.toDataURL('image/png');c.width=c.height=0;return url;

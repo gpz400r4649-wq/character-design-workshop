@@ -30,7 +30,7 @@ window.OutfitPalette=(()=>{
   const pass=(src,radius,horizontal,maximum)=>{const dst=new Uint8Array(src.length);for(let y=0;y<h;y++)for(let x=0;x<w;x++){let value=maximum?0:255;for(let k=-radius;k<=radius;k++){const xx=horizontal?Math.max(0,Math.min(w-1,x+k)):x,yy=horizontal?y:Math.max(0,Math.min(h-1,y+k)),v=src[yy*w+xx];value=maximum?Math.max(value,v):Math.min(value,v);}dst[y*w+x]=value;}return dst;};
   let result=input;for(const maximum of [true,false])for(const horizontal of [true,false])result=pass(result,3,horizontal,maximum);return result;
  }
- async function generate(entry,color,tune,token){
+ async function generate(entry,color,tune,token,pattern){
   const key=entry.blob+':'+token;
   if(cache.has(key)){const v=cache.get(key);cache.delete(key);cache.set(key,v);return;}
   if(pending.has(key))return pending.get(key);
@@ -58,9 +58,13 @@ window.OutfitPalette=(()=>{
      for(let q=0;q<3;q++){const target=tint[q]*shade*(1-highlight)+255*highlight;d[i+q]=Math.round(d[i+q]+(target-d[i+q])*weight);}}
      ColorTune.pixel(d,i,tune,weight);
     }
+    if(pattern.kind!=='none'){
+     const hex=KIT_OUTFIT.palette.find(c=>c.id===pattern.color).swatch,motif=FabricPatterns.raster(pattern.kind,hex,source,canvas.width,canvas.height);
+     for(let i=0;i<d.length;i+=4){if(!d[i+3]||!motif[i+3])continue;const weight=motif[i+3]/255*.88*filled[i/4]/255*Math.max(0,Math.min(1,(Math.max(original[i],original[i+1],original[i+2])-80)/75));if(!weight)continue;const shade=Math.max(.45,Math.min(1.08,(bluePixels[i]+bluePixels[i+1]+bluePixels[i+2])/633));for(let q=0;q<3;q++)d[i+q]=Math.round(d[i+q]+(Math.min(255,motif[i+q]*shade)-d[i+q])*weight);}
+    }
     ctx.putImageData(image,0,0);
     // Use the same premultiplied-alpha round trip as the displayed PNG for tuned PSD pixels.
-    if(ColorTune.active(tune))d=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+    if(ColorTune.active(tune)||pattern.kind!=='none')d=ctx.getImageData(0,0,canvas.width,canvas.height).data;
     const blob='fc122'+(sequence++).toString(16).padStart(19,'0'),part=blob,pixels=canvas.width*canvas.height;
     const raw=Uint8Array.from(atob(entry.raw),c=>c.charCodeAt(0)),view=new DataView(raw.buffer),count=view.getUint16(16),chunks=[];
     if(count!==4)throw Error('Expected four fabric channels');
@@ -81,12 +85,13 @@ window.OutfitPalette=(()=>{
  async function prepare(v){
   if(v.outfitColorsApplied)return v;
   const topTune=ColorTune.forVariant(v,4),bottomTune=ColorTune.forVariant(v,5),top=v.outfitColor||'original',bottom=v.bottomColor||'original';
-  const token=(id,tune)=>ColorTune.active(tune)?id+'__tune_'+tune.join('_'):id;
-  const topToken=token(top,topTune),bottomToken=token(bottom,bottomTune);
+  const topPattern=FabricPatterns.forVariant(v),bottomPattern=FabricPatterns.forVariant(v,true);
+  const token=(id,tune,pattern)=>(ColorTune.active(tune)?id+'__tune_'+tune.join('_'):id)+(pattern.kind!=='none'?'__fp_'+pattern.kind+'_'+pattern.color:'');
+  const topToken=token(top,topTune,topPattern),bottomToken=token(bottom,bottomTune,bottomPattern);
   for(const entry of KIT17.templates[v.template]){
    if(!entry.key.startsWith('outfit_')||!KIT_OUTFIT.layers[entry.blob])continue;
    const isBottom=entry.key==='outfit_bottom',id=isBottom?bottom:top,tune=isBottom?bottomTune:topTune,color=KIT_OUTFIT.palette.find(c=>c.id===id);
-   if(color&&(colors.has(id)||ColorTune.active(tune)))await generate(entry,color,tune,isBottom?bottomToken:topToken);
+   if(color&&(colors.has(id)||ColorTune.active(tune)||(isBottom?bottomPattern:topPattern).kind!=='none'))await generate(entry,color,tune,isBottom?bottomToken:topToken,isBottom?bottomPattern:topPattern);
   }
   return topToken===top&&bottomToken===bottom?v:{...v,outfitColor:topToken,bottomColor:bottomToken,outfitColorsApplied:true};
  }
