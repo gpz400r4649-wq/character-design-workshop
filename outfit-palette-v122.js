@@ -59,7 +59,7 @@ window.OutfitPalette=(()=>{
      ColorTune.pixel(d,i,tune,weight);
     }
     if(pattern.kind!=='none'){
-     const hex=KIT_OUTFIT.palette.find(c=>c.id===pattern.color).swatch,motif=FabricPatterns.raster(pattern.kind,hex,source,canvas.width,canvas.height);
+     const hex=KIT_OUTFIT.palette.find(c=>c.id===pattern.color).swatch,motif=FabricPatterns.raster(pattern.kind,hex,source,canvas.width,canvas.height,pattern);
      for(let i=0;i<d.length;i+=4){if(!d[i+3]||!motif[i+3])continue;const weight=motif[i+3]/255*.88*filled[i/4]/255*Math.max(0,Math.min(1,(Math.max(original[i],original[i+1],original[i+2])-80)/75));if(!weight)continue;const shade=Math.max(.45,Math.min(1.08,(bluePixels[i]+bluePixels[i+1]+bluePixels[i+2])/633));for(let q=0;q<3;q++)d[i+q]=Math.round(d[i+q]+(Math.min(255,motif[i+q]*shade)-d[i+q])*weight);}
     }
     ctx.putImageData(image,0,0);
@@ -86,7 +86,7 @@ window.OutfitPalette=(()=>{
   if(v.outfitColorsApplied)return v;
   const topTune=ColorTune.forVariant(v,4),bottomTune=ColorTune.forVariant(v,5),top=v.outfitColor||'original',bottom=v.bottomColor||'original';
   const topPattern=FabricPatterns.forVariant(v),bottomPattern=FabricPatterns.forVariant(v,true);
-  const token=(id,tune,pattern)=>(ColorTune.active(tune)?id+'__tune_'+tune.join('_'):id)+(pattern.kind!=='none'?'__fp_'+pattern.kind+'_'+pattern.color:'');
+  const token=(id,tune,pattern)=>(ColorTune.active(tune)?id+'__tune_'+tune.join('_'):id)+(pattern.kind!=='none'?'__fp_'+pattern.kind+'_'+pattern.color+(pattern.size!=='3'||pattern.weight!=='3'?'_s'+pattern.size+'w'+pattern.weight:''):'');
   const topToken=token(top,topTune,topPattern),bottomToken=token(bottom,bottomTune,bottomPattern);
   for(const entry of KIT17.templates[v.template]){
    if(!entry.key.startsWith('outfit_')||!KIT_OUTFIT.layers[entry.blob])continue;
