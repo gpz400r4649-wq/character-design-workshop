@@ -1,0 +1,97 @@
+[
+  {
+    "id": "sneakers",
+    "name": "スニーカー",
+    "url": "assets/sneakers.png",
+    "boxes": [
+      [
+        163,
+        104,
+        491,
+        825
+      ],
+      [
+        882,
+        106,
+        492,
+        823
+      ]
+    ]
+  },
+  {
+    "id": "loafers",
+    "name": "ローファー",
+    "url": "assets/loafers.png",
+    "boxes": [
+      [
+        107,
+        140,
+        588,
+        758
+      ],
+      [
+        838,
+        141,
+        602,
+        756
+      ]
+    ]
+  },
+  {
+    "id": "ankle_boots",
+    "name": "ショートブーツ",
+    "url": "assets/ankle_boots.png",
+    "boxes": [
+      [
+        159,
+        20,
+        584,
+        983
+      ],
+      [
+        793,
+        19,
+        584,
+        984
+      ]
+    ]
+  },
+  {
+    "id": "long_boots",
+    "name": "ロングブーツ",
+    "url": "assets/long_boots.png",
+    "boxes": [
+      [
+        51,
+        138,
+        384,
+        1249
+      ],
+      [
+        583,
+        137,
+        386,
+        1249
+      ]
+    ]
+  },
+  {
+    "id": "sandals",
+    "name": "サンダル",
+    "url": "assets/sandals.png",
+    "boxes": [
+      [
+        194,
+        80,
+        529,
+        863
+      ],
+      [
+        813,
+        80,
+        530,
+        863
+      ]
+    ]
+  }
+]
