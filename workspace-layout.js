@@ -22,6 +22,7 @@
   const panel=document.createElement('div');panel.id='hair-pane-'+id;panel.setAttribute('role','tabpanel');panel.setAttribute('aria-labelledby',button.id);hairPanels[id]=panel;
  }
  hairNodes[0].setAttribute('aria-label','かみの かたち');panels.hair.append(hairTabs,hairPanels.shape,hairPanels.colors);hairNodes.forEach(node=>hairPanels.shape.appendChild(node));hairPanels.colors.appendChild(hairColors);
+ const sizeHairTabs=()=>panels.hair.style.setProperty('--hair-category-height',hairTabs.getBoundingClientRect().height+'px');new ResizeObserver(sizeHairTabs).observe(hairTabs);
  const hairActions=document.createElement('div');hairActions.id='hair-pair-actions';hairActions.className='hair-pair-actions';hairNodes[1].querySelector('#hair-choose-back').remove();hairActions.append(hairNodes[5]);hairNodes[0].after(hairActions);
  for(const id of ['eyes','clothes'])hairNodes[0].querySelector('#hair-part-'+id).remove();
  eyes.hidden=false;clothes.hidden=false;panels.eyes.append(eyes,eyeColors);panels.clothes.appendChild(clothes);panels.skin.appendChild(skinColors);
