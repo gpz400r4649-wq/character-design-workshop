@@ -1,1 +1,32 @@
-[{"id": "ankle_boots", "name": "編み上げショートブーツ", "url": "assets/ankle_boots.png"}, {"id": "sneakers", "name": "スニーカー", "url": "assets/sneakers.png"}, {"id": "loafers", "name": "ローファー", "url": "assets/loafers.png"}, {"id": "sandals", "name": "サンダル", "url": "assets/sandals.png"}]
+[
+  {
+    "id": "ankle_boots",
+    "name": "編み上げショートブーツ",
+    "url": "assets/ankle_boots.png"
+  },
+  {
+    "id": "sneakers",
+    "name": "スニーカー",
+    "url": "assets/sneakers.png"
+  },
+  {
+    "id": "loafers",
+    "name": "ローファー",
+    "url": "assets/loafers.png"
+  },
+  {
+    "id": "sandals",
+    "name": "サンダル",
+    "url": "assets/sandals.png"
+  },
+  {
+    "id": "highcut_sport",
+    "name": "ハイカット・ベルト付き",
+    "url": "assets/highcut_sport.png"
+  },
+  {
+    "id": "highcut_canvas",
+    "name": "ハイカット・キャンバス風",
+    "url": "assets/highcut_canvas.png"
+  }
+]
