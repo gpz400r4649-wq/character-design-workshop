@@ -21,7 +21,7 @@ function update(){
  lastFrontChoice=value('hair');const revision=++selectionRevision,activity=value('activity'),s=selection(),current=()=>revision===selectionRevision;current.signal=previewController.signal;
  for(const group of ['eye-style','hair','hair-back','outfit','bottom','bottom-color','hair-color','eye-color','outfit-color','skin-color'])for(const id of preferenceOptions[group]){const radio=element(group+(group.endsWith('color')?'-':'-choice-')+id);if(radio)radio.checked=value(group)===id;}
  syncHairPatternControls(s);syncEyeColorControls(s);ColorTuneUI.sync(s);FabricPatternsUI.sync(s);
- const onePiece=!!KIT_CLOTHING.tops[s.outfit]?.onePiece;element('bottom-choice-section').hidden=onePiece;element('onepiece-note').hidden=!onePiece;document.querySelector('.bottom-colors').hidden=onePiece;
+ const onePiece=!!KIT_CLOTHING.tops[s.outfit]?.onePiece;element('bottom-choice-section').hidden=onePiece;element('onepiece-note').hidden=!onePiece;element('bottom-onepiece-note').hidden=!onePiece;document.querySelector('.bottom-colors').hidden=onePiece;
  const view=element('view');if(previousActivity==='copy'&&activity!=='copy'){view.value='normal';element('grid').checked=false;}
  if(['hair','clothes'].includes(activity)&&previousActivity!==activity)view.value='normal';
  if(activity==='color'){view.value='lineart';view.disabled=true;}else{if(view.disabled)view.value='normal';view.disabled=false;}

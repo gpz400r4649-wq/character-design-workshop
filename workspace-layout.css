@@ -18,3 +18,5 @@ main{padding-top:16px}main>h1{font-size:28px}main>.intro{margin:6px 0}main>p{mar
 #pane-hair>.section-tabs{position:sticky;top:0;z-index:1;background:white;padding:4px 0 8px}
 
 .hair-pair-actions:not([hidden]){display:grid;gap:8px;margin:0 0 16px}.hair-pair-actions button{min-height:44px;margin:0}
+
+#pane-clothes>.section-tabs{position:sticky;top:0;z-index:1;background:white;padding:4px 0 8px}
