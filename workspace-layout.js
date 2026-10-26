@@ -31,7 +31,7 @@
  // Keep each garment's shape, colors and motifs together.
  const clothesTabs=document.createElement('div');clothesTabs.className='section-tabs';clothesTabs.setAttribute('role','tablist');clothesTabs.setAttribute('aria-label','服のカテゴリー');
  const clothesPanels={},clothesButtons={};
- for(const [id,label] of [['tops','トップス'],['bottoms','ボトムス'],['shoes','靴']]){
+ for(const [id,label] of [['tops','トップス'],['bottoms','ボトムス'],['shoes','くつ']]){
   const button=document.createElement('button');button.type='button';button.id='clothes-tab-'+id;button.textContent=label;button.setAttribute('role','tab');button.setAttribute('aria-controls','clothes-pane-'+id);clothesButtons[id]=button;clothesTabs.appendChild(button);
   const panel=document.createElement('div');panel.id='clothes-pane-'+id;panel.setAttribute('role','tabpanel');panel.setAttribute('aria-labelledby',button.id);clothesPanels[id]=panel;
  }
@@ -77,3 +77,4 @@
  window.syncReferencePractice=referenceMode;document.getElementById('activity').addEventListener('change',referenceMode);document.addEventListener('DOMContentLoaded',referenceMode);
  hairTab(hairActive);clothesTab(clothesActive);activate(active);
 })();
+
