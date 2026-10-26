@@ -7,7 +7,7 @@ window.ColorTuneUI=(()=>{
   if(indices.length===1){details.querySelector('label').hidden=true;details.querySelector('select').hidden=true;details.querySelector('select').replaceChildren(new Option('この服の色','0'));}
   for(const [i,title] of [[1,'あざやかさ'],[2,'明るさ']]){const field=document.createElement('fieldset');field.className='tune-row';field.innerHTML=`<legend>${title}</legend><div class="tune-levels" data-axis="${i}" role="group" aria-label="${title}"></div>`;details.appendChild(field);}
   const reset=document.createElement('button');reset.type='button';reset.textContent='この色の 調整を 戻す';reset.id=group+'-tune-reset';reset.addEventListener('click',()=>{el(ColorTune.ids[indices[Number(el(group+'-tune-target').value)]]).value=ColorTune.zero;update();});details.appendChild(reset);
-  const hint=document.createElement('p');hint.className='small';hint.textContent='丸い 色見本を えらぼう。別の 色を えらぶと、その色の 調整は 戻るよ。';details.appendChild(hint);
+  const hint=document.createElement('p');hint.className='small';hint.textContent='丸い 色見本を えらぼう。別の 色を えらんでも、あざやかさと 明るさは そのままだよ。';details.appendChild(hint);
   for(const index of indices){const input=document.createElement('input');input.type='hidden';input.id=ColorTune.ids[index];input.value=ColorTune.zero;details.appendChild(input);}
   root.querySelector('.color-grid').after(details);el(group+'-tune-target').addEventListener('change',()=>sync(selection()));
  }
@@ -24,7 +24,7 @@ window.ColorTuneUI=(()=>{
    const tuned=ColorTune.active(el(ColorTune.ids[indices[0]]).value)||(second&&ColorTune.active(el(ColorTune.ids[indices[1]]).value));el(group+'-tune-editor').querySelector('.color-tune-heading').textContent='色を 調整する'+(tuned?'（調整中）':'');
   }
  }
- function preset(group){const index={'hair-color':0,'hair-accent':1,'eye-color':2,'eye-color-right':3,'outfit-color':4,'bottom-color':5,'outfit-pattern-color':6,'bottom-pattern-color':7,'shoe-color':8}[group];if(index===undefined)return;el(ColorTune.ids[index]).value=ColorTune.zero;el(Object.keys(groups).find(g=>groups[g].includes(index))+'-tune-target').value=String(index<4?index%2:0);}
+ function preset(group){const index={'hair-color':0,'hair-accent':1,'eye-color':2,'eye-color-right':3,'outfit-color':4,'bottom-color':5,'outfit-pattern-color':6,'bottom-pattern-color':7,'shoe-color':8}[group];if(index===undefined)return;el(Object.keys(groups).find(g=>groups[g].includes(index))+'-tune-target').value=String(index<4?index%2:0);}
  function swap(a,b){const value=el(ColorTune.ids[a]).value;el(ColorTune.ids[a]).value=el(ColorTune.ids[b]).value;el(ColorTune.ids[b]).value=value;}
  return {sync,preset,swap};
 })();
