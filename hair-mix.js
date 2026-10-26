@@ -104,7 +104,7 @@ window.HairMix=(()=>{
   if(v.exportPrepared)return KIT17.templates[v.template];
   if(v.mix)await preparePractice(v,current);
   if(!v.mix||v.mix.view==='normal')return KIT17.templates[v.template];
-  const key=v.template,cacheKey=key+(window.FabricPatterns?.stamp(v)||'');
+  const key=v.template,cacheKey=key+'|shoe:'+(v.shoe||'original')+'|skin:'+(v.skinColor||'original')+(window.FabricPatterns?.stamp(v)||'');
   let layer=prepared.get(cacheKey);
   if(!layer){layer=await makeGuide(v,current);prepared.set(cacheKey,layer);}
   else{prepared.delete(cacheKey);prepared.set(cacheKey,layer);}

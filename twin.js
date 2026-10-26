@@ -33,7 +33,7 @@ window.kitPartData=Object.create(null);
  async function render(variant,color,thumb,current){
   check(current);
   const eye=variant.eyeColor||'original',outfit=variant.outfitColor||'original',bottom=variant.bottomColor||'original';
-  const key=variant.template+':'+variant.visible.join('')+':'+color+':'+eye+':'+outfit+':'+bottom+':'+thumb+':'+!!variant.transparent;
+  const key=variant.template+':'+KIT17.templates[variant.template].map(entry=>entry.blob).join(',')+':'+variant.visible.join('')+':'+color+':'+eye+':'+outfit+':'+bottom+':'+thumb+':'+!!variant.transparent;
   if(rendered.has(key))return rendered.get(key);
   const canvas=document.createElement('canvas');canvas.width=thumb?1024:KIT17.width;canvas.height=thumb?1536:KIT17.height;
   const ctx=canvas.getContext('2d'),scale=canvas.width/KIT17.width;
