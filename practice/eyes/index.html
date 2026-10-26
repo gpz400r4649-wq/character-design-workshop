@@ -1,23 +1,17 @@
 <!doctype html>
 <html lang="ja">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>目の練習ドリル｜キャラクターデザイン工房</title><link rel="stylesheet" href="drill.css?v=149"></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>目の練習ドリル｜キャラクターデザイン工房</title><link rel="stylesheet" href="workbook.css?v=150"></head>
 <body>
-<header class="page-head"><a href="../../index.html?v=149">← 工房にもどる</a><span>キャラクターデザイン工房</span></header>
+<header class="page-head"><a href="../../index.html?v=150">← 工房にもどる</a><span>キャラクターデザイン工房</span></header>
 <main>
-<section class="intro"><p class="eyebrow">かいて おぼえる</p><h1><ruby>目<rt>め</rt></ruby>の<ruby>練習<rt>れんしゅう</rt></ruby>ドリル</h1><p>すきな目で、なぞるところから はじめよう。<br>マスをえらぶと、大きくひらいて かけるよ。</p></section>
-<section class="settings" aria-labelledby="choose-heading"><h2 id="choose-heading">どの<ruby>目<rt>め</rt></ruby>で れんしゅうする？</h2><div id="styles" class="styles" role="group" aria-label="目の形"></div></section>
-<div class="sheet-tools"><div><h2>きょうの れんしゅうシート</h2><p class="small">① なぞる → ② 目印でかく → ③ 見てかく</p></div><div class="export-tools"><label><input id="include-ink" type="checkbox" checked> かいた線も いれる</label><button id="save-sheet" type="button" disabled>シートを PNGでほぞん</button><button id="print-sheet" class="secondary" type="button" disabled><ruby>印刷<rt>いんさつ</rt></ruby>する / PDF</button></div></div>
-<p id="status" role="status" aria-live="polite">お手本を じゅんびしています。</p>
-<section class="sheet-wrap" aria-label="練習シート"><canvas id="sheet" width="1600" height="2263" aria-hidden="true"></canvas><div id="cell-buttons" aria-label="描くマスを選ぶ"></div></section>
-<aside class="note"><h2>じぶんの ペースで だいじょうぶ</h2><p>一度に ぜんぶ かかなくてもいいよ。見本の「はば」「高さ」「左右のあき」を見くらべよう。</p><p>PNGはアイビスペイントでひらいて、新しいレイヤーにかけるよ。紙なら「印刷する」をえらんでね。</p><p id="storage-note" class="small">このブラウザーに、かいた線をおぼえます。</p></aside>
+<section class="intro"><p class="eyebrow">なぞって おぼえる</p><h1><ruby>目<rt>め</rt></ruby>の<ruby>練習<rt>れんしゅう</rt></ruby>ドリル</h1><p><ruby>番号<rt>ばんごう</rt></ruby>の<ruby>順<rt>じゅん</rt></ruby>に、<ruby>矢印<rt>やじるし</rt></ruby>の<ruby>向<rt>む</rt></ruby>きへ。<br>まずは大きな形の6つの線から。<br>シートを<ruby>印刷<rt>いんさつ</rt></ruby>するか、PNGでほぞんして れんしゅうしよう。</p></section>
+<section class="settings" aria-labelledby="choose-heading"><h2 id="choose-heading">どの<ruby>目<rt>め</rt></ruby>で れんしゅうする？</h2><div id="styles" class="styles" role="group" aria-label="目の形"></div>
+<div class="options"><label for="eye-size">片目の大きさ（かためのおおきさ）<select id="eye-size"><option value="35">大きく練習：横幅 約3.5cm</option><option value="45">もっと大きく：横幅 約4.5cm</option></select></label><label for="ink-mode">シートの色（いろ）<select id="ink-mode"><option value="color">色＋番号でたしかめる</option><option value="mono">白黒：番号でたしかめる</option></select></label><label for="sheet-kind">印刷するシート（いんさつ）<select id="sheet-kind"><option value="both">描く順番＋なぞり練習（2枚）</option><option value="order">描く順番（1枚）</option><option value="practice">なぞり練習（1枚）</option></select></label></div></section>
+<div class="print-tools"><p id="status" role="status" aria-live="polite"></p><button id="print-sheet" type="button"><ruby>印刷<rt>いんさつ</rt></ruby>する / PDF</button></div>
+<section id="order-section" class="worksheet-section" aria-labelledby="order-heading"><div class="sheet-head"><div><p class="eyebrow">シート 1</p><h2 id="order-heading">線を足す<ruby>順番<rt>じゅんばん</rt></ruby>を見よう</h2></div><button id="save-order" class="secondary" type="button">このシートを PNGでほぞん</button></div><div class="sheet-wrap"><canvas id="order-sheet" width="1600" height="2263" role="img" aria-label="上まぶた、下まぶた、黒目の輪、光の丸、ひとみ、まつ毛の順に描くシート。番号と矢印付き。"></canvas></div></section>
+<section id="practice-section" class="worksheet-section" aria-labelledby="practice-heading"><div class="sheet-head"><div><p class="eyebrow">シート 2</p><h2 id="practice-heading">なぞって くり<ruby>返<rt>かえ</rt></ruby>そう</h2></div><button id="save-practice" class="secondary" type="button">このシートを PNGでほぞん</button></div><div class="sheet-wrap"><canvas id="practice-sheet" width="1600" height="2263" role="img" aria-label="見本、なぞり、目印、空欄を使って片目を繰り返し描く練習シート。"></canvas></div></section>
+<aside class="note"><h2>はじめは 大きな線から</h2><p>上まぶた → 下まぶた → 黒目の輪 → 光の丸 → ひとみ → まつ毛。細かい模様は、形に慣れてから足そう。これは描く順番の一例です。</p><p><ruby>印刷<rt>いんさつ</rt></ruby>は「A4」「実際のサイズ・100%」で。下のものさしが5cmになるか、定規でたしかめてね。横幅はまつ毛を含まない目安です。</p><p>PNGはアイビスペイントでひらいて、新しいレイヤーにかけるよ。</p></aside>
 </main>
-<dialog id="practice-dialog" aria-labelledby="practice-title">
-<header class="dialog-head"><div><p class="eyebrow" id="stage-label"></p><h2 id="practice-title"></h2></div><button id="close-practice" class="secondary" type="button">シートにもどる</button></header>
-<p id="practice-tip"></p>
-<div class="practice-pair"><figure><figcaption>見本（みほん）</figcaption><canvas id="model" width="960" height="640" aria-label="目の線画のお手本"></canvas></figure><figure><figcaption>ここに かこう</figcaption><div class="drawing-surface"><canvas id="guide" width="960" height="640" aria-hidden="true"></canvas><canvas id="ink" width="960" height="640" aria-label="目の練習に描く場所。指やペンで描けます。"></canvas></div></figure></div>
-<div class="drawing-tools"><div role="group" aria-label="描く道具"><button id="pen" type="button" aria-pressed="true">ペン</button><button id="eraser" type="button" aria-pressed="false">けしゴム</button></div><div role="group" aria-label="線の太さ"><button type="button" data-width="2" aria-pressed="false">ほそい</button><button type="button" data-width="4" aria-pressed="true">ふつう</button><button type="button" data-width="7" aria-pressed="false">ふとい</button></div><button id="undo" class="secondary" type="button">ひとつ もどす</button><button id="clear-cell" class="secondary" type="button">このマスを けす</button><button id="compare" class="secondary" type="button" aria-pressed="false">お手本を かさねる</button></div>
-<p class="small">点数はつけないよ。かさねて、形を見くらべてみよう。かいた線は、シートにもどっても のこるよ。</p>
-</dialog>
-<img id="print-image" alt="目の練習ドリルの印刷用シート">
-<script src="assets/catalog.js?v=149"></script><script src="drill.js?v=149"></script>
+<div id="print-pages"></div>
+<script src="assets/catalog.js?v=149"></script><script src="stroke-guide.js?v=150"></script><script src="workbook.js?v=150"></script>
 </body></html>
