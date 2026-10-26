@@ -1,5 +1,5 @@
 /* Small, dependency-free RGB8 PSD writer. All worksheet layers use normal blend.
-   Layer records are top-first; Unicode names, active layer and resolution are included. */
+   Layer records are serialized bottom-first; Unicode names, active layer and resolution are included. */
 window.WorkbookExport=(()=>{
  const cat=parts=>{const out=new Uint8Array(parts.reduce((s,p)=>s+p.length,0));let at=0;for(const p of parts){out.set(p,at);at+=p.length;}return out;};
  const ascii=s=>Uint8Array.from(s,c=>c.charCodeAt(0));
@@ -13,13 +13,14 @@ window.WorkbookExport=(()=>{
  function layerChannel(data,w,h,q){const bytes=new Uint8Array(2+w*h);for(let i=0;i<w*h;i++)bytes[i+2]=data[i*4+q];return {bytes};}
  const breathe=()=>new Promise(r=>setTimeout(r,0));
  async function psd({width,height,widthMM,heightMM,layers,merged}){
+  layers=[...layers].reverse();
   const records=[],channels=[];
   for(let i=0;i<layers.length;i++){
    const layer=layers[i],p=layer.key==='Practice'?{left:0,top:0,w:width,h:height,data:new Uint8Array(width*height*4)}:pixels(layer.canvas,width,height),packed=[0,1,2,3].map(q=>layerChannel(p.data,p.w,p.h,q)),fallback=ascii(layer.key||'Layer '+(i+1)),pascal=cat([Uint8Array.of(fallback.length),fallback,new Uint8Array((4-(fallback.length+1)%4)%4)]),extra=cat([n(0),n(0),pascal,block('luni',unicode(layer.name))]);
    records.push(cat([n(p.top),n(p.left),n(p.top+p.h),n(p.left+p.w),n(4,2),...packed.flatMap((c,q)=>[n(q===3?65535:q,2),n(c.bytes.length)]),ascii('8BIMnorm'),Uint8Array.of(255,0,layer.visible===false?2:0,0),n(extra.length),extra]));channels.push(...packed.map(c=>c.bytes));await breathe();
   }
   let info=cat([n(layers.length,2),...records,...channels]);if(info.length%2)info=cat([info,new Uint8Array(1)]);
-  const section=cat([n(info.length),info,n(0)]),resolution=cat([n(Math.round(width/widthMM*25.4*65536)),n(1,2),n(2,2),n(Math.round(height/heightMM*25.4*65536)),n(1,2),n(2,2)]),resources=cat([resource(1005,resolution),resource(1024,n(0,2))]),data=merged.getContext('2d').getImageData(0,0,width,height).data,planes=[];
+  const section=cat([n(info.length),info,n(0)]),resolution=cat([n(Math.round(width/widthMM*25.4*65536)),n(1,2),n(2,2),n(Math.round(height/heightMM*25.4*65536)),n(1,2),n(2,2)]),resources=cat([resource(1005,resolution),resource(1024,n(layers.length-1,2))]),data=merged.getContext('2d').getImageData(0,0,width,height).data,planes=[];
   for(let q=0;q<3;q++){planes.push(channel(data,width,height,q));await breathe();}
   const header=cat([ascii('8BPS'),n(1,2),new Uint8Array(6),n(3,2),n(height),n(width),n(8,2),n(3,2)]);
   return new Blob([header,n(0),n(resources.length),resources,n(section.length),section,n(1,2),...planes.map(p=>p.counts),...planes.flatMap(p=>p.rows)],{type:'image/vnd.adobe.photoshop'});
