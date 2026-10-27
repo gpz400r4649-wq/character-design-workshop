@@ -1,0 +1,17 @@
+{
+  "source": "parts/b227d4bf1d12620b44f8a8ce.png",
+  "sourceOffset": [
+    589,
+    111
+  ],
+  "crop": [
+    130,
+    95,
+    595,
+    615
+  ],
+  "faceWidthPixels": 574,
+  "eyeWidthPixels": 170,
+  "referenceEyeMM": 30,
+  "note": "Extracted original dark line pixels; mouth/nose/neck excluded. Teaching paths only annotate direction."
+}
